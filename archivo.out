@@ -1,0 +1,7 @@
+AND: Es un Reservada, Linea: 0 , Posicion Inicial: 0 , Posicion Final: 3
+Hola: Es un Identificador, Linea: 0 , Posicion Inicial: 4 , Posicion Final: 7
+HOLA: Es un Identificador, Linea: 0 , Posicion Inicial: 8 , Posicion Final: 11
+Prueba: Es un Identificador, Linea: 0 , Posicion Inicial: 12 , Posicion Final: 17
+12.15: Es un Constante, Linea: 0 , Posicion Inicial: 18 , Posicion Final: 22
+10.5E-4: Es un Constante, Linea: 0 , Posicion Inicial: 23 , Posicion Final: 29
+FIN

@@ -10,7 +10,12 @@ package Code;
  * @author Sthephan
  */
 public enum Tokens {
-    Reservadas,
-    Identifier,
-    Error
+    Reservada,
+    Identificador,
+    Boolean,
+    Operador,
+    Constante,
+    Comentario,
+    Espacios,
+    ERROR
 }

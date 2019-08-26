@@ -1,12 +1,20 @@
 package Code;
 import static Code.Tokens.*;
 %%
+
+%public
 %class Lexer
 %type Tokens
+%caseless
+%char
+%line
+%column
+%unicode
+
 LineTerminator = \r|\n|\r\n
 InputCharacter = [^\r\n]
 
-WhiteSpace = {LineTerminator} | [ \t\f]
+WhiteSpace = {LineTerminator} | [ \t\f]+
 
 /* comments */
 Comment = {TraditionalComment} | {EndOfLineComment} | {DocumentationComment}
@@ -19,12 +27,18 @@ EndOfLineComment = "--" {InputCharacter}* {LineTerminator}?
 /* identifiers */
 Identifier = [:jletter:][:jletterdigit:]*
 
-/* floating point literals */
-FloatLiteral  = ({FLit1}|{FLit3}) {Exponent}? [fF]
+DecIntegerLiteral = 0 | [1-9][0-9]*
 
-FLit1    = [0-9]+ \. [0-9]*
+/* floating point literals */
+FloatLiteral  = ({FLit1}|{FLit3}) {Exponent}?
+
+FLit1    = [0-9]+\.[0-9]*
 FLit3    = [0-9]+
-Exponent = [eE] [+-]? [0-9]+
+Exponent = [eE] ["+"|"-"]? [0-9]+
+
+%{
+    public String lexeme;
+%}
 
 Reserved = 
 "ADD"|"EXTERNAL"|"PROCEDURE"|"ALL"|"FETCH"|"PUBLIC"|"ALTER"|"FILE"|"RAISERROR"|"AND"|"FILLFACTOR"|"READ"|
@@ -46,3 +60,19 @@ Reserved =
 "EXCEPT"|"PLAN"|"WHILE"|"EXEC"|"PRECISION"|"WITH"|"EXECUTE"|"PRIMARY"|"WITHIN GROUP"|"EXISTS"|"PRINT"|"WRITETEXT"|
 "EXIT"|"PROC"
 %%
+
+    {Reserved} { lexeme=yytext(); return Reservada; }
+
+    "+"|"-"|"*"|"/"|"%"|"<"|"<="|">"|">="|"="|"=="|"!="|"&&"|"||"|"!"|";"|","|"."|"["|"]"|"("|")"|"{"|"}"|"[]"|"()"|"{}"|"@"|"#"|"##" {lexeme=yytext(); return Operador; }
+
+    {DecIntegerLiteral}|{FloatLiteral} { lexeme=yytext(); return Constante; }
+
+    {Comment}                      {lexeme=yytext(); return Comentario; }
+
+    {WhiteSpace}+                  { /* skip */ }
+
+    {Identifier}                   { lexeme=yytext(); return Identificador; }
+
+/* error fallback */
+.|\n                             {  }
+<<EOF>>                          { return null; }
