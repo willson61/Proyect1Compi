@@ -48,7 +48,7 @@ public class Analizador extends javax.swing.JFrame {
         lblRutaEntrada = new javax.swing.JLabel();
         btnEntrada = new javax.swing.JButton();
         btnAnalizar = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnBorrar = new javax.swing.JButton();
         btnGenerar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -63,13 +63,19 @@ public class Analizador extends javax.swing.JFrame {
         });
 
         btnAnalizar.setText("Analizar Entrada");
+        btnAnalizar.setEnabled(false);
         btnAnalizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAnalizarActionPerformed(evt);
             }
         });
 
-        jButton1.setText("Borrar Entrada");
+        btnBorrar.setText("Borrar Entrada");
+        btnBorrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBorrarActionPerformed(evt);
+            }
+        });
 
         btnGenerar.setText("Generar Lexer");
         btnGenerar.addActionListener(new java.awt.event.ActionListener() {
@@ -88,7 +94,7 @@ public class Analizador extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnEntrada)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1)
+                        .addComponent(btnBorrar)
                         .addGap(18, 18, 18)
                         .addComponent(btnGenerar))
                     .addComponent(lblRutaEntrada)
@@ -101,7 +107,7 @@ public class Analizador extends javax.swing.JFrame {
                 .addGap(17, 17, 17)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEntrada)
-                    .addComponent(jButton1)
+                    .addComponent(btnBorrar)
                     .addComponent(btnGenerar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblRutaEntrada)
@@ -125,6 +131,8 @@ public class Analizador extends javax.swing.JFrame {
             ficheroImagen = dialogo.getSelectedFile();
             rutaArchivo = ficheroImagen.getPath();
             lblRutaEntrada.setText(rutaArchivo);
+            btnAnalizar.setEnabled(true);
+            btnEntrada.setEnabled(false);
         }
     }//GEN-LAST:event_btnEntradaActionPerformed
 
@@ -132,13 +140,13 @@ public class Analizador extends javax.swing.JFrame {
         String resultado = "";
         boolean estado = true;
         File lex = new File("C:/Users/Sthephan/Documents/GitHub/Proyect1Compi/Proyecto1C/src/Code/Lexer.java");
+        File entrada = new File(lblRutaEntrada.getText());
         if(lex.exists()){
             try {
                 int lenghtToken = 0;
                 int posInicial = 0;
                 int posFinal = 0;
                 int numLinea = 0;
-                File entrada = new File(lblRutaEntrada.getText());
                 Reader lector = new BufferedReader(new FileReader(lblRutaEntrada.getText()));
                 Lexer lexer = new Lexer(lector);
                 while (estado) {
@@ -199,8 +207,8 @@ public class Analizador extends javax.swing.JFrame {
             } catch (IOException ex) {
                 Logger.getLogger(Analizador.class.getName()).log(Level.SEVERE, null, ex);
             }
-
-            File archivo = new File("C:/Users/Sthephan/Documents/GitHub/Proyect1Compi/archivo.out");
+            String arch = entrada.getName().replace(".txt", ".out");
+            File archivo = new File("C:/Users/Sthephan/Documents/GitHub/Proyect1Compi/" + arch);
             PrintWriter writer;
             try {
                 if(archivo.exists() == false){
@@ -232,45 +240,19 @@ public class Analizador extends javax.swing.JFrame {
     private void btnGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarActionPerformed
         String ruta = "C:/Users/Sthephan/Documents/GitHub/Proyect1Compi/Proyecto1C/src/Code/Lexer.flex";
         generarLexer(ruta);
-        JOptionPane.showMessageDialog(null, "InfoBox: " + "Lexer generado exitosamente", "Estado", JOptionPane.INFORMATION_MESSAGE);
+        this.dispose();
+        JOptionPane.showMessageDialog(null, "InfoBox: " + "Lexer generado exitosamente, por favor vuelva a correr la aplicacion", "Estado", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnGenerarActionPerformed
+
+    private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
+        lblRutaEntrada.setText("");
+        btnEntrada.setEnabled(true);
+        btnAnalizar.setEnabled(false);
+    }//GEN-LAST:event_btnBorrarActionPerformed
 
     public static void generarLexer(String ruta){
         File archivo = new File(ruta);
         jflex.Main.generate(archivo);
-    }
-    /*public List<Integer> generarLineas(RandomAccessFile raf, int dat, ){
-        int data = dat;
-        RandomAccessFile ran = raf;
-        List<Integer> lineaPos = new ArrayList<>();
-        while(ran.getFilePointer() != ran.length()){
-            data = ran.read();
-            if(data == 32 | data == 9 | data == 13){
-                cont++;
-            }
-            if(data == 10){
-                lineaPos.add((int)ran.getFilePointer() - cont + 1);
-            }
-        }
-    }*/
-    
-    public int getLinea(List<Integer> lineaPos, int posFinal){
-        for (int i = 0; i < lineaPos.size(); i++) {
-            if(i >= 1){
-                if(posFinal < lineaPos.get(i) && posFinal > lineaPos.get(i - 1)){
-                    return i + 1;
-                }
-                if(posFinal > lineaPos.get(i) && i == lineaPos.size() - 1){
-                    return i + 2;
-                }
-            }
-            else{
-                if(posFinal < lineaPos.get(i)){
-                    return i + 1;
-                }
-            }
-        }
-        return 0;
     }
     
     /**
@@ -311,9 +293,9 @@ public class Analizador extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnalizar;
+    private javax.swing.JButton btnBorrar;
     private javax.swing.JButton btnEntrada;
     private javax.swing.JButton btnGenerar;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel lblRutaEntrada;
     // End of variables declaration//GEN-END:variables
 }

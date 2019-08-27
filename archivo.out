@@ -1,33 +1,35 @@
 AND: Es un Reservada, Linea: 0 , Posicion Inicial: 0 , Posicion Final: 3
 Hola: Es un Identificador, Linea: 0 , Posicion Inicial: 4 , Posicion Final: 7
 HOLA: Es un Identificador, Linea: 0 , Posicion Inicial: 8 , Posicion Final: 11
-Prueba: Es un Identificador, Linea: 0 , Posicion Inicial: 12 , Posicion Final: 17
-0: Es un Bit, Linea: 0 , Posicion Inicial: 18 , Posicion Final: 18
-12.15: Es un Float, Linea: 0 , Posicion Inicial: 19 , Posicion Final: 23
-10.5E-4: Es un Float, Linea: 0 , Posicion Inicial: 24 , Posicion Final: 30
+hola: Es un Identificador, Linea: 0 , Posicion Inicial: 12 , Posicion Final: 15
+and: Es un Reservada, Linea: 0 , Posicion Inicial: 16 , Posicion Final: 18
+Prueba: Es un Identificador, Linea: 0 , Posicion Inicial: 19 , Posicion Final: 24
+0: Es un Bit, Linea: 0 , Posicion Inicial: 25 , Posicion Final: 25
+12.15: Es un Float, Linea: 0 , Posicion Inicial: 26 , Posicion Final: 30
+10.5E-4: Es un Float, Linea: 0 , Posicion Inicial: 31 , Posicion Final: 37
 --PruebaLinea 12
-: Es un Comentario, Linea: 1 , Posicion Inicial: 31 , Posicion Final: 48
-TesT: Es un Identificador, Linea: 2 , Posicion Inicial: 49 , Posicion Final: 52
-10.2: Es un Float, Linea: 2 , Posicion Inicial: 53 , Posicion Final: 56
-ProebaCOmentario: Es un Identificador, Linea: 2 , Posicion Inicial: 57 , Posicion Final: 72
+: Es un Comentario, Linea: 1 , Posicion Inicial: 38 , Posicion Final: 55
+TesT: Es un Identificador, Linea: 2 , Posicion Inicial: 56 , Posicion Final: 59
+10.2: Es un Float, Linea: 2 , Posicion Inicial: 60 , Posicion Final: 63
+ProebaCOmentario: Es un Identificador, Linea: 2 , Posicion Inicial: 64 , Posicion Final: 79
 /* hola esto
 es un comentario 
 de 	muchas 
-lineas*/: Es un Comentario, Linea: 3 , Posicion Inicial: 73 , Posicion Final: 126
-Tok: Es un Identificador, Linea: 7 , Posicion Inicial: 127 , Posicion Final: 129
-pruebo: Es un Identificador, Linea: 7 , Posicion Inicial: 130 , Posicion Final: 135
-15.285E+34: Es un Float, Linea: 7 , Posicion Inicial: 136 , Posicion Final: 145
-.: Es un Operador, Linea: 7 , Posicion Inicial: 146 , Posicion Final: 146
-12: Es un Integer, Linea: 7 , Posicion Inicial: 147 , Posicion Final: 148
+lineas*/: Es un Comentario, Linea: 3 , Posicion Inicial: 80 , Posicion Final: 133
+Tok: Es un Identificador, Linea: 7 , Posicion Inicial: 134 , Posicion Final: 136
+pruebo: Es un Identificador, Linea: 7 , Posicion Inicial: 137 , Posicion Final: 142
+15.285E+34: Es un Float, Linea: 7 , Posicion Inicial: 143 , Posicion Final: 152
+.: Es un Operador, Linea: 7 , Posicion Inicial: 153 , Posicion Final: 153
+12: Es un Integer, Linea: 7 , Posicion Inicial: 154 , Posicion Final: 155
 ERROR: El comentario : /* y esto
- no esta finalizado con */. Posicion de Error: Linea: 8 , Posicion Inicial: 149 , Posicion Final: 159
-'es un comentario error': Es un Varchar, Linea: 9 , Posicion Inicial: 160 , Posicion Final: 183
+ no esta finalizado con */. Posicion de Error: Linea: 8 , Posicion Inicial: 156 , Posicion Final: 166
+'es un comentario error': Es un Varchar, Linea: 9 , Posicion Inicial: 167 , Posicion Final: 190
 ERROR: El Varchar : 'esto es error
- no esta finalizado con '. Posicion de Error: Linea: 10 , Posicion Inicial: 184 , Posicion Final: 199
+ no esta finalizado con '. Posicion de Error: Linea: 10 , Posicion Inicial: 191 , Posicion Final: 206
 ERROR: El Varchar : 'esto tambien
- no esta finalizado con '. Posicion de Error: Linea: 11 , Posicion Inicial: 200 , Posicion Final: 214
-pero: Es un Identificador, Linea: 12 , Posicion Inicial: 215 , Posicion Final: 218
-esto: Es un Identificador, Linea: 12 , Posicion Inicial: 219 , Posicion Final: 222
-no: Es un Identificador, Linea: 12 , Posicion Inicial: 223 , Posicion Final: 224
-ERROR: El Varchar : ' no esta finalizado con '. Posicion de Error: Linea: 12 , Posicion Inicial: 225 , Posicion Final: 225
+ no esta finalizado con '. Posicion de Error: Linea: 11 , Posicion Inicial: 207 , Posicion Final: 221
+pero: Es un Identificador, Linea: 12 , Posicion Inicial: 222 , Posicion Final: 225
+esto: Es un Identificador, Linea: 12 , Posicion Inicial: 226 , Posicion Final: 229
+no: Es un Identificador, Linea: 12 , Posicion Inicial: 230 , Posicion Final: 231
+ERROR: El Varchar : ' no esta finalizado con '. Posicion de Error: Linea: 12 , Posicion Inicial: 232 , Posicion Final: 232
 FIN
