@@ -9,3 +9,12 @@ El programa se basa en un Jframe con 4 botones y 1 label para la seleccion del a
 
 ## Caracteristicas y Comentarios
 - En mi opinion mi programa funciona correctamente gracias a los ejemplos que investigue, al manual de jflex y a las pruebas que realize. Puede que no haya realizado suficientes pruebas por motivos presonales y de tiempo pero estoy seguro de que el funcionamiento basico esta correcto.
+- Es importante informar que el programa dara error si se sigen los siguientes pasos:
+  1. Si no se ha generado el archivo lexer.java dentro del proyecto
+  2. Se genera el archivo lexer.java utilizando el boton Generar Lexer
+  3. Se selecciona un archivo para analizzar y se selecciona el boton Analizar Entrada
+  
+  Para evitar este error despues de haber generado el archivo lexer.java cierre el programa y vuelvalo a iniciar. Y despues seleccione un 
+  archivo y seleccione Analizar Entrada. Otra forma de evitar este error si no se ha generado la clase lexer.java antes de inicar el 
+  programa es ejecutando la clase Principal.java que se encuentra dentro del proyecto antes de correr el programa. Esta clase cumple la
+  misma funcion del boton Generar Lexer.
