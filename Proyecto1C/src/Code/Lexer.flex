@@ -27,18 +27,18 @@ CommentContent       = ( [^*] | \*+ [^/*] )*
 EndOfLineComment = "--" {InputCharacter}* {LineTerminator}?
 
 /* identifiers */
-Identifier = [:jletter:][:jletterdigit:]*
+Identifier = [:jletter:](([:jletter:]|[:jletterdigit:]|"_")*)
 
 Boolean = (1)|(0)| NULL
 
 DecIntegerLiteral = 0 | [1-9][0-9]*
 
 /* floating point literals */
-FloatLiteral  = ({FLit1}|{FLit3}) {Exponent}?
+FloatLiteral  = ({FLit1}|{FLit2}) {Exponent}?
 
 FLit1    = [0-9]+\.[0-9]*
-FLit3    = [0-9]+
-Exponent = [eE] ["+"|"-"]? [0-9]+
+FLit2    = [0-9]+
+Exponent = [eE] [+-]? [0-9]+
 
 ErrorString = "'" [^\r\n\u0027]* {LineTerminator}?
 
@@ -93,5 +93,5 @@ Reserved =
 
     {Identifier} { lin=yyline; col=yycolumn; lexeme=yytext(); return Identificador; }
 
-/* error fallback */
+/* error */
     . {lin=yyline; col=yycolumn; lexeme=yytext(); return ERROR;}
