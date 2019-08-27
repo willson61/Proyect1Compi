@@ -1,0 +1,48 @@
+AND: Es un Reservada, Linea: 0 , Posicion Inicial: 0 , Posicion Final: 3
+Hola: Es un Identificador, Linea: 0 , Posicion Inicial: 4 , Posicion Final: 7
+HOLA: Es un Identificador, Linea: 0 , Posicion Inicial: 8 , Posicion Final: 11
+hola: Es un Identificador, Linea: 0 , Posicion Inicial: 12 , Posicion Final: 15
+and: Es un Identificador, Linea: 0 , Posicion Inicial: 16 , Posicion Final: 18
+Prueba: Es un Identificador, Linea: 0 , Posicion Inicial: 19 , Posicion Final: 24
+0: Es un Bit, Linea: 0 , Posicion Inicial: 25 , Posicion Final: 25
+12.15: Es un Float, Linea: 0 , Posicion Inicial: 26 , Posicion Final: 30
+10.5E-4: Es un Float, Linea: 0 , Posicion Inicial: 31 , Posicion Final: 37
+--PruebaLinea 12
+: Es un Comentario, Linea: 1 , Posicion Inicial: 38 , Posicion Final: 55
+TesT: Es un Identificador, Linea: 2 , Posicion Inicial: 56 , Posicion Final: 59
+10.2: Es un Float, Linea: 2 , Posicion Inicial: 60 , Posicion Final: 63
+ProebaCOmentario: Es un Identificador, Linea: 2 , Posicion Inicial: 64 , Posicion Final: 79
+/* hola esto
+es un comentario 
+de 	muchas 
+lineas*/: Es un Comentario, Linea: 3 , Posicion Inicial: 80 , Posicion Final: 133
+Tok: Es un Identificador, Linea: 7 , Posicion Inicial: 134 , Posicion Final: 136
+pruebo: Es un Identificador, Linea: 7 , Posicion Inicial: 137 , Posicion Final: 142
+15.285E+34: Es un Float, Linea: 7 , Posicion Inicial: 143 , Posicion Final: 152
+.: Es un Operador, Linea: 7 , Posicion Inicial: 153 , Posicion Final: 153
+12: Es un Integer, Linea: 7 , Posicion Inicial: 154 , Posicion Final: 155
+ERROR: El comentario : /* y esto
+ no esta finalizado con */. Posicion de Error: Linea: 8 , Posicion Inicial: 156 , Posicion Final: 166
+'es un comentario error': Es un Varchar, Linea: 9 , Posicion Inicial: 167 , Posicion Final: 190
+ERROR: El Varchar : 'esto es error
+ no esta finalizado con '. Posicion de Error: Linea: 10 , Posicion Inicial: 191 , Posicion Final: 206
+ERROR: El Varchar : 'esto tambien
+ no esta finalizado con '. Posicion de Error: Linea: 11 , Posicion Inicial: 207 , Posicion Final: 221
+pero: Es un Identificador, Linea: 12 , Posicion Inicial: 222 , Posicion Final: 225
+esto: Es un Identificador, Linea: 12 , Posicion Inicial: 226 , Posicion Final: 229
+no: Es un Identificador, Linea: 12 , Posicion Inicial: 230 , Posicion Final: 231
+ERROR: El Varchar : '
+ no esta finalizado con '. Posicion de Error: Linea: 12 , Posicion Inicial: 232 , Posicion Final: 234
+{: Es un Operador, Linea: 13 , Posicion Inicial: 235 , Posicion Final: 235
+[]: Es un Operador, Linea: 13 , Posicion Inicial: 236 , Posicion Final: 237
+): Es un Operador, Linea: 13 , Posicion Inicial: 238 , Posicion Final: 238
+Hola_3: Es un Identificador, Linea: 13 , Posicion Inicial: 239 , Posicion Final: 244
+45.E+2: Es un Float, Linea: 13 , Posicion Inicial: 245 , Posicion Final: 250
+.: Es un Operador, Linea: 14 , Posicion Inicial: 251 , Posicion Final: 251
+15E-6: Es un Float, Linea: 14 , Posicion Inicial: 252 , Posicion Final: 256
+7364: Es un Integer, Linea: 14 , Posicion Inicial: 257 , Posicion Final: 260
+ADD: Es un Reservada, Linea: 14 , Posicion Inicial: 261 , Posicion Final: 263
+add: Es un Identificador, Linea: 14 , Posicion Inicial: 264 , Posicion Final: 266
+--coment
+: Es un Comentario, Linea: 14 , Posicion Inicial: 267 , Posicion Final: 276
+FIN

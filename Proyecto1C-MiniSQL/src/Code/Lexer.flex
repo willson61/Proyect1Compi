@@ -5,7 +5,6 @@ import static Code.Tokens.*;
 %public
 %class Lexer
 %type Tokens
-%caseless
 %char
 %line
 %column
