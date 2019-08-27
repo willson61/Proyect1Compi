@@ -131,112 +131,102 @@ public class Analizador extends javax.swing.JFrame {
     private void btnAnalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnalizarActionPerformed
         String resultado = "";
         boolean estado = true;
-        try {
-            int lenghtToken = 0;
-            int posInicial = 0;
-            int posFinal = 0;
-            int numLinea = 0;
-            List<Integer> lineaPos = new ArrayList<>();
-            File entrada = new File(lblRutaEntrada.getText());
-            Reader lector = new BufferedReader(new FileReader(lblRutaEntrada.getText()));
-            RandomAccessFile ran = new RandomAccessFile(lblRutaEntrada.getText(), "r");
-            int data = 0;
-            int cont = 0;
-            while(ran.getFilePointer() != ran.length()){
-                data = ran.read();
-                if(data == 32 | data == 9 | data == 13){
-                    cont++;
+        File lex = new File("C:/Users/Sthephan/Documents/GitHub/Proyect1Compi/Proyecto1C/src/Code/Lexer.java");
+        if(lex.exists()){
+            try {
+                int lenghtToken = 0;
+                int posInicial = 0;
+                int posFinal = 0;
+                int numLinea = 0;
+                File entrada = new File(lblRutaEntrada.getText());
+                Reader lector = new BufferedReader(new FileReader(lblRutaEntrada.getText()));
+                Lexer lexer = new Lexer(lector);
+                while (estado) {
+                    Tokens tokens = lexer.yylex();
+                    if (tokens == null) {
+                        resultado += "FIN";
+                        estado = false;
+                    }
+                    else{
+                        lenghtToken = lexer.yylength();
+                        posFinal = posFinal + lenghtToken;
+                        numLinea = lexer.lin;
+                        switch (tokens) {
+                            case ERROR:
+                                resultado += "Simbolo no definido\n";
+                                break;
+                            case Identificador:
+                                if(lenghtToken > 31){
+                                    resultado += "ERROR: El Identificador: " + lexer.lexeme.substring(0, 32) + " excedio el limite de caracteres en, Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
+                                }
+                                else{
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
+                                }                   
+                                break;
+                            case Reservada:
+                                resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
+                                break;
+                            case Bit:
+                                resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
+                                break;
+                            case Operador:
+                                resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
+                                break;
+                            case Integer:
+                                resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
+                                break;
+                            case Float:
+                                resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
+                                break;
+                            case Varchar:
+                                resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
+                                break;
+                            case VarcharError:
+                                resultado += "ERROR: El Varchar : " + lexer.lexeme + " no esta finalizado con '. Posicion de Error: " + "Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
+                                break;
+                            case Comentario:
+                                resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
+                                break;
+                            case ComentarioError:
+                                resultado += "ERROR: El comentario : " + lexer.lexeme + " no esta finalizado con */. Posicion de Error: " + "Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
+                                break;
+                        }
+                        posInicial = posFinal + 1;
+                    }
                 }
-                if(data == 10){
-                    lineaPos.add((int)ran.getFilePointer() - cont + 1);
-                }
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(Analizador.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(Analizador.class.getName()).log(Level.SEVERE, null, ex);
             }
-            Lexer lexer = new Lexer(lector);
-            while (estado) {
-                Tokens tokens = lexer.yylex();
-                if (tokens == null) {
-                    resultado += "FIN";
-                    estado = false;
+
+            File archivo = new File("C:/Users/Sthephan/Documents/GitHub/Proyect1Compi/archivo.out");
+            PrintWriter writer;
+            try {
+                if(archivo.exists() == false){
+                    archivo.createNewFile();
                 }
                 else{
-                    lenghtToken = lexer.yylength();
-                    posFinal = posFinal + lenghtToken;
-                    //numLinea = getLinea(lineaPos, posFinal);
-                    numLinea = lexer.lin;
-                    switch (tokens) {
-                        case ERROR:
-                            resultado += "Simbolo no definido\n";
-                            break;
-                        case Identificador:
-                            if(lenghtToken > 31){
-                                resultado += "ERROR: El Identificador: " + lexer.lexeme.substring(0, 32) + " excedio el limite de caracteres en, Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
-                            }
-                            else{
-                                resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
-                            }                   
-                            break;
-                        case Reservada:
-                            resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
-                            break;
-                        case Bit:
-                            resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
-                            break;
-                        case Operador:
-                            resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
-                            break;
-                        case Integer:
-                            resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
-                            break;
-                        case Float:
-                            resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
-                            break;
-                        case Varchar:
-                            resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
-                            break;
-                        case VarcharError:
-                            resultado += "ERROR: El Varchar : " + lexer.lexeme + " no esta finalizado con '. Posicion de Error: " + "Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
-                            break;
-                        case Comentario:
-                            resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
-                            break;
-                        case ComentarioError:
-                            resultado += "ERROR: El comentario : " + lexer.lexeme + " no esta finalizado con */. Posicion de Error: " + "Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
-                            break;
-                    }
-                    posInicial = posFinal + 1;
+                    writer = new PrintWriter(archivo);
+                    writer.print("");
+                    writer.close();
                 }
+            } catch (IOException ex) {
+                Logger.getLogger(Analizador.class.getName()).log(Level.SEVERE, null, ex);
             }
-            ran.close();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Analizador.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(Analizador.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        File archivo = new File("C:/Users/Sthephan/Documents/GitHub/Proyect1Compi/archivo.out");
-        PrintWriter writer;
-        try {
-            if(archivo.exists() == false){
-                archivo.createNewFile();
+            PrintWriter escribir;
+            try {
+                escribir = new PrintWriter(archivo);
+                escribir.print(resultado);
+                escribir.close();
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(Analizador.class.getName()).log(Level.SEVERE, null, ex);
             }
-            else{
-                writer = new PrintWriter(archivo);
-                writer.print("");
-                writer.close();
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(Analizador.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "InfoBox: " + "Analisis Completo", "Estado", JOptionPane.INFORMATION_MESSAGE);
         }
-        PrintWriter escribir;
-        try {
-            escribir = new PrintWriter(archivo);
-            escribir.print(resultado);
-            escribir.close();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Analizador.class.getName()).log(Level.SEVERE, null, ex);
+        else{
+            JOptionPane.showMessageDialog(null, "InfoBox: " + "No se ha generado el archivo Lexer.java para la ejecucion", "Estado", JOptionPane.INFORMATION_MESSAGE);
         }
-        JOptionPane.showMessageDialog(null, "InfoBox: " + "Analisis Completo", "Estado", JOptionPane.INFORMATION_MESSAGE);
-        
     }//GEN-LAST:event_btnAnalizarActionPerformed
 
     private void btnGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarActionPerformed
