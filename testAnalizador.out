@@ -45,4 +45,7 @@ ADD: Es un Reservada, Linea: 14 , Posicion Inicial: 261 , Posicion Final: 263
 add: Es un Identificador, Linea: 14 , Posicion Inicial: 264 , Posicion Final: 266
 --coment
 : Es un Comentario, Linea: 14 , Posicion Inicial: 267 , Posicion Final: 276
+(: Es un Operador, Linea: 15 , Posicion Inicial: 277 , Posicion Final: 277
+'prueba de parentesis': Es un Varchar, Linea: 15 , Posicion Inicial: 278 , Posicion Final: 299
+): Es un Operador, Linea: 15 , Posicion Inicial: 300 , Posicion Final: 300
 FIN

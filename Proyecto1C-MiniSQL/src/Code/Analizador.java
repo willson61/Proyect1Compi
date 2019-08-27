@@ -139,7 +139,7 @@ public class Analizador extends javax.swing.JFrame {
     private void btnAnalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnalizarActionPerformed
         String resultado = "";
         boolean estado = true;
-        File lex = new File("C:/Users/Sthephan/Documents/GitHub/Proyect1Compi/Proyecto1C/src/Code/Lexer.java");
+        File lex = new File("C:/Users/Sthephan/Documents/GitHub/Proyect1Compi/Proyecto1C-MiniSQL/src/Code/Lexer.java");
         File entrada = new File(lblRutaEntrada.getText());
         if(lex.exists()){
             try {
@@ -238,7 +238,7 @@ public class Analizador extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAnalizarActionPerformed
 
     private void btnGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarActionPerformed
-        String ruta = "C:/Users/Sthephan/Documents/GitHub/Proyect1Compi/Proyecto1C/src/Code/Lexer.flex";
+        String ruta = "C:/Users/Sthephan/Documents/GitHub/Proyect1Compi/Proyecto1C-MiniSQL/src/Code/Lexer.flex";
         generarLexer(ruta);
         this.dispose();
         JOptionPane.showMessageDialog(null, "InfoBox: " + "Lexer generado exitosamente, por favor vuelva a correr la aplicacion", "Estado", JOptionPane.INFORMATION_MESSAGE);

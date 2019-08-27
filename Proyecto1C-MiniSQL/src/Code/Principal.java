@@ -12,7 +12,7 @@ import java.io.File;
  */
 public class Principal {
     public static void main(String[] args) {
-        String ruta = "C:/Users/Sthephan/Documents/GitHub/Proyect1Compi/Proyecto1C/src/Code/Lexer.flex";
+        String ruta = "C:/Users/Sthephan/Documents/GitHub/Proyect1Compi/Proyecto1C-MiniSQL/src/Code/Lexer.flex";
         generarLexer(ruta);
     }
     
