@@ -5,6 +5,7 @@
  */
 package Code;
 
+import java.util.List;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.RandomAccessFile;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -28,6 +30,7 @@ public class Analizador extends javax.swing.JFrame {
     /**
      * Creates new form Analizador
      */
+    
     public Analizador() {
         initComponents();
         this.setLocationRelativeTo(this);
@@ -46,6 +49,7 @@ public class Analizador extends javax.swing.JFrame {
         btnEntrada = new javax.swing.JButton();
         btnAnalizar = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        btnGenerar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -67,6 +71,13 @@ public class Analizador extends javax.swing.JFrame {
 
         jButton1.setText("Borrar Entrada");
 
+        btnGenerar.setText("Generar Lexer");
+        btnGenerar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenerarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -77,10 +88,12 @@ public class Analizador extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnEntrada)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1))
+                        .addComponent(jButton1)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnGenerar))
                     .addComponent(lblRutaEntrada)
                     .addComponent(btnAnalizar))
-                .addContainerGap(164, Short.MAX_VALUE))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -88,7 +101,8 @@ public class Analizador extends javax.swing.JFrame {
                 .addGap(17, 17, 17)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEntrada)
-                    .addComponent(jButton1))
+                    .addComponent(jButton1)
+                    .addComponent(btnGenerar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblRutaEntrada)
                 .addGap(43, 43, 43)
@@ -122,9 +136,21 @@ public class Analizador extends javax.swing.JFrame {
             int posInicial = 0;
             int posFinal = 0;
             int numLinea = 0;
+            List<Integer> lineaPos = new ArrayList<>();
             File entrada = new File(lblRutaEntrada.getText());
             Reader lector = new BufferedReader(new FileReader(lblRutaEntrada.getText()));
             RandomAccessFile ran = new RandomAccessFile(lblRutaEntrada.getText(), "r");
+            int data = 0;
+            int cont = 0;
+            while(ran.getFilePointer() != ran.length()){
+                data = ran.read();
+                if(data == 32 | data == 9 | data == 13){
+                    cont++;
+                }
+                if(data == 10){
+                    lineaPos.add((int)ran.getFilePointer() - cont + 1);
+                }
+            }
             Lexer lexer = new Lexer(lector);
             while (estado) {
                 Tokens tokens = lexer.yylex();
@@ -135,27 +161,46 @@ public class Analizador extends javax.swing.JFrame {
                 else{
                     lenghtToken = lexer.yylength();
                     posFinal = posFinal + lenghtToken;
+                    //numLinea = getLinea(lineaPos, posFinal);
+                    numLinea = lexer.lin;
                     switch (tokens) {
                         case ERROR:
                             resultado += "Simbolo no definido\n";
                             break;
                         case Identificador:
-                            resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
+                            if(lenghtToken > 31){
+                                resultado += "ERROR: El Identificador: " + lexer.lexeme.substring(0, 32) + " excedio el limite de caracteres en, Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
+                            }
+                            else{
+                                resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
+                            }                   
                             break;
                         case Reservada:
                             resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
                             break;
-                        case Boolean:
+                        case Bit:
                             resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
                             break;
                         case Operador:
                             resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
                             break;
-                        case Constante:
+                        case Integer:
                             resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
+                            break;
+                        case Float:
+                            resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
+                            break;
+                        case Varchar:
+                            resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
+                            break;
+                        case VarcharError:
+                            resultado += "ERROR: El Varchar : " + lexer.lexeme + " no esta finalizado con '. Posicion de Error: " + "Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
                             break;
                         case Comentario:
                             resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
+                            break;
+                        case ComentarioError:
+                            resultado += "ERROR: El comentario : " + lexer.lexeme + " no esta finalizado con */. Posicion de Error: " + "Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
                             break;
                     }
                     posInicial = posFinal + 1;
@@ -194,6 +239,50 @@ public class Analizador extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnAnalizarActionPerformed
 
+    private void btnGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarActionPerformed
+        String ruta = "C:/Users/Sthephan/Documents/GitHub/Proyect1Compi/Proyecto1C/src/Code/Lexer.flex";
+        generarLexer(ruta);
+        JOptionPane.showMessageDialog(null, "InfoBox: " + "Lexer generado exitosamente", "Estado", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_btnGenerarActionPerformed
+
+    public static void generarLexer(String ruta){
+        File archivo = new File(ruta);
+        jflex.Main.generate(archivo);
+    }
+    /*public List<Integer> generarLineas(RandomAccessFile raf, int dat, ){
+        int data = dat;
+        RandomAccessFile ran = raf;
+        List<Integer> lineaPos = new ArrayList<>();
+        while(ran.getFilePointer() != ran.length()){
+            data = ran.read();
+            if(data == 32 | data == 9 | data == 13){
+                cont++;
+            }
+            if(data == 10){
+                lineaPos.add((int)ran.getFilePointer() - cont + 1);
+            }
+        }
+    }*/
+    
+    public int getLinea(List<Integer> lineaPos, int posFinal){
+        for (int i = 0; i < lineaPos.size(); i++) {
+            if(i >= 1){
+                if(posFinal < lineaPos.get(i) && posFinal > lineaPos.get(i - 1)){
+                    return i + 1;
+                }
+                if(posFinal > lineaPos.get(i) && i == lineaPos.size() - 1){
+                    return i + 2;
+                }
+            }
+            else{
+                if(posFinal < lineaPos.get(i)){
+                    return i + 1;
+                }
+            }
+        }
+        return 0;
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -233,6 +322,7 @@ public class Analizador extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnalizar;
     private javax.swing.JButton btnEntrada;
+    private javax.swing.JButton btnGenerar;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel lblRutaEntrada;
     // End of variables declaration//GEN-END:variables

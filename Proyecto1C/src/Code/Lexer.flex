@@ -16,6 +16,8 @@ InputCharacter = [^\r\n]
 
 WhiteSpace = {LineTerminator} | [ \t\f]+
 
+ErrorComment = "/*" {InputCharacter}* {LineTerminator}?
+
 /* comments */
 Comment = {TraditionalComment} | {EndOfLineComment} | {DocumentationComment}
 
@@ -27,6 +29,8 @@ EndOfLineComment = "--" {InputCharacter}* {LineTerminator}?
 /* identifiers */
 Identifier = [:jletter:][:jletterdigit:]*
 
+Boolean = (1)|(0)| NULL
+
 DecIntegerLiteral = 0 | [1-9][0-9]*
 
 /* floating point literals */
@@ -36,8 +40,14 @@ FLit1    = [0-9]+\.[0-9]*
 FLit3    = [0-9]+
 Exponent = [eE] ["+"|"-"]? [0-9]+
 
+ErrorString = "'" [^\r\n\u0027]* {LineTerminator}?
+
+String = "'" [^\r\n\u0027]* "'"
+
 %{
     public String lexeme;
+    public int lin;
+    public int col;
 %}
 
 Reserved = 
@@ -61,18 +71,27 @@ Reserved =
 "EXIT"|"PROC"
 %%
 
-    {Reserved} { lexeme=yytext(); return Reservada; }
+    {Reserved} { lin=yyline; col=yycolumn; lexeme=yytext(); return Reservada; }
 
-    "+"|"-"|"*"|"/"|"%"|"<"|"<="|">"|">="|"="|"=="|"!="|"&&"|"||"|"!"|";"|","|"."|"["|"]"|"("|")"|"{"|"}"|"[]"|"()"|"{}"|"@"|"#"|"##" {lexeme=yytext(); return Operador; }
+    {Boolean} { lin=yyline; col=yycolumn; lexeme=yytext(); return Bit; }
 
-    {DecIntegerLiteral}|{FloatLiteral} { lexeme=yytext(); return Constante; }
+    "+"|"-"|"*"|"/"|"%"|"<"|"<="|">"|">="|"="|"=="|"!="|"&&"|"||"|"!"|";"|","|"."|"["|"]"|"("|")"|"{"|"}"|"[]"|"()"|"{}"|"@"|"#"|"##" {lin=yyline; col=yycolumn; lexeme=yytext(); return Operador; }
 
-    {Comment}                      {lexeme=yytext(); return Comentario; }
+    {DecIntegerLiteral} { lin=yyline; col=yycolumn; lexeme=yytext(); return Integer; }
 
-    {WhiteSpace}+                  { /* skip */ }
+    {FloatLiteral} { lin=yyline; col=yycolumn; lexeme=yytext(); return Float; }
 
-    {Identifier}                   { lexeme=yytext(); return Identificador; }
+    {ErrorString} { lin=yyline; col=yycolumn; lexeme=yytext(); return VarcharError; }
+
+    {String} { lin=yyline; col=yycolumn; lexeme=yytext(); return Varchar; }
+
+    {ErrorComment} {lin=yyline; col=yycolumn; lexeme=yytext(); return ComentarioError; }
+
+    {Comment} {lin=yyline; col=yycolumn; lexeme=yytext(); return Comentario; }
+
+    {WhiteSpace}+ { /* skip */ }
+
+    {Identifier} { lin=yyline; col=yycolumn; lexeme=yytext(); return Identificador; }
 
 /* error fallback */
-.|\n                             {  }
-<<EOF>>                          { return null; }
+    . {lin=yyline; col=yycolumn; lexeme=yytext(); return ERROR;}

@@ -12,10 +12,15 @@ package Code;
 public enum Tokens {
     Reservada,
     Identificador,
-    Boolean,
+    Bit,
     Operador,
     Constante,
+    Integer,
+    Float,
+    Varchar,
+    VarcharError,
     Comentario,
     Espacios,
+    ComentarioError,
     ERROR
 }
