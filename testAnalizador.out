@@ -21,31 +21,17 @@ pruebo: Es un Identificador, Linea: 7 , Posicion Inicial: 137 , Posicion Final: 
 15.285E+34: Es un Float, Linea: 7 , Posicion Inicial: 143 , Posicion Final: 152
 .: Es un Operador, Linea: 7 , Posicion Inicial: 153 , Posicion Final: 153
 12: Es un Integer, Linea: 7 , Posicion Inicial: 154 , Posicion Final: 155
-ERROR: El comentario : /* y esto
- no esta finalizado con */. Posicion de Error: Linea: 8 , Posicion Inicial: 156 , Posicion Final: 166
-'es un comentario error': Es un Varchar, Linea: 9 , Posicion Inicial: 167 , Posicion Final: 190
-ERROR: El Varchar : 'esto es error
- no esta finalizado con '. Posicion de Error: Linea: 10 , Posicion Inicial: 191 , Posicion Final: 206
-ERROR: El Varchar : 'esto tambien
- no esta finalizado con '. Posicion de Error: Linea: 11 , Posicion Inicial: 207 , Posicion Final: 221
-pero: Es un Identificador, Linea: 12 , Posicion Inicial: 222 , Posicion Final: 225
-esto: Es un Identificador, Linea: 12 , Posicion Inicial: 226 , Posicion Final: 229
-no: Es un Identificador, Linea: 12 , Posicion Inicial: 230 , Posicion Final: 231
-ERROR: El Varchar : '
- no esta finalizado con '. Posicion de Error: Linea: 12 , Posicion Inicial: 232 , Posicion Final: 234
-{: Es un Operador, Linea: 13 , Posicion Inicial: 235 , Posicion Final: 235
-[]: Es un Operador, Linea: 13 , Posicion Inicial: 236 , Posicion Final: 237
-): Es un Operador, Linea: 13 , Posicion Inicial: 238 , Posicion Final: 238
-Hola_3: Es un Identificador, Linea: 13 , Posicion Inicial: 239 , Posicion Final: 244
-45.E+2: Es un Float, Linea: 13 , Posicion Inicial: 245 , Posicion Final: 250
-.: Es un Operador, Linea: 14 , Posicion Inicial: 251 , Posicion Final: 251
-15E-6: Es un Float, Linea: 14 , Posicion Inicial: 252 , Posicion Final: 256
-7364: Es un Integer, Linea: 14 , Posicion Inicial: 257 , Posicion Final: 260
-ADD: Es un Reservada, Linea: 14 , Posicion Inicial: 261 , Posicion Final: 263
-add: Es un Identificador, Linea: 14 , Posicion Inicial: 264 , Posicion Final: 266
---coment
-: Es un Comentario, Linea: 14 , Posicion Inicial: 267 , Posicion Final: 276
-(: Es un Operador, Linea: 15 , Posicion Inicial: 277 , Posicion Final: 277
-'prueba de parentesis': Es un Varchar, Linea: 15 , Posicion Inicial: 278 , Posicion Final: 299
-): Es un Operador, Linea: 15 , Posicion Inicial: 300 , Posicion Final: 300
+/* y esto
+'es un comentario error'
+'esto es error
+'esto tambien
+pero esto no'
+{ [] ) Hola_3 45.E+2
+.15E-6 7364 ADD add --coment
+('prueba de parentesis') 
+'hola como estas' Tec 'hola x2'
+/* coment /* coment2 */: Es un Comentario, Linea: 8 , Posicion Inicial: 156 , Posicion Final: 373
+prueba: Es un Identificador, Linea: 17 , Posicion Inicial: 374 , Posicion Final: 379
+*: Es un Operador, Linea: 17 , Posicion Inicial: 380 , Posicion Final: 380
+/: Es un Operador, Linea: 17 , Posicion Inicial: 381 , Posicion Final: 381
 FIN
