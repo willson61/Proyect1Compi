@@ -11,6 +11,13 @@ package Code;
  */
 public enum Tokens {
     Reservada,
+    DatoEntero,
+    DatoBit,
+    DatoDecimal,
+    DatoFechaHora,
+    DatoTexto,
+    DatoBin,
+    OperadorBooleano,
     Identificador,
     Bit,
     Operador,

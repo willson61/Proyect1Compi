@@ -67,14 +67,36 @@ Reserved =
 "DISTRIBUTED"|"OPENXML"|"USE"|"DOUBLE"|"OPTION"|"USER"|"DROP"|"OR"|"VALUES"|"DUMP"|"ORDER"|"VARYING"|
 "ELSE"|"OUTER"|"VIEW"|"END"|"OVER"|"WAITFOR"|"ERRLVL"|"PERCENT"|"WHEN"|"ESCAPE"|"PIVOT"|"WHERE"|
 "EXCEPT"|"PLAN"|"WHILE"|"EXEC"|"PRECISION"|"WITH"|"EXECUTE"|"PRIMARY"|"WITHIN GROUP"|"EXISTS"|"PRINT"|"WRITETEXT"|
-"EXIT"|"PROC"
+"EXIT"|"PROC"|"INCLUDE"|"IMMEDIATE"|"GO"
+
+DatoEntero = "BIGINT"|"INT"|"SMALLINT"|"TINYINT"
+DatoBit = "BIT"
+DatoDecimal = "DECIMAL"|"MONEY"|"NUMERIC"|"SMALLMONEY"|"FLOAT"|"REAL"
+DatoFechaHora = "DATE"|"DATETIME"|"DATETIME2"|"DATETIMEOFFSET"|"SMALLDATETIME"|"TIME"
+DatoTexto = "CHAR"|"TEXT"|"VARCHAR"|"NCHAR"|"NTEXT"|"NVARCHAR"
+DatoBin = "BINARY"|"IMAGE"|"VARBINARY"
+
 %%
 
     {Reserved} { lin=yyline; col=yycolumn; lexeme=yytext(); return Reservada; }
 
+    {DatoEntero} { lin=yyline; col=yycolumn; lexeme=yytext(); return DatoEntero; }
+
+    {DatoBit} { lin=yyline; col=yycolumn; lexeme=yytext(); return DatoBit; }
+
+    {DatoDecimal} { lin=yyline; col=yycolumn; lexeme=yytext(); return DatoDecimal; }
+
+    {DatoFechaHora} { lin=yyline; col=yycolumn; lexeme=yytext(); return DatoFechaHora; }
+
+    {DatoTexto} { lin=yyline; col=yycolumn; lexeme=yytext(); return DatoTexto; }
+
+    {DatoBin} { lin=yyline; col=yycolumn; lexeme=yytext(); return DatoBin; }
+
     {Boolean} { lin=yyline; col=yycolumn; lexeme=yytext(); return Bit; }
 
-    "+"|"-"|"*"|"/"|"%"|"<"|"<="|">"|">="|"="|"=="|"!="|"&&"|"||"|"!"|";"|","|"."|"["|"]"|"("|")"|"{"|"}"|"[]"|"()"|"{}"|"@"|"#"|"##" {lin=yyline; col=yycolumn; lexeme=yytext(); return Operador; }
+    "+"|"-"|"*"|"/"|"%"|";"|","|"."|"["|"]"|"("|")"|"{"|"}"|"[]"|"()"|"{}"|"@"|"#"|"##" {lin=yyline; col=yycolumn; lexeme=yytext(); return Operador; }
+
+    "<"|"<="|">"|">="|"=="|"!="|"&&"|"||"|"!"|"=" {lin=yyline; col=yycolumn; lexeme=yytext(); return OperadorBooleano; }
 
     {DecIntegerLiteral} { lin=yyline; col=yycolumn; lexeme=yytext(); return Integer; }
 

@@ -30,6 +30,11 @@ public class Analizador extends javax.swing.JFrame {
     /**
      * Creates new form Analizador
      */
+    public List<TokenElement> ListaTokens;
+    public TokenElement TokenActual;
+    public int Puntero = -1;
+    public SintaxisError Error;
+    public StringBuilder salida; 
     
     public Analizador() {
         initComponents();
@@ -50,6 +55,8 @@ public class Analizador extends javax.swing.JFrame {
         btnAnalizar = new javax.swing.JButton();
         btnBorrar = new javax.swing.JButton();
         btnGenerar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TextArea1 = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -84,6 +91,10 @@ public class Analizador extends javax.swing.JFrame {
             }
         });
 
+        TextArea1.setColumns(20);
+        TextArea1.setRows(5);
+        jScrollPane1.setViewportView(TextArea1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -91,15 +102,19 @@ public class Analizador extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnEntrada)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnBorrar)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnGenerar))
-                    .addComponent(lblRutaEntrada)
-                    .addComponent(btnAnalizar))
-                .addContainerGap(45, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnEntrada)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnBorrar)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnGenerar))
+                            .addComponent(lblRutaEntrada)
+                            .addComponent(btnAnalizar))
+                        .addGap(0, 35, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -113,7 +128,9 @@ public class Analizador extends javax.swing.JFrame {
                 .addComponent(lblRutaEntrada)
                 .addGap(43, 43, 43)
                 .addComponent(btnAnalizar)
-                .addContainerGap(188, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -124,7 +141,7 @@ public class Analizador extends javax.swing.JFrame {
         FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivo de Texto", "txt");
         File ficheroImagen;
         String rutaArchivo;
-        dialogo.setFileFilter(filtro);
+        //dialogo.setFileFilter(filtro);
         int valor = dialogo.showOpenDialog(this);
         if (valor == JFileChooser.APPROVE_OPTION) 
         {
@@ -180,6 +197,27 @@ public class Analizador extends javax.swing.JFrame {
                             case Operador:
                                 resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
                                 break;
+                            case OperadorBooleano:
+                                resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
+                                break;
+                            case DatoEntero:
+                                resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
+                                break;
+                            case DatoBit:
+                                resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
+                                break;
+                            case DatoDecimal:
+                                resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
+                                break;
+                            case DatoFechaHora:
+                                resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
+                                break;
+                            case DatoTexto:
+                                resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
+                                break;
+                            case DatoBin:
+                                resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
+                                break;
                             case Integer:
                                 resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
                                 break;
@@ -207,7 +245,7 @@ public class Analizador extends javax.swing.JFrame {
             } catch (IOException ex) {
                 Logger.getLogger(Analizador.class.getName()).log(Level.SEVERE, null, ex);
             }
-            String arch = entrada.getName().replace(".txt", ".out");
+            String arch = entrada.getName().replace(".sql", ".out");
             File archivo = new File("C:/Users/Sthephan/Documents/GitHub/Proyect1Compi/" + arch);
             PrintWriter writer;
             try {
@@ -235,6 +273,28 @@ public class Analizador extends javax.swing.JFrame {
         else{
             JOptionPane.showMessageDialog(null, "InfoBox: " + "No se ha generado el archivo Lexer.java para la ejecucion", "Estado", JOptionPane.INFORMATION_MESSAGE);
         }
+        TokenElement el;
+        ListaTokens = new ArrayList();
+        String datos[] = resultado.split("\\n");
+        for (int i = 0; i < datos.length; i++) {
+            el = new TokenElement();
+            el = TokenElement.TokFromText(datos[i]);
+            if(!(el.getValor() == null)){
+                ListaTokens.add(el);
+            }
+        }
+        salida = new StringBuilder();
+        /*salida.append(Error.getMensaje());
+        salida.append("\n");
+        Puntero = Puntero + BuscarFin(Puntero);*/
+        Puntero = Puntero + 1;
+        TokenActual = ListaTokens.get(Puntero);
+        while(Puntero < ListaTokens.size()){
+            Error = null;
+            Inicio();
+        }
+        JOptionPane.showMessageDialog(null, "InfoBox: " + "Analisis Sintactico Terminado", "Estado", JOptionPane.INFORMATION_MESSAGE);
+        TextArea1.setText(salida.toString());
     }//GEN-LAST:event_btnAnalizarActionPerformed
 
     private void btnGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarActionPerformed
@@ -253,6 +313,2210 @@ public class Analizador extends javax.swing.JFrame {
     public static void generarLexer(String ruta){
         File archivo = new File(ruta);
         jflex.Main.generate(archivo);
+    }
+    
+    public void ReadNextTokenElement(Tokens siguiente, String valor){
+        if(TokenActual.evaluarToken(siguiente, valor)){
+            Puntero = Puntero + 1;
+            if(Puntero < ListaTokens.size())
+                TokenActual = ListaTokens.get(Puntero);
+        }
+        else{
+            List<TokenElement> elementos = new ArrayList();
+            elementos.add(new TokenElement(valor, siguiente));
+            TokenElement tok = new TokenElement(TokenActual.getID(), TokenActual.getNumLinea(), TokenActual.getPosInicial(), TokenActual.getPosFinal(), TokenActual.getValor(), TokenActual.getTok());
+            Error = new SintaxisError(elementos, tok);
+            salida.append(Error.getMensaje());
+            salida.append("\n");
+        }
+    }
+    
+    public int BuscarFin(int puntero){
+        TokenElement temp;
+        int cont = 0;
+        for (int i = puntero; i < ListaTokens.size(); i++) {
+            temp = ListaTokens.get(i);
+            if(temp.getValor().equals(";") || temp.getValor().equals("GO")){
+                cont = cont + 1;
+            }
+        }
+        return cont;
+    }
+    
+    public void Inicio(){
+        Inicio2();
+        Fin();
+        
+    }
+    
+    public void Inicio2(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "ALTER")){
+            Alter();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "CREATE")){
+            Create();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "DELETE")){
+            Delete();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "DROP")){
+            Drop();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "TRUNCATE")){
+            Truncate();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "INSERT")){
+            Insert();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "UPDATE")){
+            Update();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "SELECT")){
+            Select();
+        }
+        else{
+            List<TokenElement> elementos = new ArrayList();
+            elementos.add(new TokenElement("ALTER", Tokens.Reservada));
+            elementos.add(new TokenElement("CREATE", Tokens.Reservada));
+            elementos.add(new TokenElement("DELETE", Tokens.Reservada));
+            elementos.add(new TokenElement("DROP", Tokens.Reservada));
+            elementos.add(new TokenElement("TRUNCATE", Tokens.Reservada));
+            elementos.add(new TokenElement("INSERT", Tokens.Reservada));
+            elementos.add(new TokenElement("UPDATE", Tokens.Reservada));
+            elementos.add(new TokenElement("SELECT", Tokens.Reservada));
+            TokenElement tok = new TokenElement(TokenActual.getID(), TokenActual.getNumLinea(), TokenActual.getPosInicial(), TokenActual.getPosFinal(), TokenActual.getValor(), TokenActual.getTok());
+            Error = new SintaxisError(elementos, tok);
+            salida.append(Error.getMensaje());
+            salida.append("\n");
+        }
+    }
+    
+    public void Fin(){
+        if(TokenActual.evaluarToken(Tokens.Operador, ";")){
+            ReadNextTokenElement(Tokens.Operador, ";");
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "GO")){
+            ReadNextTokenElement(Tokens.Reservada, "GO");
+        }
+        else{
+            List<TokenElement> elementos = new ArrayList();
+            elementos.add(new TokenElement(";", Tokens.Operador));
+            elementos.add(new TokenElement("GO", Tokens.Reservada));
+            TokenElement tok = new TokenElement(TokenActual.getID(), TokenActual.getNumLinea(), TokenActual.getPosInicial(), TokenActual.getPosFinal(), TokenActual.getValor(), TokenActual.getTok());
+            Error = new SintaxisError(elementos, tok);
+            salida.append(Error.getMensaje());
+            salida.append("\n");
+        }
+    }
+    
+    public void ID(){
+        if(TokenActual.evaluarToken(Tokens.Identificador, null)){
+            ReadNextTokenElement(Tokens.Identificador, null);
+        }
+        else if(TokenActual.evaluarToken(Tokens.Operador, "[")){
+            ReadNextTokenElement(Tokens.Operador, "[");
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Identificador, null);
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Operador, "]");
+        }
+        else{
+            List<TokenElement> elementos = new ArrayList();
+            elementos.add(new TokenElement(null, Tokens.Identificador));
+            elementos.add(new TokenElement("[", Tokens.Operador));
+            TokenElement tok = new TokenElement(TokenActual.getID(), TokenActual.getNumLinea(), TokenActual.getPosInicial(), TokenActual.getPosFinal(), TokenActual.getValor(), TokenActual.getTok());
+            Error = new SintaxisError(elementos, tok);
+            salida.append(Error.getMensaje());
+            salida.append("\n");
+        }
+    }
+    
+    public void IDL1(){
+        ID();
+        if(Error == null)
+            IDL2();
+    }
+    
+    public void IDL2(){
+        if(TokenActual.evaluarToken(Tokens.Operador, ".")){
+            ReadNextTokenElement(Tokens.Operador, ".");
+            if(Error == null)
+                ID();
+        }
+    }
+    
+    public void IDL3(){
+        ID();
+        if(Error == null)
+            IDL4();
+    }
+    
+    public void IDL4(){
+        if(TokenActual.evaluarToken(Tokens.Operador, ".")){
+            ReadNextTokenElement(Tokens.Operador, ".");
+            if(Error == null)
+                IDL1();
+        }
+    }
+    
+    public void IDL5(){
+        ID();
+        if(Error == null)
+            IDL6();
+    }
+    
+    public void IDL6(){
+        if(TokenActual.evaluarToken(Tokens.Operador, ".")){
+            ReadNextTokenElement(Tokens.Operador, ".");
+            if(Error == null)
+                IDL3();
+        }
+    }
+    
+    public void TipoDeDato(){
+        TipoDeDato1();
+        TipoDeDato2();
+    }
+    
+    public void TipoDeDato1(){
+        if(TokenActual.evaluarToken(Tokens.DatoBin, null) || TokenActual.evaluarToken(Tokens.DatoBit, null) || TokenActual.evaluarToken(Tokens.DatoDecimal, null)
+                 || TokenActual.evaluarToken(Tokens.DatoEntero, null) || TokenActual.evaluarToken(Tokens.DatoFechaHora, null) || TokenActual.evaluarToken(Tokens.DatoTexto, null)){
+            TipoDeDato3();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Operador, "[")){
+            ReadNextTokenElement(Tokens.Operador, "[");
+            if(Error == null)
+                TipoDeDato3();
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Operador, "]");
+        }
+        else{
+            List<TokenElement> elementos = new ArrayList();
+            elementos.add(new TokenElement(null, Tokens.DatoBin));
+            elementos.add(new TokenElement(null, Tokens.DatoBit));
+            elementos.add(new TokenElement(null, Tokens.DatoDecimal));
+            elementos.add(new TokenElement(null, Tokens.DatoEntero));
+            elementos.add(new TokenElement(null, Tokens.DatoFechaHora));
+            elementos.add(new TokenElement(null, Tokens.DatoTexto));
+            elementos.add(new TokenElement("[", Tokens.Operador));
+            TokenElement tok = new TokenElement(TokenActual.getID(), TokenActual.getNumLinea(), TokenActual.getPosInicial(), TokenActual.getPosFinal(), TokenActual.getValor(), TokenActual.getTok());
+            Error = new SintaxisError(elementos, tok);
+            salida.append(Error.getMensaje());
+            salida.append("\n");
+        }
+    }
+    
+    public void TipoDeDato3(){
+        if(TokenActual.evaluarToken(Tokens.DatoBin, null)){
+            ReadNextTokenElement(Tokens.DatoBin, null);
+        }
+        else if(TokenActual.evaluarToken(Tokens.DatoBit, null)){
+            ReadNextTokenElement(Tokens.DatoBit, null);
+        }
+        else if(TokenActual.evaluarToken(Tokens.DatoDecimal, null)){
+            ReadNextTokenElement(Tokens.DatoDecimal, null);
+        }
+        else if(TokenActual.evaluarToken(Tokens.DatoEntero, null)){
+            ReadNextTokenElement(Tokens.DatoEntero, null);
+        }
+        else if(TokenActual.evaluarToken(Tokens.DatoFechaHora, null)){
+            ReadNextTokenElement(Tokens.DatoFechaHora, null);
+        }
+        else if(TokenActual.evaluarToken(Tokens.DatoTexto, null)){
+            ReadNextTokenElement(Tokens.DatoTexto, null);
+        }
+        else{
+            List<TokenElement> elementos = new ArrayList();
+            elementos.add(new TokenElement(null, Tokens.DatoBin));
+            elementos.add(new TokenElement(null, Tokens.DatoBit));
+            elementos.add(new TokenElement(null, Tokens.DatoDecimal));
+            elementos.add(new TokenElement(null, Tokens.DatoEntero));
+            elementos.add(new TokenElement(null, Tokens.DatoFechaHora));
+            elementos.add(new TokenElement(null, Tokens.DatoTexto));
+            TokenElement tok = new TokenElement(TokenActual.getID(), TokenActual.getNumLinea(), TokenActual.getPosInicial(), TokenActual.getPosFinal(), TokenActual.getValor(), TokenActual.getTok());
+            Error = new SintaxisError(elementos, tok);
+            salida.append(Error.getMensaje());
+            salida.append("\n");
+        }
+    }
+    
+    public void TipoDeDato2(){
+        if(TokenActual.evaluarToken(Tokens.Operador, "(")){
+            ReadNextTokenElement(Tokens.Operador, "(");
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Integer, null);
+            if(Error == null)
+                TipoDeDato4();
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Operador, ")");
+        }
+    }
+    
+    public void TipoDeDato4(){
+        if(TokenActual.evaluarToken(Tokens.Operador, ",")){
+            ReadNextTokenElement(Tokens.Operador, ",");
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Integer, null);
+        }
+    }
+    
+    public void IfExists(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "IF")){
+            ReadNextTokenElement(Tokens.Reservada, "IF");
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Reservada, "EXISTS");
+        }
+    }
+    
+    public void Drop(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "DROP")){
+            ReadNextTokenElement(Tokens.Reservada, "DROP");
+            if(Error == null)
+                DropOptions();
+        }
+    }
+    
+    public void DropOptions(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "TABLE")){
+            DropTable();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "USER")){
+            DropUser();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "VIEW")){
+            DropView();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "DATABASE")){
+            DropDataBase();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "INDEX")){
+            DropIndex();
+        }
+        else{
+            List<TokenElement> elementos = new ArrayList();
+            elementos.add(new TokenElement("TABLE", Tokens.Reservada));
+            elementos.add(new TokenElement("USER", Tokens.Reservada));
+            elementos.add(new TokenElement("VIEW", Tokens.Reservada));
+            elementos.add(new TokenElement("DATABASE", Tokens.Reservada));
+            elementos.add(new TokenElement("INDEX", Tokens.Reservada));
+            TokenElement tok = new TokenElement(TokenActual.getID(), TokenActual.getNumLinea(), TokenActual.getPosInicial(), TokenActual.getPosFinal(), TokenActual.getValor(), TokenActual.getTok());
+            Error = new SintaxisError(elementos, tok);
+            salida.append(Error.getMensaje());
+            salida.append("\n");
+        }
+    }
+    
+    public void DropTable(){
+        ReadNextTokenElement(Tokens.Reservada, "TABLE");
+        if(Error == null)
+            IfExists();
+        if(Error == null)
+            IDL3();
+        if(Error == null)
+            DropTable1();
+    }
+    
+    public void DropTable1(){
+        if(TokenActual.evaluarToken(Tokens.Operador, ",")){
+            ReadNextTokenElement(Tokens.Operador, ",");
+            if(Error == null)
+                IDL3();
+            if(Error == null)
+                DropTable1();
+        }
+    }
+    
+    public void DropUser(){
+        ReadNextTokenElement(Tokens.Reservada, "USER");
+        if(Error == null)
+            IfExists();
+        if(Error == null)
+            ID();
+    }
+    
+    public void DropView(){
+        ReadNextTokenElement(Tokens.Reservada, "VIEW");
+        if(Error == null)
+            IfExists();
+        if(Error == null)
+            IDL1();
+        if(Error == null)
+            DropView1();
+    }
+    
+    public void DropView1(){
+        if(TokenActual.evaluarToken(Tokens.Operador, ",")){
+            ReadNextTokenElement(Tokens.Operador, ",");
+            if(Error == null)
+                IDL1();
+            if(Error == null)
+                DropView1();
+        }
+    }
+    
+    public void DropDataBase(){
+        ReadNextTokenElement(Tokens.Reservada, "DATABASE");
+        if(Error == null)
+            IfExists();
+        if(Error == null)
+            ID();
+        if(Error == null)
+            DropDataBase1();
+    }
+    
+    public void DropDataBase1(){
+        if(TokenActual.evaluarToken(Tokens.Operador, ",")){
+            ReadNextTokenElement(Tokens.Operador, ",");
+            if(Error == null)
+                ID();
+            if(Error == null)
+                DropDataBase1();
+        }
+    }
+    
+    public void DropIndex(){
+        ReadNextTokenElement(Tokens.Reservada, "INDEX");
+        if(Error == null)
+            IfExists();
+        if(Error == null)
+            DropIndex1();
+        if(Error == null)
+            DropIndex2();
+    }
+    
+    public void DropIndex1(){
+        ID();
+        if(Error == null)
+            ReadNextTokenElement(Tokens.Reservada, "ON");
+        if(Error == null)
+            IDL3();
+    }
+    
+    public void DropIndex2(){
+        if(TokenActual.evaluarToken(Tokens.Operador, ",")){
+            ReadNextTokenElement(Tokens.Operador, ",");
+            if(Error == null)
+                DropIndex1();
+            if(Error == null)
+                DropIndex2();
+        }
+    }
+    
+    public void Truncate(){
+        ReadNextTokenElement(Tokens.Reservada, "TRUNCATE");
+        if(Error == null)
+            ReadNextTokenElement(Tokens.Reservada, "TABLE");
+        if(Error == null)
+            IDL3();
+    }
+    
+    public void AsElement(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "AS")){
+            ReadNextTokenElement(Tokens.Reservada, "AS");
+            AsElement1();
+        }
+        else if(FirstID() || TokenActual.evaluarToken(Tokens.Varchar, null)){
+            AsElement1();
+        }
+    }
+    
+    public void AsElement1(){
+        if(FirstID()){
+            ID();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Varchar, null)){
+            ReadNextTokenElement(Tokens.Varchar, null);
+        }
+        else{
+            List<TokenElement> elementos = new ArrayList();
+            elementos.add(new TokenElement(null, Tokens.Identificador));
+            elementos.add(new TokenElement("[", Tokens.Operador));
+            elementos.add(new TokenElement(null, Tokens.Varchar));
+            TokenElement tok = new TokenElement(TokenActual.getID(), TokenActual.getNumLinea(), TokenActual.getPosInicial(), TokenActual.getPosFinal(), TokenActual.getValor(), TokenActual.getTok());
+            Error = new SintaxisError(elementos, tok);
+            salida.append(Error.getMensaje());
+            salida.append("\n");
+        }
+    }
+    
+    public void Operacion(){
+        Operacion2();
+        if(Error == null)
+            Operacion1();
+    }
+    
+    public void Operacion1(){
+        if(TokenActual.evaluarToken(Tokens.Operador, "+")){
+            ReadNextTokenElement(Tokens.Operador, "+");
+            if(Error == null)
+                Operacion2();
+            if(Error == null)
+                Operacion1();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Operador, "-")){
+            ReadNextTokenElement(Tokens.Operador, "-");
+            if(Error == null)
+                Operacion2();
+            if(Error == null)
+                Operacion1();
+        }
+    }
+    
+    public void Operacion2(){
+        Operacion4();
+        if(Error == null)
+            Operacion3();
+    }
+    
+    public void Operacion3(){
+        if(TokenActual.evaluarToken(Tokens.Operador, "/")){
+            ReadNextTokenElement(Tokens.Operador, "/");
+            if(Error == null)
+                Operacion4();
+            if(Error == null)
+                Operacion3();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Operador, "*")){
+            ReadNextTokenElement(Tokens.Operador, "*");
+            if(Error == null)
+                Operacion4();
+            if(Error == null)
+                Operacion3();
+        }
+    }
+    
+    public boolean FirstID(){
+        return TokenActual.evaluarToken(Tokens.Identificador, null) || TokenActual.evaluarToken(Tokens.Operador, "[");
+    }
+    
+    public boolean FirstOperacion(){
+        return TokenActual.evaluarToken(Tokens.Integer, null) || TokenActual.evaluarToken(Tokens.Float, null)
+                || TokenActual.evaluarToken(Tokens.Bit, null) || TokenActual.evaluarToken(Tokens.Varchar, null)
+                || TokenActual.evaluarToken(Tokens.Reservada, "NULL") || TokenActual.evaluarToken(Tokens.Reservada, "COUNT")
+                || TokenActual.evaluarToken(Tokens.Reservada, "SUM") || TokenActual.evaluarToken(Tokens.Reservada, "AVG")
+                || TokenActual.evaluarToken(Tokens.Reservada, "MIN") || TokenActual.evaluarToken(Tokens.Reservada, "MAX")
+                || TokenActual.evaluarToken(Tokens.Identificador, null) || TokenActual.evaluarToken(Tokens.Operador, "[")
+                || TokenActual.evaluarToken(Tokens.Operador, "(");
+    }
+    
+    public void Operacion4(){
+        if(TokenActual.evaluarToken(Tokens.Operador, "(")){
+            ReadNextTokenElement(Tokens.Operador, "(");
+            if(Error == null)
+                Operacion();
+            if(Error == null)
+                Operacion();
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Operador, ")");
+        }
+        else if(FirstID() || FirstOperacion()){
+            Operacion5();
+        }
+        else{
+            List<TokenElement> elementos = new ArrayList();
+            elementos.add(new TokenElement(null, Tokens.Bit));
+            elementos.add(new TokenElement(null, Tokens.Identificador));
+            elementos.add(new TokenElement("[", Tokens.Operador));
+            elementos.add(new TokenElement(null, Tokens.Integer));
+            elementos.add(new TokenElement(null, Tokens.Float));
+            elementos.add(new TokenElement(null, Tokens.Varchar));
+            elementos.add(new TokenElement("NULL", Tokens.Reservada));
+            elementos.add(new TokenElement("AVG", Tokens.Reservada));
+            elementos.add(new TokenElement("SUM", Tokens.Reservada));
+            elementos.add(new TokenElement("COUNT", Tokens.Reservada));
+            elementos.add(new TokenElement("MAX", Tokens.Reservada));
+            elementos.add(new TokenElement("MIN", Tokens.Reservada));
+            TokenElement tok = new TokenElement(TokenActual.getID(), TokenActual.getNumLinea(), TokenActual.getPosInicial(), TokenActual.getPosFinal(), TokenActual.getValor(), TokenActual.getTok());
+            Error = new SintaxisError(elementos, tok);
+            salida.append(Error.getMensaje());
+            salida.append("\n");
+        }
+    }
+    
+    public void Operacion5(){
+        if(FirstID()){
+            IDL5();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Integer, null)){
+            ReadNextTokenElement(Tokens.Integer, null);
+        }
+        else if(TokenActual.evaluarToken(Tokens.Varchar, null)){
+            ReadNextTokenElement(Tokens.Varchar, null);
+        }
+        else if(TokenActual.evaluarToken(Tokens.Float, null)){
+            ReadNextTokenElement(Tokens.Float, null);
+        }
+        else if(TokenActual.evaluarToken(Tokens.Bit, null)){
+            ReadNextTokenElement(Tokens.Bit, null);
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "NULL")){
+            ReadNextTokenElement(Tokens.Reservada, "NULL");
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "SUM")){
+            ReadNextTokenElement(Tokens.Reservada, "SUM");
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Operador, "(");
+            if(Error == null)
+                Operacion6();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "AVG")){
+            ReadNextTokenElement(Tokens.Reservada, "AVG");
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Operador, "(");
+            if(Error == null)
+                Operacion6();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "COUNT")){
+            ReadNextTokenElement(Tokens.Reservada, "COUNT");
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Operador, "(");
+            if(Error == null)
+                Operacion6();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "MAX")){
+            ReadNextTokenElement(Tokens.Reservada, "MAX");
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Operador, "(");
+            if(Error == null)
+                Operacion6();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "MIN")){
+            ReadNextTokenElement(Tokens.Reservada, "MIN");
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Operador, "(");
+            if(Error == null)
+                Operacion6();
+        }
+        else{
+            List<TokenElement> elementos = new ArrayList();
+            elementos.add(new TokenElement(null, Tokens.Bit));
+            elementos.add(new TokenElement(null, Tokens.Identificador));
+            elementos.add(new TokenElement("[", Tokens.Operador));
+            elementos.add(new TokenElement(null, Tokens.Integer));
+            elementos.add(new TokenElement(null, Tokens.Float));
+            elementos.add(new TokenElement(null, Tokens.Varchar));
+            elementos.add(new TokenElement("NULL", Tokens.Reservada));
+            elementos.add(new TokenElement("AVG", Tokens.Reservada));
+            elementos.add(new TokenElement("SUM", Tokens.Reservada));
+            elementos.add(new TokenElement("COUNT", Tokens.Reservada));
+            elementos.add(new TokenElement("MAX", Tokens.Reservada));
+            elementos.add(new TokenElement("MIN", Tokens.Reservada));
+            TokenElement tok = new TokenElement(TokenActual.getID(), TokenActual.getNumLinea(), TokenActual.getPosInicial(), TokenActual.getPosFinal(), TokenActual.getValor(), TokenActual.getTok());
+            Error = new SintaxisError(elementos, tok);
+            salida.append(Error.getMensaje());
+            salida.append("\n");
+        }
+    }
+    
+    public void Operacion6(){
+        if(FirstID()){
+            IDL5();
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Operador, ")");
+        }
+        else if(TokenActual.evaluarToken(Tokens.Integer, null)){
+            ReadNextTokenElement(Tokens.Integer, null);
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Operador, ")");
+        }
+        else if(TokenActual.evaluarToken(Tokens.Operador, "*")){
+            ReadNextTokenElement(Tokens.Operador, "*");
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Operador, ")");
+        }
+        else{
+            List<TokenElement> elementos = new ArrayList();
+            elementos.add(new TokenElement(null, Tokens.Identificador));
+            elementos.add(new TokenElement("[", Tokens.Operador));
+            elementos.add(new TokenElement(null, Tokens.Integer));
+            TokenElement tok = new TokenElement(TokenActual.getID(), TokenActual.getNumLinea(), TokenActual.getPosInicial(), TokenActual.getPosFinal(), TokenActual.getValor(), TokenActual.getTok());
+            Error = new SintaxisError(elementos, tok);
+            salida.append(Error.getMensaje());
+            salida.append("\n");
+        }
+    }
+    
+    public void Operaciones(){
+        if(TokenActual.evaluarToken(Tokens.Operador, ",")){
+            ReadNextTokenElement(Tokens.Operador, ",");
+            if(Error == null)
+                Operacion();
+            if(Error == null)
+                Operaciones();
+        }
+    }
+    
+    public void Not(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "NOT")){
+            ReadNextTokenElement(Tokens.Reservada, "NOT");
+        }
+    }
+    
+    public void Top(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "TOP")){
+            ReadNextTokenElement(Tokens.Reservada, "TOP");
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Operador, "(");
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Integer, null);
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Operador, ")");
+            if(Error == null)
+                Top1();
+        }
+    }
+    
+    public void Top1(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "PERCENT")){
+            ReadNextTokenElement(Tokens.Reservada, "PERCENT");
+        }
+    }
+    
+    public void Condicion(){
+        Not();
+        if(FirstID() || FirstOperacion() || TokenActual.evaluarToken(Tokens.Operador, "(")){
+            Condicion2();
+            if(Error == null)
+                Condicion1();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Operador, "(")){
+            ReadNextTokenElement(Tokens.Operador, "(");
+            if(Error == null)
+                Condicion();
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Operador, ")");
+            if(Error == null)
+                Condicion1();
+        }
+        else{
+            List<TokenElement> elementos = new ArrayList();
+            elementos.add(new TokenElement("(", Tokens.Operador));
+            elementos.add(new TokenElement(null, Tokens.Bit));
+            elementos.add(new TokenElement(null, Tokens.Identificador));
+            elementos.add(new TokenElement("[", Tokens.Operador));
+            elementos.add(new TokenElement(null, Tokens.Integer));
+            elementos.add(new TokenElement(null, Tokens.Float));
+            elementos.add(new TokenElement(null, Tokens.Varchar));
+            elementos.add(new TokenElement("NULL", Tokens.Reservada));
+            elementos.add(new TokenElement("AVG", Tokens.Reservada));
+            elementos.add(new TokenElement("SUM", Tokens.Reservada));
+            elementos.add(new TokenElement("COUNT", Tokens.Reservada));
+            elementos.add(new TokenElement("MAX", Tokens.Reservada));
+            elementos.add(new TokenElement("MIN", Tokens.Reservada));
+            TokenElement tok = new TokenElement(TokenActual.getID(), TokenActual.getNumLinea(), TokenActual.getPosInicial(), TokenActual.getPosFinal(), TokenActual.getValor(), TokenActual.getTok());
+            Error = new SintaxisError(elementos, tok);
+            salida.append(Error.getMensaje());
+            salida.append("\n");
+        }
+    }
+    
+    public void Condicion1(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "AND")){
+            ReadNextTokenElement(Tokens.Reservada, "AND");
+            if(Error == null)
+                Condicion();
+            if(Error == null)
+                Condicion1();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "OR")){
+            ReadNextTokenElement(Tokens.Reservada, "OR");
+            if(Error == null)
+                Condicion();
+            if(Error == null)
+                Condicion1();
+        }
+    }
+    
+    public void Condicion2(){
+        Operacion();
+        if(Error == null)
+            Condicion3();
+    }
+    
+    public void Condicion3(){
+        if(TokenActual.evaluarToken(Tokens.OperadorBooleano, null)){
+            ReadNextTokenElement(Tokens.OperadorBooleano, null);
+            if(Error == null)
+                Operacion();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "IS")){
+            ReadNextTokenElement(Tokens.Reservada, "IS");
+            if(Error == null)
+                Not();
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Reservada, "NULL");
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "IN") || TokenActual.evaluarToken(Tokens.Reservada, "BETWEEN") || TokenActual.evaluarToken(Tokens.Reservada, "LIKE")){
+            if(Error == null)
+                Not();
+            if(Error == null)
+                Condicion4();
+        }
+        else{
+            List<TokenElement> elementos = new ArrayList();
+            elementos.add(new TokenElement(null, Tokens.OperadorBooleano));
+            elementos.add(new TokenElement("IS", Tokens.Reservada));
+            elementos.add(new TokenElement("IN", Tokens.Reservada));
+            elementos.add(new TokenElement("BETWEEN", Tokens.Reservada));
+            elementos.add(new TokenElement("LIKE", Tokens.Reservada));
+            TokenElement tok = new TokenElement(TokenActual.getID(), TokenActual.getNumLinea(), TokenActual.getPosInicial(), TokenActual.getPosFinal(), TokenActual.getValor(), TokenActual.getTok());
+            Error = new SintaxisError(elementos, tok);
+            salida.append(Error.getMensaje());
+            salida.append("\n");
+        }
+    }
+    
+    public void Condicion4(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "IN")){
+            ReadNextTokenElement(Tokens.Reservada, "IN");
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Operador, "(");
+            if(Error == null)
+                Operacion();
+            if(Error == null)
+                Operaciones();
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Operador, ")");
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "BETWEEN")){
+            ReadNextTokenElement(Tokens.Reservada, "BETWEEN");
+            if(Error == null)
+                Operacion();
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Reservada, "AND");
+            if(Error == null)
+                Operacion();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "LIKE")){
+            ReadNextTokenElement(Tokens.Reservada, "LIKE");
+            if(Error == null)
+                Operacion();
+        }
+        else{
+            List<TokenElement> elementos = new ArrayList();
+            elementos.add(new TokenElement("IN", Tokens.Reservada));
+            elementos.add(new TokenElement("BETWEEN", Tokens.Reservada));
+            elementos.add(new TokenElement("LIKE", Tokens.Reservada));
+            TokenElement tok = new TokenElement(TokenActual.getID(), TokenActual.getNumLinea(), TokenActual.getPosInicial(), TokenActual.getPosFinal(), TokenActual.getValor(), TokenActual.getTok());
+            Error = new SintaxisError(elementos, tok);
+            salida.append(Error.getMensaje());
+            salida.append("\n");
+        }
+    }
+    
+    public void Where(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "WHERE")){
+            ReadNextTokenElement(Tokens.Reservada, "WHERE");
+            if(Error == null)
+                Condicion();
+        }
+    }
+    
+    public void Select(){
+        ReadNextTokenElement(Tokens.Reservada, "SELECT");
+        if(Error == null)
+            Select1();
+        if(Error == null)
+            Top();
+        if(Error == null)
+            SelectColumnas();
+        if(Error == null)
+            SelectFrom();
+        if(Error == null)
+            Where();
+        if(Error == null)
+            GroupBy();
+        if(Error == null)
+            Having();
+        if(Error == null)
+            OrderBy();
+    }
+    
+    public void Select1(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "ALL")){
+             ReadNextTokenElement(Tokens.Reservada, "ALL");
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "DISTINCT")){
+             ReadNextTokenElement(Tokens.Reservada, "DISTINCT");
+        }
+    }
+    
+    public void Having(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "HAVING")){
+             ReadNextTokenElement(Tokens.Reservada, "HAVING");
+             if(Error == null)
+                 Condicion();
+        }
+    }
+    
+    public void OrderBy(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "ORDER")){
+             ReadNextTokenElement(Tokens.Reservada, "ORDER");
+             if(Error == null)
+                 ReadNextTokenElement(Tokens.Reservada, "BY");
+             if(Error == null)
+                 Operacion();
+             if(Error == null)
+                 OrderBy1();
+             if(Error == null)
+                 OrderBy2();
+             if(Error == null)
+                 OrderBy3();
+        }
+    }
+    
+    public void OrderBy1(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "COLLATE")){
+             ReadNextTokenElement(Tokens.Reservada, "COLLATE");
+             if(Error == null)
+                 ID();
+        }
+    }
+    
+    public void OrderBy2(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "ASC")){
+             ReadNextTokenElement(Tokens.Reservada, "ASC");
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "DESC")){
+             ReadNextTokenElement(Tokens.Reservada, "DESC");
+        }
+    }
+    
+    public void OrderBy3(){
+        if(FirstOperacion()){
+            Operacion();
+            if(Error == null)
+                OrderBy1();
+            if(Error == null)
+                OrderBy2();
+        }
+    }
+    
+    public void GroupBy(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "GROUP")){
+             ReadNextTokenElement(Tokens.Reservada, "GROUP");
+             if(Error == null)
+                 ReadNextTokenElement(Tokens.Reservada, "BY");
+             if(Error == null)
+                 Operacion();
+             if(Error == null)
+                 GroupBy1();
+        }
+    }
+    
+    public void GroupBy1(){
+        if(TokenActual.evaluarToken(Tokens.Operador, ",")){
+             ReadNextTokenElement(Tokens.Operador, ",");
+             if(Error == null)
+                 Operacion();
+             if(Error == null)
+                 GroupBy1();
+        }
+    }
+    
+    public void SelectFrom(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "FROM")){
+            ReadNextTokenElement(Tokens.Reservada, "FROM");
+            if(Error == null)
+                IDL3();
+            if(Error == null)
+                AsElement();
+            if(Error == null)
+                SelectFromJoin();
+            if(Error == null)
+                SelectFrom1();
+        }
+    }
+    
+    public void SelectFrom1(){
+        if(TokenActual.evaluarToken(Tokens.Operador, ",")){
+            ReadNextTokenElement(Tokens.Operador, ",");
+            if(Error == null)    
+                IDL3();
+            if(Error == null)
+                AsElement();
+            if(Error == null)
+                SelectFromJoin();
+        }
+    }
+    
+    public void SelectFromJoin(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "INNER") || TokenActual.evaluarToken(Tokens.Reservada, "RIGHT")
+                || TokenActual.evaluarToken(Tokens.Reservada, "LEFT") || TokenActual.evaluarToken(Tokens.Reservada, "FULL")
+                || TokenActual.evaluarToken(Tokens.Reservada, "JOIN")){
+            JoinType();
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Reservada, "JOIN");
+            if(Error == null)
+                IDL3();
+            if(Error == null)
+                AsElement();
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Reservada, "ON");
+            if(Error == null)
+                Condicion();
+            if(Error == null)
+                SelectFromJoin();
+        }
+    }
+    
+    public void JoinType(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "INNER")){
+            ReadNextTokenElement(Tokens.Reservada, "INNER");
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "RIGHT")){
+            ReadNextTokenElement(Tokens.Reservada, "RIGHT");
+            if(Error == null)
+                JoinOuter();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "LEFT")){
+            ReadNextTokenElement(Tokens.Reservada, "LEFT");
+            if(Error == null)
+                JoinOuter();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "FULL")){
+            ReadNextTokenElement(Tokens.Reservada, "FULL");
+            if(Error == null)
+                JoinOuter();
+        }
+    }
+    
+    public void JoinOuter(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "OUTER")){
+            ReadNextTokenElement(Tokens.Reservada, "OUTER");
+        }
+    }
+    
+    public void SelectColumnas(){
+        if(FirstOperacion()){
+            Operacion();
+            if(Error == null)
+                AsElement();
+            if(Error == null)
+                SelectColumnas1();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Operador, "*")){
+            ReadNextTokenElement(Tokens.Operador, "*");
+            if(Error == null)
+                SelectColumnas1();
+        }
+    }
+    
+    public void SelectColumnas1(){
+        if(TokenActual.evaluarToken(Tokens.Operador, ",")){
+            ReadNextTokenElement(Tokens.Operador, ",");
+            if(Error == null)
+                Operacion();
+            if(Error == null)
+                AsElement();
+            if(Error == null)
+                SelectColumnas1();
+        }
+    }
+    
+    public void ListaColumnas(){
+        if(TokenActual.evaluarToken(Tokens.Operador, "(")){
+            ReadNextTokenElement(Tokens.Operador, "(");
+            if(Error == null)
+                ListaColumnas1();
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Operador, ")");
+        }
+        else{
+            List<TokenElement> elementos = new ArrayList();
+            elementos.add(new TokenElement("(", Tokens.Operador));
+            TokenElement tok = new TokenElement(TokenActual.getID(), TokenActual.getNumLinea(), TokenActual.getPosInicial(), TokenActual.getPosFinal(), TokenActual.getValor(), TokenActual.getTok());
+            Error = new SintaxisError(elementos, tok);
+            salida.append(Error.getMensaje());
+            salida.append("\n");
+        }
+    }
+    
+    public void ListaColumnas1(){
+        ID();
+        ListaColumnas2();
+    }
+    
+    public void ListaColumnas2(){
+        if(TokenActual.evaluarToken(Tokens.Operador, ",")){
+            ReadNextTokenElement(Tokens.Operador, ",");
+            if(Error == null)
+                ID();
+            if(Error == null)
+                ListaColumnas2();
+        }
+    }
+    
+    public void Insert(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "INSERT")){
+            ReadNextTokenElement(Tokens.Reservada, "INSERT");
+            if(Error == null)
+                Top();
+            if(Error == null)
+                InsertInto();
+            if(Error == null)
+                IDL3();
+            if(Error == null)
+                InsertListaColumna();
+            if(Error == null)
+                InsertValores();
+        }
+    }
+    
+    public void InsertInto(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "INTO")){
+            ReadNextTokenElement(Tokens.Reservada, "INTO");
+        }
+    }
+    
+    public void InsertListaColumna(){
+        if(TokenActual.evaluarToken(Tokens.Operador, "(")){
+            ListaColumnas();
+        }
+    }
+    
+    public void InsertTipo(){
+        InsertTipo1();
+        if(Error == null)
+            InsertTipo2();
+    }
+    
+    public void InsertTipo1(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "DEFAULT")){
+            ReadNextTokenElement(Tokens.Reservada, "DEFAULT");
+        }
+        else if(TokenActual.evaluarToken(Tokens.Integer, null)){
+            ReadNextTokenElement(Tokens.Integer, null);
+        }
+        else if(TokenActual.evaluarToken(Tokens.Float, null)){
+            ReadNextTokenElement(Tokens.Float, null);
+        }
+        else if(TokenActual.evaluarToken(Tokens.Varchar, null)){
+            ReadNextTokenElement(Tokens.Varchar, null);
+        }
+        else if(TokenActual.evaluarToken(Tokens.Bit, null)){
+            ReadNextTokenElement(Tokens.Bit, null);
+        }
+        else{
+            List<TokenElement> elementos = new ArrayList();
+            elementos.add(new TokenElement("DEFAULT", Tokens.Reservada));
+            elementos.add(new TokenElement(null, Tokens.Bit));
+            elementos.add(new TokenElement(null, Tokens.Integer));
+            elementos.add(new TokenElement(null, Tokens.Float));
+            elementos.add(new TokenElement(null, Tokens.Varchar));
+            TokenElement tok = new TokenElement(TokenActual.getID(), TokenActual.getNumLinea(), TokenActual.getPosInicial(), TokenActual.getPosFinal(), TokenActual.getValor(), TokenActual.getTok());
+            Error = new SintaxisError(elementos, tok);
+            salida.append(Error.getMensaje());
+            salida.append("\n");
+        }
+    }
+    
+    public void InsertTipo2(){
+        if(TokenActual.evaluarToken(Tokens.Operador, ",")){
+            ReadNextTokenElement(Tokens.Operador, ",");
+            if(Error == null)
+                InsertTipo1();
+            if(Error == null)
+                InsertTipo2();
+        }
+    }
+    
+    public void InsertValores(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "VALUES")){
+            ReadNextTokenElement(Tokens.Reservada, "VALUES");
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Operador, "(");
+            if(Error == null)
+                InsertTipo();
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Operador, ")");
+            if(Error == null)
+                InsertValores1();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "DEFAULT")){
+            ReadNextTokenElement(Tokens.Reservada, "DEFAULT");
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Reservada, "VALUES");
+        }
+        else{
+            List<TokenElement> elementos = new ArrayList();
+            elementos.add(new TokenElement("VALUES", Tokens.Reservada));
+            elementos.add(new TokenElement("DEFAULT", Tokens.Reservada));
+            TokenElement tok = new TokenElement(TokenActual.getID(), TokenActual.getNumLinea(), TokenActual.getPosInicial(), TokenActual.getPosFinal(), TokenActual.getValor(), TokenActual.getTok());
+            Error = new SintaxisError(elementos, tok);
+            salida.append(Error.getMensaje());
+            salida.append("\n");
+        }
+    }
+    
+    public void InsertValores1(){
+        if(TokenActual.evaluarToken(Tokens.Operador, ",")){
+            ReadNextTokenElement(Tokens.Operador, ",");
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Operador, "(");
+            if(Error == null)
+                InsertTipo();
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Operador, ")");
+            if(Error == null)
+                InsertValores1();
+        }
+    }
+    
+    public void Delete(){
+        ReadNextTokenElement(Tokens.Reservada, "DELETE");
+        if(Error == null)
+            Top();
+        if(Error == null)
+            DeleteFrom();
+        if(Error == null)
+            Delete1();
+    }
+    
+    public void DeleteFrom(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "FROM")){
+            ReadNextTokenElement(Tokens.Reservada, "FROM");
+        }
+    }
+    
+    public void Delete1(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "OPENQUERY")){
+            ReadNextTokenElement(Tokens.Reservada, "OPENQUERY");
+            if(Error == null)
+                DeleteServer();
+        }
+        else if(FirstID()){
+            IDL3();
+            if(Error == null)
+                Delete2();
+            if(Error == null)
+                Where();
+        }
+        else{
+            List<TokenElement> elementos = new ArrayList();
+            elementos.add(new TokenElement("OPENQUERY", Tokens.Reservada));
+            elementos.add(new TokenElement(null, Tokens.Identificador));
+            elementos.add(new TokenElement("[", Tokens.Operador));
+            TokenElement tok = new TokenElement(TokenActual.getID(), TokenActual.getNumLinea(), TokenActual.getPosInicial(), TokenActual.getPosFinal(), TokenActual.getValor(), TokenActual.getTok());
+            Error = new SintaxisError(elementos, tok);
+            salida.append(Error.getMensaje());
+            salida.append("\n");
+        }
+    }
+    
+    public void Delete2(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "FROM")){
+            ReadNextTokenElement(Tokens.Reservada, "FROM");
+            if(Error == null)
+                IDL3();
+            if(Error == null)
+                Delete3();
+        }
+    }
+    
+    public void Delete3(){
+        if(TokenActual.evaluarToken(Tokens.Operador, ",")){
+            ReadNextTokenElement(Tokens.Operador, ",");
+            if(Error == null)
+                IDL3();
+            if(Error == null)
+                Delete3();
+        }
+    }
+    
+    public void DeleteServer(){
+        if(TokenActual.evaluarToken(Tokens.Operador, "(")){
+            ReadNextTokenElement(Tokens.Operador, "(");
+            if(Error == null)
+                ID();
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Operador, ",");
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Varchar, null);
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Operador, ")");
+        }
+    }
+    
+    public void Update(){
+        ReadNextTokenElement(Tokens.Reservada, "UPDATE");
+        if(Error == null)
+            Top();
+        if(Error == null)
+            IDL3();
+        if(Error == null)
+            ReadNextTokenElement(Tokens.Reservada, "SET");
+        if(Error == null)
+            Update1();
+        if(Error == null)
+            Delete2();
+        if(Error == null)
+            Where();
+    }
+    
+    public void Update1(){
+        ID();
+        if(Error == null)
+            ReadNextTokenElement(Tokens.Operador, "=");
+        if(Error == null)
+            Update2();
+        if(Error == null)
+            Update3();
+    }
+    
+    public void Update2(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "DEFAULT")){
+            ReadNextTokenElement(Tokens.Reservada, "DEFAULT");
+        }
+        else if(FirstOperacion()){
+            Operacion();
+        }
+        else{
+            List<TokenElement> elementos = new ArrayList();
+            elementos.add(new TokenElement("DEFAULT", Tokens.Reservada));
+            elementos.add(new TokenElement("(", Tokens.Operador));
+            elementos.add(new TokenElement(null, Tokens.Bit));
+            elementos.add(new TokenElement(null, Tokens.Identificador));
+            elementos.add(new TokenElement("[", Tokens.Operador));
+            elementos.add(new TokenElement(null, Tokens.Integer));
+            elementos.add(new TokenElement(null, Tokens.Float));
+            elementos.add(new TokenElement(null, Tokens.Varchar));
+            elementos.add(new TokenElement("NULL", Tokens.Reservada));
+            elementos.add(new TokenElement("AVG", Tokens.Reservada));
+            elementos.add(new TokenElement("SUM", Tokens.Reservada));
+            elementos.add(new TokenElement("COUNT", Tokens.Reservada));
+            elementos.add(new TokenElement("MAX", Tokens.Reservada));
+            elementos.add(new TokenElement("MIN", Tokens.Reservada));
+            TokenElement tok = new TokenElement(TokenActual.getID(), TokenActual.getNumLinea(), TokenActual.getPosInicial(), TokenActual.getPosFinal(), TokenActual.getValor(), TokenActual.getTok());
+            Error = new SintaxisError(elementos, tok);
+            salida.append(Error.getMensaje());
+            salida.append("\n");
+        }
+    }
+    
+    public void Update3(){
+        if(TokenActual.evaluarToken(Tokens.Operador, ",")){
+            ReadNextTokenElement(Tokens.Operador, ",");
+            if(Error == null)
+                Update1();
+            if(Error == null)
+                Update3();
+        }
+    }
+    
+    public void Create(){
+        ReadNextTokenElement(Tokens.Reservada, "CREATE");
+        if(Error == null)
+            Create1();
+    }
+    
+    public void Create1(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "TABLE")){
+            CreateTable();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "DATABASE")){
+            CreateDataBase();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "INDEX") || TokenActual.evaluarToken(Tokens.Reservada, "UNIQUE") 
+                || TokenActual.evaluarToken(Tokens.Reservada, "CLUSTERED") || TokenActual.evaluarToken(Tokens.Reservada, "NONCLUSTERED")){
+            CreateIndex();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "USER")){
+            CreateUser();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "VIEW")){
+            CreateView();
+        }
+        else{
+            List<TokenElement> elementos = new ArrayList();
+            elementos.add(new TokenElement("TABLE", Tokens.Reservada));
+            elementos.add(new TokenElement("DATABASE", Tokens.Reservada));
+            elementos.add(new TokenElement("INDEX", Tokens.Reservada));
+            elementos.add(new TokenElement("UNIQUE", Tokens.Reservada));
+            elementos.add(new TokenElement("CLUSTERED", Tokens.Reservada));
+            elementos.add(new TokenElement("NONCLUSTERED", Tokens.Reservada));
+            elementos.add(new TokenElement("USER", Tokens.Reservada));
+            elementos.add(new TokenElement("VIEW", Tokens.Reservada));
+            TokenElement tok = new TokenElement(TokenActual.getID(), TokenActual.getNumLinea(), TokenActual.getPosInicial(), TokenActual.getPosFinal(), TokenActual.getValor(), TokenActual.getTok());
+            Error = new SintaxisError(elementos, tok);
+            salida.append(Error.getMensaje());
+            salida.append("\n");
+        }
+    }
+    
+    public void CreateTable(){
+        ReadNextTokenElement(Tokens.Reservada, "TABLE");
+        if(Error == null)
+            IDL3();
+        if(Error == null)
+            ReadNextTokenElement(Tokens.Operador, "(");
+        if(Error == null)
+            TableElement2();
+        if(Error == null)
+            TableElement3();
+        if(Error == null)
+            ReadNextTokenElement(Tokens.Operador, ")");
+    }
+    
+    public void TableElement1(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "NOT")){
+            ReadNextTokenElement(Tokens.Reservada, "NOT");
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Reservada, "FOR");
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Reservada, "REPLICATION");
+        }
+    }
+    
+    public void TableElement2(){
+        if(FirstID()){
+            DefinicionColumna();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "PRIMARY") || TokenActual.evaluarToken(Tokens.Reservada, "UNIQUE")
+                || TokenActual.evaluarToken(Tokens.Reservada, "FOREIGN") || TokenActual.evaluarToken(Tokens.Reservada, "CHECK")){
+            ConstraintTabla();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "INDEX")){
+            IndexTabla();
+        }
+        else{
+            List<TokenElement> elementos = new ArrayList();
+            elementos.add(new TokenElement(null, Tokens.Identificador));
+            elementos.add(new TokenElement("[", Tokens.Operador));
+            elementos.add(new TokenElement("PRIMARY", Tokens.Reservada));
+            elementos.add(new TokenElement("UNIQUE", Tokens.Reservada));
+            elementos.add(new TokenElement("FOREIGN", Tokens.Reservada));
+            elementos.add(new TokenElement("CHECK", Tokens.Reservada));
+            elementos.add(new TokenElement("INDEX", Tokens.Reservada));
+            TokenElement tok = new TokenElement(TokenActual.getID(), TokenActual.getNumLinea(), TokenActual.getPosInicial(), TokenActual.getPosFinal(), TokenActual.getValor(), TokenActual.getTok());
+            Error = new SintaxisError(elementos, tok);
+            salida.append(Error.getMensaje());
+            salida.append("\n");
+        }
+    }
+    
+    public void TableElement3(){
+        if(TokenActual.evaluarToken(Tokens.Operador, ",")){
+            ReadNextTokenElement(Tokens.Operador, ",");
+            if(Error == null)
+                TableElement2();
+            if(Error == null)
+                TableElement3();
+        }
+    }
+    
+    public void DefinicionColumna(){
+        ID();
+        if(Error == null)
+            TipoDeDato();
+        if(Error == null)
+            DefinicionColumna1();
+        if(Error == null)
+            DefinicionColumna2();
+        if(Error == null)
+            DefinicionColumna3();
+        if(Error == null)
+            TableElement1();
+        if(Error == null)
+            DefinicionColumna4();
+        if(Error == null)
+            DefinicionColumna5();
+        if(Error == null)
+            ConstraintColumna();
+    }
+    
+    public void DefinicionColumna1(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "COLLATE")){
+            ReadNextTokenElement(Tokens.Reservada, "COLLATE");
+            if(Error == null)
+                ID();
+        }
+    }
+    
+    public void DefinicionColumna2(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "CONSTRAINT")){
+            ReadNextTokenElement(Tokens.Reservada, "CONSTRAINT");
+            if(Error == null)
+                ID();
+            if(Error == null)
+                DefinicionColumna6();
+        }
+    }
+    
+    public void DefinicionColumna3(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "IDENTITY")){
+            ReadNextTokenElement(Tokens.Reservada, "IDENTITY");
+            if(Error == null)
+                DefinicionColumna7();
+        }
+    }
+    
+    public void DefinicionColumna4(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "NULL")){
+            ReadNextTokenElement(Tokens.Reservada, "NULL");
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "NOT")){
+            ReadNextTokenElement(Tokens.Reservada, "NOT");
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Reservada, "NULL");
+        }
+    }
+    
+    public void DefinicionColumna5(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "ROWGUIDCOL")){
+            ReadNextTokenElement(Tokens.Reservada, "ROWGUIDCOL");
+        }
+    }
+    
+    public void DefinicionColumna6(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "DEFAULT")){
+            ReadNextTokenElement(Tokens.Reservada, "DEFAULT");
+            if(Error == null)
+                DefinicionColumna8();
+        }
+    }
+    
+    public void DefinicionColumna7(){
+         if(TokenActual.evaluarToken(Tokens.Operador, "(")){
+            ReadNextTokenElement(Tokens.Operador, "(");
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Integer, null);
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Operador, ",");
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Integer, null);
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Operador, ")");
+        }
+    }
+    
+    public void DefinicionColumna8(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "NULL")){
+            ReadNextTokenElement(Tokens.Reservada, "NULL");
+        }
+        else if(TokenActual.evaluarToken(Tokens.Integer, null)){
+            ReadNextTokenElement(Tokens.Integer, null);
+        }
+        else if(TokenActual.evaluarToken(Tokens.Float, null)){
+            ReadNextTokenElement(Tokens.Float, null);
+        }
+        else if(TokenActual.evaluarToken(Tokens.Varchar, null)){
+            ReadNextTokenElement(Tokens.Varchar, null);
+        }
+        else if(TokenActual.evaluarToken(Tokens.Bit, null)){
+            ReadNextTokenElement(Tokens.Bit, null);
+        }
+        else{
+            List<TokenElement> elementos = new ArrayList();
+            elementos.add(new TokenElement("NULL", Tokens.Reservada));
+            elementos.add(new TokenElement(null, Tokens.Bit));
+            elementos.add(new TokenElement(null, Tokens.Integer));
+            elementos.add(new TokenElement(null, Tokens.Float));
+            elementos.add(new TokenElement(null, Tokens.Varchar));
+            TokenElement tok = new TokenElement(TokenActual.getID(), TokenActual.getNumLinea(), TokenActual.getPosInicial(), TokenActual.getPosFinal(), TokenActual.getValor(), TokenActual.getTok());
+            Error = new SintaxisError(elementos, tok);
+            salida.append(Error.getMensaje());
+            salida.append("\n");
+        }
+    }
+    
+    public void ConstraintTabla(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "CONSTRAINT") || TokenActual.evaluarToken(Tokens.Reservada, "PRIMARY") 
+                || TokenActual.evaluarToken(Tokens.Reservada, "UNIQUE") || TokenActual.evaluarToken(Tokens.Reservada, "FOREIGN") 
+                || TokenActual.evaluarToken(Tokens.Reservada, "CHECK")){
+            ConstraintColumna1();
+            if(Error == null)
+                ConstraintTabla1();
+        }
+    }
+    
+    public void ConstraintTabla1(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "PRIMARY")){
+            ReadNextTokenElement(Tokens.Reservada, "PRIMARY");
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Reservada, "KEY");
+            if(Error == null)
+                ConstraintColumna3();
+            if(Error == null)
+                ConstraintTabla2();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "UNIQUE")){
+            ReadNextTokenElement(Tokens.Reservada, "UNIQUE");
+            if(Error == null)
+                ConstraintColumna3();
+            if(Error == null)
+                ConstraintTabla2();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "FOREIGN")){
+            ReadNextTokenElement(Tokens.Reservada, "FOREIGN");
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Reservada, "KEY");
+            if(Error == null)
+                ConstraintTabla4();
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Reservada, "REFERENCES");
+            if(Error == null)
+                IDL1();
+            if(Error == null)
+                ConstraintColumna5();
+            if(Error == null)
+                ConstraintColumna6();
+            if(Error == null)
+                ConstraintColumna7();
+            if(Error == null)
+                TableElement1();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "CHECK")){
+            ReadNextTokenElement(Tokens.Reservada, "CHECK");
+            if(Error == null)
+                TableElement1();
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Operador, "(");
+            if(Error == null)
+                Condicion();
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Operador, ")");
+        }
+        else{
+            List<TokenElement> elementos = new ArrayList();
+            elementos.add(new TokenElement("PRIMARY", Tokens.Reservada));
+            elementos.add(new TokenElement("UNIQUE", Tokens.Reservada));
+            elementos.add(new TokenElement("FOREIGN", Tokens.Reservada));
+            elementos.add(new TokenElement("CHECK", Tokens.Reservada));
+            TokenElement tok = new TokenElement(TokenActual.getID(), TokenActual.getNumLinea(), TokenActual.getPosInicial(), TokenActual.getPosFinal(), TokenActual.getValor(), TokenActual.getTok());
+            Error = new SintaxisError(elementos, tok);
+            salida.append(Error.getMensaje());
+            salida.append("\n");
+        }
+    }
+    
+    public void ConstraintTabla2(){
+        if(TokenActual.evaluarToken(Tokens.Operador, "(")){
+            ReadNextTokenElement(Tokens.Operador, "(");
+            if(Error == null)
+                ID();
+            /*if(Error == null)
+                Order2();*/
+            if(Error == null)
+                ConstraintTabla3();
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Operador, ")");
+        }
+        else{
+            List<TokenElement> elementos = new ArrayList();
+            elementos.add(new TokenElement("(", Tokens.Operador));
+            TokenElement tok = new TokenElement(TokenActual.getID(), TokenActual.getNumLinea(), TokenActual.getPosInicial(), TokenActual.getPosFinal(), TokenActual.getValor(), TokenActual.getTok());
+            Error = new SintaxisError(elementos, tok);
+            salida.append(Error.getMensaje());
+            salida.append("\n");
+        }
+    }
+    
+    public void ConstraintTabla3(){
+        if(TokenActual.evaluarToken(Tokens.Operador, ",")){
+            ReadNextTokenElement(Tokens.Operador, ",");
+            if(Error == null)
+                ID();
+            /*if(Error == null)
+                Order2();*/
+            if(Error == null)
+                ConstraintTabla3();
+        }
+    }
+    
+    public void ConstraintTabla4(){
+        if(TokenActual.evaluarToken(Tokens.Operador, "(")){
+            ReadNextTokenElement(Tokens.Operador, "(");
+            if(Error == null)
+                ID();
+            if(Error == null)
+                ConstraintTabla5();
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Operador, ")");
+        }
+        else{
+            List<TokenElement> elementos = new ArrayList();
+            elementos.add(new TokenElement("(", Tokens.Operador));
+            TokenElement tok = new TokenElement(TokenActual.getID(), TokenActual.getNumLinea(), TokenActual.getPosInicial(), TokenActual.getPosFinal(), TokenActual.getValor(), TokenActual.getTok());
+            Error = new SintaxisError(elementos, tok);
+            salida.append(Error.getMensaje());
+            salida.append("\n");
+        }
+    }
+    
+    public void ConstraintTabla5(){
+        if(TokenActual.evaluarToken(Tokens.Operador, ",")){
+            ReadNextTokenElement(Tokens.Operador, ",");
+            if(Error == null)
+                ID();
+            if(Error == null)
+                ConstraintTabla5();
+        }
+    }
+    
+    public void ConstraintColumna(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "CONSTRAINT") || TokenActual.evaluarToken(Tokens.Reservada, "PRIMARY") 
+                || TokenActual.evaluarToken(Tokens.Reservada, "UNIQUE") || TokenActual.evaluarToken(Tokens.Reservada, "FOREIGN") 
+                || TokenActual.evaluarToken(Tokens.Reservada, "REFERENCES") || TokenActual.evaluarToken(Tokens.Reservada, "CHECK")){
+            ConstraintColumna1();
+            if(Error == null)
+                ConstraintColumna2();
+            if(Error == null)
+                ConstraintColumna();
+        }
+    }
+    
+    public void ConstraintColumna1(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "CONSTRAINT")){
+            ReadNextTokenElement(Tokens.Reservada, "CONSTRAINT");
+            if(Error == null)
+                ID();
+        }
+    }
+    
+    public void ConstraintColumna2(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "PRIMARY")){
+            ReadNextTokenElement(Tokens.Reservada, "PRIMARY");
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Reservada, "KEY");
+            if(Error == null)
+                ConstraintColumna3();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "UNIQUE")){
+            ReadNextTokenElement(Tokens.Reservada, "UNIQUE");
+            if(Error == null)
+                ConstraintColumna3();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "FOREIGN") || TokenActual.evaluarToken(Tokens.Reservada, "REFERENCES")){
+            ConstraintColumna4();
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Reservada, "REFERENCES");
+            if(Error == null)
+                IDL1();
+            if(Error == null)
+                ConstraintColumna5();
+            if(Error == null)
+                ConstraintColumna6();
+            if(Error == null)
+                ConstraintColumna7();
+            if(Error == null)
+                TableElement1();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "CHECK")){
+            ReadNextTokenElement(Tokens.Reservada, "CHECK");
+            if(Error == null)
+                TableElement1();
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Operador, "(");
+            if(Error == null)
+                Condicion();
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Operador, ")");
+        }
+        else{
+            List<TokenElement> elementos = new ArrayList();
+            elementos.add(new TokenElement("CONSTRAINT", Tokens.Reservada));
+            elementos.add(new TokenElement("PRIMARY", Tokens.Reservada));
+            elementos.add(new TokenElement("UNIQUE", Tokens.Reservada));
+            elementos.add(new TokenElement("FOREIGN", Tokens.Reservada));
+            elementos.add(new TokenElement("CHECK", Tokens.Reservada));
+            elementos.add(new TokenElement("REFERENCES", Tokens.Reservada));
+            TokenElement tok = new TokenElement(TokenActual.getID(), TokenActual.getNumLinea(), TokenActual.getPosInicial(), TokenActual.getPosFinal(), TokenActual.getValor(), TokenActual.getTok());
+            Error = new SintaxisError(elementos, tok);
+            salida.append(Error.getMensaje());
+            salida.append("\n");
+        }
+    }
+    
+    public void ConstraintColumna3(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "CLUSTERED")){
+            ReadNextTokenElement(Tokens.Reservada, "CLUSTERED");
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "NONCLUSTERED")){
+            ReadNextTokenElement(Tokens.Reservada, "NONCLUSTERED");
+        }
+    }
+    
+    public void ConstraintColumna4(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "FOREIGN")){
+            ReadNextTokenElement(Tokens.Reservada, "FOREIGN");
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Reservada, "KEY");
+        }
+    }
+    
+    public void ConstraintColumna5(){
+        if(TokenActual.evaluarToken(Tokens.Operador, "(")){
+            ReadNextTokenElement(Tokens.Operador, "(");
+            if(Error == null)
+                ID();
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Operador, ")");
+        }
+    }
+    
+    public void ConstraintColumna6(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "ON")){
+            ReadNextTokenElement(Tokens.Reservada, "ON");
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Reservada, "DELETE");
+            if(Error == null)
+                ConstraintColumna9();
+        }
+    }
+    
+    public void ConstraintColumna7(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "ON")){
+            ReadNextTokenElement(Tokens.Reservada, "ON");
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Reservada, "UPDATE");
+            if(Error == null)
+                ConstraintColumna9();
+        }
+    }
+    
+    public void ConstraintColumna8(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "NULL")){
+            ReadNextTokenElement(Tokens.Reservada, "NULL");
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "DEFAULT")){
+            ReadNextTokenElement(Tokens.Reservada, "DEFAULT");
+        }
+        else{
+            List<TokenElement> elementos = new ArrayList();
+            elementos.add(new TokenElement("NULL", Tokens.Reservada));
+            elementos.add(new TokenElement("DEFAULT", Tokens.Reservada));
+            TokenElement tok = new TokenElement(TokenActual.getID(), TokenActual.getNumLinea(), TokenActual.getPosInicial(), TokenActual.getPosFinal(), TokenActual.getValor(), TokenActual.getTok());
+            Error = new SintaxisError(elementos, tok);
+            salida.append(Error.getMensaje());
+            salida.append("\n");
+        }
+    }
+    
+    public void ConstraintColumna9(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "CASCADE")){
+            ReadNextTokenElement(Tokens.Reservada, "CASCADE");
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "SET")){
+            ReadNextTokenElement(Tokens.Reservada, "SET");
+            if(Error == null)
+                ConstraintColumna8();
+        }
+        else{
+            List<TokenElement> elementos = new ArrayList();
+            elementos.add(new TokenElement("CASCADE", Tokens.Reservada));
+            elementos.add(new TokenElement("SET", Tokens.Reservada));
+            TokenElement tok = new TokenElement(TokenActual.getID(), TokenActual.getNumLinea(), TokenActual.getPosInicial(), TokenActual.getPosFinal(), TokenActual.getValor(), TokenActual.getTok());
+            Error = new SintaxisError(elementos, tok);
+            salida.append(Error.getMensaje());
+            salida.append("\n");
+        }
+    }
+    
+    public void IndexTabla(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "INDEX")){
+            ReadNextTokenElement(Tokens.Reservada, "INDEX");
+            if(Error == null)
+                ID();
+            if(Error == null)
+                ConstraintColumna3();
+            if(Error == null)
+                ConstraintTabla2();
+        }
+    }
+    
+    public void CreateDataBase(){
+        ReadNextTokenElement(Tokens.Reservada, "DATABASE");
+        if(Error == null)
+            ID();
+        if(Error == null)
+            CreateDataBase1();
+    }
+    
+    public void CreateDataBase1(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "COLLATE")){
+            ReadNextTokenElement(Tokens.Reservada, "COLLATE");
+            if(Error == null)
+                ID();
+        }
+    }
+    
+    public void CreateIndex(){
+        CreateIndex1();
+        if(Error == null)
+            ConstraintColumna3();
+        if(Error == null)
+            ReadNextTokenElement(Tokens.Reservada, "INDEX");
+        if(Error == null)
+            ID();
+        if(Error == null)
+            ReadNextTokenElement(Tokens.Reservada, "ON");
+        if(Error == null)
+            IDL3();
+        if(Error == null)
+            IndexColumna();
+        if(Error == null)
+            IndexInclude();
+        if(Error == null)
+            Where();
+    }
+    
+    public void CreateIndex1(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "UNIQUE")){
+            ReadNextTokenElement(Tokens.Reservada, "UNIQUE");
+        }
+    }
+    
+    public void IndexInclude(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "INCLUDE")){
+            ReadNextTokenElement(Tokens.Reservada, "INCLUDE");
+            if(Error == null)
+                ListaColumnas();
+        }
+    }
+    
+    public void IndexColumna(){
+        if(TokenActual.evaluarToken(Tokens.Operador, "(")){
+            ReadNextTokenElement(Tokens.Operador, "(");
+            if(Error == null)
+                IndexColumna1();
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Operador, ")");
+        }
+        else{
+            List<TokenElement> elementos = new ArrayList();
+            elementos.add(new TokenElement("(", Tokens.Operador));
+            TokenElement tok = new TokenElement(TokenActual.getID(), TokenActual.getNumLinea(), TokenActual.getPosInicial(), TokenActual.getPosFinal(), TokenActual.getValor(), TokenActual.getTok());
+            Error = new SintaxisError(elementos, tok);
+            salida.append(Error.getMensaje());
+            salida.append("\n");
+        }
+    }
+    
+    public void IndexColumna1(){
+        ID();
+        /*if(Error == null)
+            Order2();*/
+        if(Error == null)
+            IndexColumna2();
+    }
+    
+    public void IndexColumna2(){
+        if(TokenActual.evaluarToken(Tokens.Operador, ",")){
+            ReadNextTokenElement(Tokens.Operador, ",");
+            if(Error == null)
+                ID();
+            /*if(Error == null)
+                Order2();*/
+            if(Error == null)
+                IndexColumna2();
+        }
+    }
+    
+    public void CreateUser(){
+        ReadNextTokenElement(Tokens.Reservada, "USER");
+        if(Error == null)
+            ID();
+    }
+    
+    public void CreateView(){
+        ReadNextTokenElement(Tokens.Reservada, "VIEW");
+        if(Error == null)
+            IDL1();
+        if(Error == null)
+            ReadNextTokenElement(Tokens.Reservada, "AS");
+        if(Error == null)
+            Select();
+    }
+    
+    public void Alter(){
+        ReadNextTokenElement(Tokens.Reservada, "ALTER");
+        if(Error == null)
+            Alter1();
+    }
+    
+    public void Alter1(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "TABLE")){
+            AlterTable();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "USER")){
+            AlterUser();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "DATABASE")){
+            AlterDataBase();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "VIEW")){
+            AlterView();
+        }
+        else{
+            List<TokenElement> elementos = new ArrayList();
+            elementos.add(new TokenElement("TABLE", Tokens.Reservada));
+            elementos.add(new TokenElement("DATABASE", Tokens.Reservada));
+            elementos.add(new TokenElement("USER", Tokens.Reservada));
+            elementos.add(new TokenElement("VIEW", Tokens.Reservada));
+            TokenElement tok = new TokenElement(TokenActual.getID(), TokenActual.getNumLinea(), TokenActual.getPosInicial(), TokenActual.getPosFinal(), TokenActual.getValor(), TokenActual.getTok());
+            Error = new SintaxisError(elementos, tok);
+            salida.append(Error.getMensaje());
+            salida.append("\n");
+        }
+    }
+    
+    public void AlterDataBase(){
+        ReadNextTokenElement(Tokens.Reservada, "DATABASE");
+        if(Error == null)
+            AlterDataBase1();
+        if(Error == null)
+            AlterDataBase2();
+    }
+    
+    public void AlterDataBase1(){
+        if(FirstID()){
+            ID();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "CURRENT")){
+            ReadNextTokenElement(Tokens.Reservada, "CURRENT");
+        }
+        else{
+            List<TokenElement> elementos = new ArrayList();
+            elementos.add(new TokenElement(null, Tokens.Identificador));
+            elementos.add(new TokenElement("[", Tokens.Operador));
+            elementos.add(new TokenElement("CURRENT", Tokens.Reservada));
+            TokenElement tok = new TokenElement(TokenActual.getID(), TokenActual.getNumLinea(), TokenActual.getPosInicial(), TokenActual.getPosFinal(), TokenActual.getValor(), TokenActual.getTok());
+            Error = new SintaxisError(elementos, tok);
+            salida.append(Error.getMensaje());
+            salida.append("\n");
+        }
+    }
+    
+    public void AlterDataBase2(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "COLLATE")){
+            ReadNextTokenElement(Tokens.Reservada, "COLLATE");
+            if(Error == null)
+                ID();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "SET")){
+            ReadNextTokenElement(Tokens.Reservada, "SET");
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Reservada, "ROLLBACK");
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Reservada, "IMMEDIATE");
+        }
+        else{
+            List<TokenElement> elementos = new ArrayList();
+            elementos.add(new TokenElement("COLLATE", Tokens.Reservada));
+            elementos.add(new TokenElement("SET", Tokens.Reservada));
+            TokenElement tok = new TokenElement(TokenActual.getID(), TokenActual.getNumLinea(), TokenActual.getPosInicial(), TokenActual.getPosFinal(), TokenActual.getValor(), TokenActual.getTok());
+            Error = new SintaxisError(elementos, tok);
+            salida.append(Error.getMensaje());
+            salida.append("\n");
+        }
+    }
+    
+    public void AlterUser(){
+        ReadNextTokenElement(Tokens.Reservada, "USER");
+        if(Error == null)
+            ID();
+    }
+    
+    public void AlterView(){
+        ReadNextTokenElement(Tokens.Reservada, "VIEW");
+        if(Error == null)
+            IDL1();
+        if(Error == null)
+            AlterView1();
+        if(Error == null)
+            ReadNextTokenElement(Tokens.Reservada, "AS");
+        if(Error == null)
+            Select();
+    }
+    
+    public void AlterView1(){
+        if(TokenActual.evaluarToken(Tokens.Operador, "(")){
+             ListaColumnas();
+        }
+    }
+    
+    public void AlterTable(){
+        ReadNextTokenElement(Tokens.Reservada, "TABLE");
+        if(Error == null)
+            IDL3();
+        if(Error == null)
+            AlterTable1();
+    }
+    
+    public void AlterTable1(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "ALTER")){
+            AlterColumna();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "ADD")){
+            ReadNextTokenElement(Tokens.Reservada, "ADD");
+            if(Error == null)
+                TableElement2();
+            if(Error == null)
+                TableElement3();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "DROP")){
+            AlterDrop();
+        }
+        else{
+            List<TokenElement> elementos = new ArrayList();
+            elementos.add(new TokenElement("ALTER", Tokens.Reservada));
+            elementos.add(new TokenElement("ADD", Tokens.Reservada));
+            elementos.add(new TokenElement("DROP", Tokens.Reservada));
+            TokenElement tok = new TokenElement(TokenActual.getID(), TokenActual.getNumLinea(), TokenActual.getPosInicial(), TokenActual.getPosFinal(), TokenActual.getValor(), TokenActual.getTok());
+            Error = new SintaxisError(elementos, tok);
+            salida.append(Error.getMensaje());
+            salida.append("\n");
+        }
+    }
+    
+    public void AlterColumna(){
+        ReadNextTokenElement(Tokens.Reservada, "ALTER");
+        if(Error == null)
+            ReadNextTokenElement(Tokens.Reservada, "COLUMN");
+        if(Error == null)
+            ID();
+        if(Error == null)
+            AlterColumna1();
+    }
+    
+    public void AlterColumna1(){
+        if(TokenActual.evaluarToken(Tokens.DatoBin, null) || TokenActual.evaluarToken(Tokens.DatoBit, null) 
+                || TokenActual.evaluarToken(Tokens.DatoDecimal, null) || TokenActual.evaluarToken(Tokens.DatoEntero, null)
+                || TokenActual.evaluarToken(Tokens.DatoFechaHora, null) || TokenActual.evaluarToken(Tokens.DatoTexto, null)
+                || TokenActual.evaluarToken(Tokens.Operador, "[")){
+            AlterColumna2();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "ADD") || TokenActual.evaluarToken(Tokens.Reservada, "DROP")){
+            AlterColumna3();
+            if(Error == null)
+                AlterColumna4();
+        }
+        else{
+            List<TokenElement> elementos = new ArrayList();
+            elementos.add(new TokenElement(null, Tokens.DatoBin));
+            elementos.add(new TokenElement(null, Tokens.DatoBit));
+            elementos.add(new TokenElement(null, Tokens.DatoDecimal));
+            elementos.add(new TokenElement(null, Tokens.DatoEntero));
+            elementos.add(new TokenElement(null, Tokens.DatoFechaHora));
+            elementos.add(new TokenElement(null, Tokens.DatoTexto));
+            elementos.add(new TokenElement("[", Tokens.Operador));
+            elementos.add(new TokenElement("ADD", Tokens.Reservada));
+            elementos.add(new TokenElement("DROP", Tokens.Reservada));
+            TokenElement tok = new TokenElement(TokenActual.getID(), TokenActual.getNumLinea(), TokenActual.getPosInicial(), TokenActual.getPosFinal(), TokenActual.getValor(), TokenActual.getTok());
+            Error = new SintaxisError(elementos, tok);
+            salida.append(Error.getMensaje());
+            salida.append("\n");
+        }
+    }
+    
+    public void AlterColumna2(){
+        TipoDeDato();
+        if(Error == null)
+            DefinicionColumna1();
+        if(Error == null)
+            DefinicionColumna4();
+    }
+    
+    public void AlterColumna3(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "ADD")){
+            ReadNextTokenElement(Tokens.Reservada, "ADD");
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "DROP")){
+            ReadNextTokenElement(Tokens.Reservada, "DROP");
+        }
+        else{
+            List<TokenElement> elementos = new ArrayList();
+            elementos.add(new TokenElement("ADD", Tokens.Reservada));
+            elementos.add(new TokenElement("DROP", Tokens.Reservada));
+            TokenElement tok = new TokenElement(TokenActual.getID(), TokenActual.getNumLinea(), TokenActual.getPosInicial(), TokenActual.getPosFinal(), TokenActual.getValor(), TokenActual.getTok());
+            Error = new SintaxisError(elementos, tok);
+            salida.append(Error.getMensaje());
+            salida.append("\n");
+        }
+    }
+    
+    public void AlterColumna4(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "ROWGUIDCOL")){
+            ReadNextTokenElement(Tokens.Reservada, "ROWGUIDCOL");
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "NOT")){
+            ReadNextTokenElement(Tokens.Reservada, "NOT");
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Reservada, "FOR");
+            if(Error == null)
+                ReadNextTokenElement(Tokens.Reservada, "REPLICATION");
+        }
+        else{
+            List<TokenElement> elementos = new ArrayList();
+            elementos.add(new TokenElement("ROWGUIDCOL", Tokens.Reservada));
+            elementos.add(new TokenElement("NOT", Tokens.Reservada));
+            TokenElement tok = new TokenElement(TokenActual.getID(), TokenActual.getNumLinea(), TokenActual.getPosInicial(), TokenActual.getPosFinal(), TokenActual.getValor(), TokenActual.getTok());
+            Error = new SintaxisError(elementos, tok);
+            salida.append(Error.getMensaje());
+            salida.append("\n");
+        }
+    }
+    
+    public void AlterDrop(){
+        ReadNextTokenElement(Tokens.Reservada, "DROP");
+        if(Error == null)
+            AlterDrop1();
+        if(Error == null)
+            AlterDrop2();
+    }
+    
+    public void AlterDrop1(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "CONSTRAINT") || TokenActual.evaluarToken(Tokens.Reservada, "IF")
+                || FirstID()){
+            AlterDrop3();
+            if(Error == null)
+                IfExists();
+            if(Error == null)
+                ID();
+        }
+        else if(TokenActual.evaluarToken(Tokens.Reservada, "COLUMN")){
+            ReadNextTokenElement(Tokens.Reservada, "COLUMN");
+            if(Error == null)
+                IfExists();
+            if(Error == null)
+                ID();
+        }
+        else{
+            List<TokenElement> elementos = new ArrayList();
+            elementos.add(new TokenElement("CONSTRAINT", Tokens.Reservada));
+            elementos.add(new TokenElement("IF", Tokens.Reservada));
+            elementos.add(new TokenElement("COLUMN", Tokens.Reservada));
+            elementos.add(new TokenElement(null, Tokens.Identificador));
+            elementos.add(new TokenElement("[", Tokens.Operador));
+            TokenElement tok = new TokenElement(TokenActual.getID(), TokenActual.getNumLinea(), TokenActual.getPosInicial(), TokenActual.getPosFinal(), TokenActual.getValor(), TokenActual.getTok());
+            Error = new SintaxisError(elementos, tok);
+            salida.append(Error.getMensaje());
+            salida.append("\n");
+        }
+    }
+    
+    public void AlterDrop2(){
+        if(TokenActual.evaluarToken(Tokens.Operador, ",")){
+            ReadNextTokenElement(Tokens.Operador, ",");
+            if(Error == null)    
+                AlterDrop4();
+            if(Error == null)
+                AlterDrop2();
+        }
+    }
+    
+    public void AlterDrop3(){
+        if(TokenActual.evaluarToken(Tokens.Reservada, "CONSTRAINT")){
+            ReadNextTokenElement(Tokens.Reservada, "CONSTRAINT");
+        }
+    }
+    
+    public void AlterDrop4(){
+        if(FirstID()){
+            
+        }
+        
     }
     
     /**
@@ -292,10 +2556,12 @@ public class Analizador extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextArea TextArea1;
     private javax.swing.JButton btnAnalizar;
     private javax.swing.JButton btnBorrar;
     private javax.swing.JButton btnEntrada;
     private javax.swing.JButton btnGenerar;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblRutaEntrada;
     // End of variables declaration//GEN-END:variables
 }
