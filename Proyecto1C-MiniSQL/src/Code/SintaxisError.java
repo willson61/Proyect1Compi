@@ -48,9 +48,13 @@ public class SintaxisError {
         stringB.append(", esperando: ");
         if(!tokensFaltantes.isEmpty()){
             stringB.append(tokensFaltantes.get(0).valor);
+            stringB.append("/");
+            stringB.append(tokensFaltantes.get(0).tok.toString());
             for (int i = 1; i < tokensFaltantes.size(); i++) {
                 stringB.append(" OR ");
                 stringB.append(tokensFaltantes.get(i).valor);
+                stringB.append("/");
+                stringB.append(tokensFaltantes.get(i).tok.toString());
             }
         }
         stringB.append(", en Linea: ");

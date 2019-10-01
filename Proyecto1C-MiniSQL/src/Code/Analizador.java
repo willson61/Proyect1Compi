@@ -284,9 +284,10 @@ public class Analizador extends javax.swing.JFrame {
             }
         }
         salida = new StringBuilder();
-        /*salida.append(Error.getMensaje());
+        /*salida.append(Error.getMensaje()); 
         salida.append("\n");
-        Puntero = Puntero + BuscarFin(Puntero);*/
+        Puntero = Puntero + BuscarFin(Puntero);
+        TokenActual = ListaTokens.get(Puntero);*/
         Puntero = Puntero + 1;
         TokenActual = ListaTokens.get(Puntero);
         while(Puntero < ListaTokens.size()){
@@ -295,6 +296,9 @@ public class Analizador extends javax.swing.JFrame {
         }
         JOptionPane.showMessageDialog(null, "InfoBox: " + "Analisis Sintactico Terminado", "Estado", JOptionPane.INFORMATION_MESSAGE);
         TextArea1.setText(salida.toString());
+        if(TextArea1.getText().equals("")){
+            TextArea1.setText("No hay errores sintacticos");
+        }
     }//GEN-LAST:event_btnAnalizarActionPerformed
 
     private void btnGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarActionPerformed
@@ -328,6 +332,8 @@ public class Analizador extends javax.swing.JFrame {
             Error = new SintaxisError(elementos, tok);
             salida.append(Error.getMensaje());
             salida.append("\n");
+            Puntero = Puntero + BuscarFin(Puntero);
+            TokenActual = ListaTokens.get(Puntero);
         }
     }
     
@@ -336,8 +342,11 @@ public class Analizador extends javax.swing.JFrame {
         int cont = 0;
         for (int i = puntero; i < ListaTokens.size(); i++) {
             temp = ListaTokens.get(i);
-            if(temp.getValor().equals(";") || temp.getValor().equals("GO")){
+            if(!(temp.getValor().equals(";") || temp.getValor().equals("GO"))){
                 cont = cont + 1;
+            }
+            else{
+                return cont;
             }
         }
         return cont;
@@ -388,6 +397,8 @@ public class Analizador extends javax.swing.JFrame {
             Error = new SintaxisError(elementos, tok);
             salida.append(Error.getMensaje());
             salida.append("\n");
+            Puntero = Puntero + BuscarFin(Puntero);
+            TokenActual = ListaTokens.get(Puntero);
         }
     }
     
@@ -406,6 +417,8 @@ public class Analizador extends javax.swing.JFrame {
             Error = new SintaxisError(elementos, tok);
             salida.append(Error.getMensaje());
             salida.append("\n");
+            Puntero = Puntero + BuscarFin(Puntero);
+            TokenActual = ListaTokens.get(Puntero);
         }
     }
     
@@ -428,6 +441,8 @@ public class Analizador extends javax.swing.JFrame {
             Error = new SintaxisError(elementos, tok);
             salida.append(Error.getMensaje());
             salida.append("\n");
+            Puntero = Puntero + BuscarFin(Puntero);
+            TokenActual = ListaTokens.get(Puntero);
         }
     }
     
@@ -503,6 +518,8 @@ public class Analizador extends javax.swing.JFrame {
             Error = new SintaxisError(elementos, tok);
             salida.append(Error.getMensaje());
             salida.append("\n");
+            Puntero = Puntero + BuscarFin(Puntero);
+            TokenActual = ListaTokens.get(Puntero);
         }
     }
     
@@ -537,6 +554,8 @@ public class Analizador extends javax.swing.JFrame {
             Error = new SintaxisError(elementos, tok);
             salida.append(Error.getMensaje());
             salida.append("\n");
+            Puntero = Puntero + BuscarFin(Puntero);
+            TokenActual = ListaTokens.get(Puntero);
         }
     }
     
@@ -603,6 +622,8 @@ public class Analizador extends javax.swing.JFrame {
             Error = new SintaxisError(elementos, tok);
             salida.append(Error.getMensaje());
             salida.append("\n");
+            Puntero = Puntero + BuscarFin(Puntero);
+            TokenActual = ListaTokens.get(Puntero);
         }
     }
     
@@ -736,6 +757,8 @@ public class Analizador extends javax.swing.JFrame {
             Error = new SintaxisError(elementos, tok);
             salida.append(Error.getMensaje());
             salida.append("\n");
+            Puntero = Puntero + BuscarFin(Puntero);
+            TokenActual = ListaTokens.get(Puntero);
         }
     }
     
@@ -830,6 +853,8 @@ public class Analizador extends javax.swing.JFrame {
             Error = new SintaxisError(elementos, tok);
             salida.append(Error.getMensaje());
             salida.append("\n");
+            Puntero = Puntero + BuscarFin(Puntero);
+            TokenActual = ListaTokens.get(Puntero);
         }
     }
     
@@ -905,6 +930,8 @@ public class Analizador extends javax.swing.JFrame {
             Error = new SintaxisError(elementos, tok);
             salida.append(Error.getMensaje());
             salida.append("\n");
+            Puntero = Puntero + BuscarFin(Puntero);
+            TokenActual = ListaTokens.get(Puntero);
         }
     }
     
@@ -933,6 +960,8 @@ public class Analizador extends javax.swing.JFrame {
             Error = new SintaxisError(elementos, tok);
             salida.append(Error.getMensaje());
             salida.append("\n");
+            Puntero = Puntero + BuscarFin(Puntero);
+            TokenActual = ListaTokens.get(Puntero);
         }
     }
     
@@ -1007,6 +1036,8 @@ public class Analizador extends javax.swing.JFrame {
             Error = new SintaxisError(elementos, tok);
             salida.append(Error.getMensaje());
             salida.append("\n");
+            Puntero = Puntero + BuscarFin(Puntero);
+            TokenActual = ListaTokens.get(Puntero);
         }
     }
     
@@ -1063,6 +1094,8 @@ public class Analizador extends javax.swing.JFrame {
             Error = new SintaxisError(elementos, tok);
             salida.append(Error.getMensaje());
             salida.append("\n");
+            Puntero = Puntero + BuscarFin(Puntero);
+            TokenActual = ListaTokens.get(Puntero);
         }
     }
     
@@ -1101,6 +1134,8 @@ public class Analizador extends javax.swing.JFrame {
             Error = new SintaxisError(elementos, tok);
             salida.append(Error.getMensaje());
             salida.append("\n");
+            Puntero = Puntero + BuscarFin(Puntero);
+            TokenActual = ListaTokens.get(Puntero);
         }
     }
     
@@ -1329,6 +1364,8 @@ public class Analizador extends javax.swing.JFrame {
             Error = new SintaxisError(elementos, tok);
             salida.append(Error.getMensaje());
             salida.append("\n");
+            Puntero = Puntero + BuscarFin(Puntero);
+            TokenActual = ListaTokens.get(Puntero);
         }
     }
     
@@ -1408,6 +1445,8 @@ public class Analizador extends javax.swing.JFrame {
             Error = new SintaxisError(elementos, tok);
             salida.append(Error.getMensaje());
             salida.append("\n");
+            Puntero = Puntero + BuscarFin(Puntero);
+            TokenActual = ListaTokens.get(Puntero);
         }
     }
     
@@ -1446,6 +1485,8 @@ public class Analizador extends javax.swing.JFrame {
             Error = new SintaxisError(elementos, tok);
             salida.append(Error.getMensaje());
             salida.append("\n");
+            Puntero = Puntero + BuscarFin(Puntero);
+            TokenActual = ListaTokens.get(Puntero);
         }
     }
     
@@ -1501,6 +1542,8 @@ public class Analizador extends javax.swing.JFrame {
             Error = new SintaxisError(elementos, tok);
             salida.append(Error.getMensaje());
             salida.append("\n");
+            Puntero = Puntero + BuscarFin(Puntero);
+            TokenActual = ListaTokens.get(Puntero);
         }
     }
     
@@ -1591,6 +1634,8 @@ public class Analizador extends javax.swing.JFrame {
             Error = new SintaxisError(elementos, tok);
             salida.append(Error.getMensaje());
             salida.append("\n");
+            Puntero = Puntero + BuscarFin(Puntero);
+            TokenActual = ListaTokens.get(Puntero);
         }
     }
     
@@ -1641,6 +1686,8 @@ public class Analizador extends javax.swing.JFrame {
             Error = new SintaxisError(elementos, tok);
             salida.append(Error.getMensaje());
             salida.append("\n");
+            Puntero = Puntero + BuscarFin(Puntero);
+            TokenActual = ListaTokens.get(Puntero);
         }
     }
     
@@ -1692,6 +1739,8 @@ public class Analizador extends javax.swing.JFrame {
             Error = new SintaxisError(elementos, tok);
             salida.append(Error.getMensaje());
             salida.append("\n");
+            Puntero = Puntero + BuscarFin(Puntero);
+            TokenActual = ListaTokens.get(Puntero);
         }
     }
     
@@ -1817,6 +1866,8 @@ public class Analizador extends javax.swing.JFrame {
             Error = new SintaxisError(elementos, tok);
             salida.append(Error.getMensaje());
             salida.append("\n");
+            Puntero = Puntero + BuscarFin(Puntero);
+            TokenActual = ListaTokens.get(Puntero);
         }
     }
     
@@ -1887,6 +1938,8 @@ public class Analizador extends javax.swing.JFrame {
             Error = new SintaxisError(elementos, tok);
             salida.append(Error.getMensaje());
             salida.append("\n");
+            Puntero = Puntero + BuscarFin(Puntero);
+            TokenActual = ListaTokens.get(Puntero);
         }
     }
     
@@ -1909,6 +1962,8 @@ public class Analizador extends javax.swing.JFrame {
             Error = new SintaxisError(elementos, tok);
             salida.append(Error.getMensaje());
             salida.append("\n");
+            Puntero = Puntero + BuscarFin(Puntero);
+            TokenActual = ListaTokens.get(Puntero);
         }
     }
     
@@ -1941,6 +1996,8 @@ public class Analizador extends javax.swing.JFrame {
             Error = new SintaxisError(elementos, tok);
             salida.append(Error.getMensaje());
             salida.append("\n");
+            Puntero = Puntero + BuscarFin(Puntero);
+            TokenActual = ListaTokens.get(Puntero);
         }
     }
     
@@ -2025,6 +2082,8 @@ public class Analizador extends javax.swing.JFrame {
             Error = new SintaxisError(elementos, tok);
             salida.append(Error.getMensaje());
             salida.append("\n");
+            Puntero = Puntero + BuscarFin(Puntero);
+            TokenActual = ListaTokens.get(Puntero);
         }
     }
     
@@ -2090,6 +2149,8 @@ public class Analizador extends javax.swing.JFrame {
             Error = new SintaxisError(elementos, tok);
             salida.append(Error.getMensaje());
             salida.append("\n");
+            Puntero = Puntero + BuscarFin(Puntero);
+            TokenActual = ListaTokens.get(Puntero);
         }
     }
     
@@ -2110,6 +2171,8 @@ public class Analizador extends javax.swing.JFrame {
             Error = new SintaxisError(elementos, tok);
             salida.append(Error.getMensaje());
             salida.append("\n");
+            Puntero = Puntero + BuscarFin(Puntero);
+            TokenActual = ListaTokens.get(Puntero);
         }
     }
     
@@ -2190,6 +2253,8 @@ public class Analizador extends javax.swing.JFrame {
             Error = new SintaxisError(elementos, tok);
             salida.append(Error.getMensaje());
             salida.append("\n");
+            Puntero = Puntero + BuscarFin(Puntero);
+            TokenActual = ListaTokens.get(Puntero);
         }
     }
     
@@ -2258,6 +2323,8 @@ public class Analizador extends javax.swing.JFrame {
             Error = new SintaxisError(elementos, tok);
             salida.append(Error.getMensaje());
             salida.append("\n");
+            Puntero = Puntero + BuscarFin(Puntero);
+            TokenActual = ListaTokens.get(Puntero);
         }
     }
     
@@ -2285,6 +2352,8 @@ public class Analizador extends javax.swing.JFrame {
             Error = new SintaxisError(elementos, tok);
             salida.append(Error.getMensaje());
             salida.append("\n");
+            Puntero = Puntero + BuscarFin(Puntero);
+            TokenActual = ListaTokens.get(Puntero);
         }
     }
     
@@ -2309,6 +2378,8 @@ public class Analizador extends javax.swing.JFrame {
             Error = new SintaxisError(elementos, tok);
             salida.append(Error.getMensaje());
             salida.append("\n");
+            Puntero = Puntero + BuscarFin(Puntero);
+            TokenActual = ListaTokens.get(Puntero);
         }
     }
     
@@ -2367,6 +2438,8 @@ public class Analizador extends javax.swing.JFrame {
             Error = new SintaxisError(elementos, tok);
             salida.append(Error.getMensaje());
             salida.append("\n");
+            Puntero = Puntero + BuscarFin(Puntero);
+            TokenActual = ListaTokens.get(Puntero);
         }
     }
     
@@ -2407,6 +2480,8 @@ public class Analizador extends javax.swing.JFrame {
             Error = new SintaxisError(elementos, tok);
             salida.append(Error.getMensaje());
             salida.append("\n");
+            Puntero = Puntero + BuscarFin(Puntero);
+            TokenActual = ListaTokens.get(Puntero);
         }
     }
     
@@ -2433,6 +2508,8 @@ public class Analizador extends javax.swing.JFrame {
             Error = new SintaxisError(elementos, tok);
             salida.append(Error.getMensaje());
             salida.append("\n");
+            Puntero = Puntero + BuscarFin(Puntero);
+            TokenActual = ListaTokens.get(Puntero);
         }
     }
     
@@ -2455,6 +2532,8 @@ public class Analizador extends javax.swing.JFrame {
             Error = new SintaxisError(elementos, tok);
             salida.append(Error.getMensaje());
             salida.append("\n");
+            Puntero = Puntero + BuscarFin(Puntero);
+            TokenActual = ListaTokens.get(Puntero);
         }
     }
     
@@ -2493,6 +2572,8 @@ public class Analizador extends javax.swing.JFrame {
             Error = new SintaxisError(elementos, tok);
             salida.append(Error.getMensaje());
             salida.append("\n");
+            Puntero = Puntero + BuscarFin(Puntero);
+            TokenActual = ListaTokens.get(Puntero);
         }
     }
     
