@@ -36,7 +36,6 @@ DecIntegerLiteral = 0 | [1-9][0-9]*
 FloatLiteral  = ({FLit1}|{FLit2}) {Exponent}?
 
 FLit1    = [0-9]+\.[0-9]*
-FLit2    = [0-9]+
 Exponent = [eE] [+-]? [0-9]+
 
 ErrorString = "'" [^\r\n\u0027]* {LineTerminator}?
