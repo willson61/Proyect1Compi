@@ -18,3 +18,18 @@ El programa se basa en un Jframe con 4 botones y 1 label para la seleccion del a
   archivo y seleccione Analizar Entrada. Otra forma de evitar este error si no se ha generado la clase lexer.java antes de inicar el 
   programa es ejecutando la clase Principal.java que se encuentra dentro del proyecto antes de correr el programa. Esta clase cumple la
   misma funcion del boton Generar Lexer.
+  
+  # Proyecto #1 - Fase 2 - Compiladores
+  
+  ## Funcionamiento
+  El programa para la fase 2 del proyecto de compiladores contiene todos los elementos de la fase 1 con la agregacion de un JPanel donde
+  se pueden ver los resultados del analisis sintactico implementado en esta fase del proyecto. Este analisis consiste en un conjunto
+  extenso de metodos basados en un analisis descendente recursivo de una gramatica basada en SQL.
+  El funcionamiento de la aplicacion de esta fase no cambia en absoluto visualmente a la fase anterior, a excepcion del Jpanel. Solo es   nesesario iniciar el analisis lexico de la fase anterior para que el analisis sintactico inicie al finalizar el lexico.
+  
+  ## Caracteristicas y Comentarios
+  - Cabe recalcar que para el mejor funcionamiento de esta aplicacion se debe se utilizar unicamente ; o GO para el fin de las
+  sentencias de SQL. En otras palabras solo usar ; o GO para terminar la sentencia, no ambas.
+  - En algunas producciones existe una ambiguedadd en los first, ya que 2 producciones de un no terminal pueden ser accesadas por el
+  mismo simbolo terminal. Haciendo que la primera produccion del no terminal tome prioridad siempre sobre la segunda. Este problema se 
+  solucionaria con la implementacion de un lookahead como hemos visto en la LR(1)  
