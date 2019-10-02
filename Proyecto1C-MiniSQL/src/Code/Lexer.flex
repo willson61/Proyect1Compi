@@ -106,9 +106,9 @@ DatoBin = "BINARY"|"IMAGE"|"VARBINARY"
 
     {String} { lin=yyline; col=yycolumn; lexeme=yytext(); return Varchar; }
 
-    {ErrorComment} {lin=yyline; col=yycolumn; lexeme=yytext(); return ComentarioError; }
+    {ErrorComment} {/*Ignore*/}
 
-    {Comment} {lin=yyline; col=yycolumn; lexeme=yytext(); return Comentario; }
+    {Comment} {/*Ignore*/}
 
     {WhiteSpace}+ { /* skip */ }
 
