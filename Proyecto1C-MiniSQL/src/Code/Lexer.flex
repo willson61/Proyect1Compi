@@ -33,7 +33,7 @@ Boolean = (1)|(0)| NULL
 DecIntegerLiteral = 0 | [1-9][0-9]*
 
 /* floating point literals */
-FloatLiteral  = ({FLit1}|{FLit2}) {Exponent}?
+FloatLiteral  = ({FLit1}) {Exponent}?
 
 FLit1    = [0-9]+\.[0-9]*
 Exponent = [eE] [+-]? [0-9]+
