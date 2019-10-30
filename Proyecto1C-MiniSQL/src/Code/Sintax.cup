@@ -167,7 +167,9 @@ ConstraintColumna9, ConstraintColumna10, ConstraintTabla, ConstraintTabla1, Cons
 ConstraintTabla5, IndexTabla, Alter, Alter1, AlterDataBase, AlterDataBase1, AlterDataBase2, AlterUser, 
 AlterView, AlterView1, AlterTable, AlterTable1, AlterColumna, AlterColumna1, AlterColumna2, AlterColumna3, 
 AlterColumna4, AlterTableDrop, AlterTableDrop1, AlterTableDrop2, AlterTableDrop3, AlterTableDrop4, Transact, 
-Transact1, Transact2, Transact3, TransactName, Name, Name1, Rollback, Rollback1, Commit, Commit1, Save, OrAlter, 
+Transact1, Transact2, Transact3, TransactName, Name, Name1, Rollback, Rollback1, Commit, Commit1, Save, OrAlter,
+Number, ExecuteProcedure, ExecuteProcedure1, ExecuteProcedure2, ExecuteProcedure3, ExecuteProcedure4, ExecuteProcedure5, ExecuteProcedureParam, 
+ExecuteProcedureParam1, ExecuteProcedureParam2, ExecuteProcedureParam3, ExecuteProcedureParam4, 
 Procedure, ProcedureName, ProcedureNum, ProcedureParam, ProcedureParam1, ProcedureParam2, ProcedureDataType, 
 ProcedureDataType1, ProcedureDataType2, ProcedureDataType3, ProcedureOption, ProcedureOption1, ProcedureOption2, 
 ProcedureOption3, Execute, ExecuteType, ProcedureReplication, BeginProcedure, ProcedureStatement, 
@@ -175,7 +177,7 @@ ProcedureStatement1, ProcedureStatement2, Function, FunctionParam, FunctionParam
 FunctionParam3, AsWord, ReadOnlyWord, ReturnType, ReturnTable, ReturnTable1, ReturnTable2, FunctionOption, 
 SelectOption, ReturnData, ReturnData1, Cursor, Cursor1, Cursor2, Cursor3, Cursor4, Cursor5, Cursor6, Cursor7;
 
-precedence left AND, OR, Aparentesis;
+precedence left AND, OR, Aparentesis, PuntoYComa, Arroba;
 
 start with Inicio1;
 
@@ -197,7 +199,10 @@ SentenciasTCL ::= Transact|
                   Rollback|
                   Commit|
                   Save ;
-SentenciasTSQL ::= Cursor ; 
+SentenciasTSQL ::= Cursor |
+                   Procedure |
+                   ExecuteProcedure |
+                   Function ; 
 Fin ::= PuntoYComa|
         GO ;
 ID ::= Identificador|
@@ -519,10 +524,25 @@ Commit ::= COMMIT Commit1 ;
 Commit1 ::= TransactName Name1 | ;
 Save ::= SAVE TransactName Name ;
 OrAlter ::= OR ALTER | ;
+Number ::= Integer | Bit ;
+ExecuteProcedure ::= ExecuteProcedure5 ExecuteProcedure1 ExecuteProcedure2 ExecuteProcedureParam ExecuteProcedure4 ;
+ExecuteProcedure1 ::= Var Igual | ;
+ExecuteProcedure2 ::= IDL1 ExecuteProcedure3 | 
+                      Var ;
+ExecuteProcedure3 ::= PuntoYComa Number | ;
+ExecuteProcedure4 ::= Coma ExecuteProcedureParam ExecuteProcedure4 | ;
+ExecuteProcedure5 ::= Execute | ;
+ExecuteProcedureParam ::= ExecuteProcedureParam1 ExecuteProcedureParam2 ;
+ExecuteProcedureParam1 ::= Var Igual | ;
+ExecuteProcedureParam2 ::= Number |
+                           Var ExecuteProcedureParam3 |
+                           ExecuteProcedureParam4 ;
+ExecuteProcedureParam3 ::= OUTPUT | ;
+ExecuteProcedureParam4 ::= DEFAULT | ;
 Procedure ::= OrAlter ProcedureName IDL1 ProcedureNum ProcedureParam ProcedureOption ProcedureReplication AS BeginProcedure ;
 ProcedureName ::= PROC |
                   PROCEDURE ;
-ProcedureNum ::= PuntoYComa Integer | ;
+ProcedureNum ::= PuntoYComa Number | ;
 ProcedureParam ::= ProcedureParam1 | ;
 ProcedureParam1 ::= Var ProcedureDataType ProcedureParam2 ;
 ProcedureParam2 ::= Coma ProcedureParam1 | ;

@@ -155,7 +155,7 @@ public class Analizador extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEntradaActionPerformed
 
     private void btnAnalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnalizarActionPerformed
-        String resultado = "";/*
+        String resultado = "";
         boolean estado = true;
         File lex = new File("C:/Users/Sthephan/Documents/GitHub/Proyect1Compi/Proyecto1C-MiniSQL/src/Code/Lexer.java");
         File entrada = new File(lblRutaEntrada.getText());
@@ -165,6 +165,7 @@ public class Analizador extends javax.swing.JFrame {
                 int posInicial = 0;
                 int posFinal = 0;
                 int numLinea = 0;
+                int numErrors = 0;
                 Reader lector = new BufferedReader(new FileReader(lblRutaEntrada.getText()));
                 Lexer lexer = new Lexer(lector);
                 while (estado) {
@@ -179,64 +180,908 @@ public class Analizador extends javax.swing.JFrame {
                         numLinea = lexer.lin;
                         switch (tokens) {
                             case ERROR:
-                                resultado += "Simbolo no definido\n";
-                                break;
+                                    resultado += "Simbolo no definido\n";
+                                    numErrors = numErrors + 1;
+                                    break;
                             case Identificador:
                                 if(lenghtToken > 31){
                                     resultado += "ERROR: El Identificador: " + lexer.lexeme.substring(0, 32) + " excedio el limite de caracteres en, Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
+                                    numErrors = numErrors + 1;
                                 }
                                 else{
                                     resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
                                 }                   
                                 break;
-                            case Reservada:
-                                resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
-                                break;
-                            case Bit:
-                                resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
-                                break;
-                            case Operador:
-                                resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
-                                break;
-                            case OperadorBooleano:
-                                resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
-                                break;
-                            case DatoEntero:
-                                resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
-                                break;
-                            case DatoBit:
-                                resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
-                                break;
-                            case DatoDecimal:
-                                resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
-                                break;
-                            case DatoFechaHora:
-                                resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
-                                break;
-                            case DatoTexto:
-                                resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
-                                break;
-                            case DatoBin:
-                                resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
-                                break;
-                            case Integer:
-                                resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
-                                break;
-                            case Float:
-                                resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
-                                break;
+                            case ADD:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case EXTERNAL:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case PROCEDURE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case ALL:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case OUT:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case READONLY:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case ENCRYPTION:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case RETURNS:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case SCHEMABINDING:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case CALLED:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case INLINE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case CALLER:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case SELF:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case OWNER:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case RECOMPILE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case MARK:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case FORWARDONLY:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case STATIC:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case KEYSET:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case DYNAMIC:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case FASTFORWARD:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case READ_ONLY:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case SCROLL_LOCKS:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case OPTIMISTIC:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case TYPE_WARNING:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case FETCH:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case PUBLIC:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case ALTER:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case FILE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case RAISERROR:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case AND:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case FILLFACTOR:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case READ:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case ANY:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case FOR:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case READTEXT:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case TYPEWARNING:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case AS:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case FOREIGN:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case RECONFIGURE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case ASC:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case FREETEXT:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case REFERENCES:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case AUTHORIZATION:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case FREETEXTTABLE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case REPLICATION:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case BACKUP:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case FROM:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case RESTORE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case BEGIN:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case FULL:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case RESTRICT:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case BETWEEN:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case FUNCTION:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case RETURN:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case BREAK:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case GOTO:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case REVERT:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case BROWSE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case GRANT:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case REVOKE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case BULK:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case GROUP:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case RIGHT:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case BY:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case HAVING:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case ROLLBACK:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case CASCADE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case HOLDLOCK:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case ROWCOUNT:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case CASE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case IDENTITY:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case ROWGUIDCOL:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case CHECK:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case IDENTITY_INSERT:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case RULE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case CHECKPOINT:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case IDENTITYCOL:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case SAVE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case CLOSE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case IF:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case SCHEMA:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case CLUSTERED:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case IN:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case SECURITYAUDIT:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case COALESCE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case INDEX:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case SELECT:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case COLLATE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case INNER:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case SEMANTICKEYPHRASETABLE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case COLUMN:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case INSERT:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case SEMANTICSIMILARITYDETAILSTABLE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case COMMIT:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case INTERSECT:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case SEMANTICSIMILARITYTABLE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case COMPUTE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case INTO:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case SESSION_USER:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case CONSTRAINT:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case IS:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case SET:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case CONTAINS:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case JOIN:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case SETUSER:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case CONTAINSTABLE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case KEY:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case SHUTDOWN:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case CONTINUE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case KILL:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case SOME:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case CONVERT:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case LEFT:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case STATISTICS:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case CREATE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case LIKE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case SYSTEM_USER:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case CROSS:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case LINENO:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case TABLE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case CURRENT:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case LOAD:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case TABLESAMPLE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case CURRENT_DATE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case MERGE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case TEXTSIZE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case CURRENT_TIME:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case NATIONAL:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case THEN:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case CURRENT_TIMESTAMP:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case NOCHECK:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case TO:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case CURRENT_USER:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case NONCLUSTERED:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case TOP:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case CURSOR:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case NOT:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case TRAN:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case DATABASE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case NULL:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case TRANSACTION:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case DBCC:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case NULLIF:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case TRIGGER:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case DEALLOCATE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case OF:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case TRUNCATE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case DECLARE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case OFF:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case TRY_CONVERT:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case DEFAULT:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case OFFSETS:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case TSEQUAL:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case DELETE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case ON:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case UNION:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case DENY:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case OPEN:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case UNIQUE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case DESC:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case OPENDATASOURCE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case UNPIVOT:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case DISK:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case OPENQUERY:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case UPDATE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case DISTINCT:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case OPENROWSET:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case UPDATETEXT:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case DISTRIBUTED:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case OPENXML:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case USE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case DOUBLE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case OPTION:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case USER:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case DROP:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case OR:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case VALUES:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case DUMP:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case ORDER:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case VARYING:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case ELSE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case OUTER:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case VIEW:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case END:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case OVER:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case WAITFOR:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case ERRLVL:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case PERCENT:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case WHEN:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case ESCAPE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case PIVOT:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case WHERE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case EXCEPT:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case PLAN:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case WHILE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case EXEC:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case PRECISION:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case WITH:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case EXECUTE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case PRIMARY:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case WITHINGROUP:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case EXISTS:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case PRINT:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case WRITETEXT:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case EXIT:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case PROC:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case INCLUDE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case IMMEDIATE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case GO:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case SUM:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case AVG:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case COUNT:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case MAX:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case MIN:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case KB:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case GB:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case TB:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case MB:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case BIGINT:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case INT:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case SMALLINT:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case TINYINT:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case BIT:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case DECIMAL:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case MONEY:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case NUMERIC:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case SMALLMONEY:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case FLOAT:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case REAL:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case DATE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case DATETIME:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case DATETIME2:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case DATETIMEOFFSET:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case SMALLDATETIME:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case TIME:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case CHAR:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case TEXT:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case VARCHAR:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case NCHAR:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case NTEXT:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case NVARCHAR:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case BINARY:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case IMAGE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case VARBINARY:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case FILENAME:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case NAME:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case NAMES:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case SIZE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case MAXSIZE:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case FILEGROWTH:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case UNLIMITED:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case OUTPUT:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case INPUT:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case LOCAL:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case GLOBAL:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case SCROLL:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case SCROLLLOCKS:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case Suma:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case Resta:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case Mul:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case Div:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case Porce:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case PuntoYComa:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case Coma:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case Punto:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case Acorchete:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case Ccorchete:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case Aparentesis:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case Cparentesis:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case Allave:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case Cllave:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case Dcorchete:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case Dparentesis:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case Dllaves:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case Arroba:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case Hashtag:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case Dhashtag:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case Menor:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case MenorIgual:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case Mayor:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case MayorIgual:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case Digual:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case Diferente:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case Dampersand:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case Dbarra:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case Exclamacion:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case Igual:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
                             case Varchar:
-                                resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
-                                break;
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
                             case VarcharError:
-                                resultado += "ERROR: El Varchar : " + lexer.lexeme + " no esta finalizado con '. Posicion de Error: " + "Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
-                                break;
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case Float:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case Integer:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
+                            case IdentificadorError:
+                                    resultado += "ERROR: El identificador : " + lexer.lexeme + " no puede comenzar con numero o guion bajo. Posicion de Error: " + "Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    numErrors = numErrors + 1;
+                                    break;
+                            case Bit:
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    break;
                             case Comentario:
-                                resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
-                                break;
+                                    resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
+                                    break;
                             case ComentarioError:
-                                resultado += "ERROR: El comentario : " + lexer.lexeme + " no esta finalizado con *Slash. Posicion de Error: " + "Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
-                                break;
+                                    resultado += "ERROR: El comentario : " + lexer.lexeme + " no esta finalizado con */. Posicion de Error: " + "Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
+                                    numErrors = numErrors + 1;
+                                    break;
                         }
                         posInicial = posFinal + 1;
                     }
@@ -274,7 +1119,7 @@ public class Analizador extends javax.swing.JFrame {
         else{
             JOptionPane.showMessageDialog(null, "InfoBox: " + "No se ha generado el archivo Lexer.java para la ejecucion", "Estado", JOptionPane.INFORMATION_MESSAGE);
         }
-        TokenElement el;
+        /*TokenElement el;
         ListaTokens = new ArrayList();
         String datos[] = resultado.split("\\n");
         for (int i = 0; i < datos.length; i++) {
@@ -285,10 +1130,10 @@ public class Analizador extends javax.swing.JFrame {
             }
         }
         salida = new StringBuilder();
-        /*salida.append(Error.getMensaje()); 
+        salida.append(Error.getMensaje()); 
         salida.append("\n");
         Puntero = Puntero + BuscarFin(Puntero);
-        TokenActual = ListaTokens.get(Puntero);*//*
+        TokenActual = ListaTokens.get(Puntero);
         Puntero = Puntero + 1;
         TokenActual = ListaTokens.get(Puntero);
         while(Puntero < ListaTokens.size()){
