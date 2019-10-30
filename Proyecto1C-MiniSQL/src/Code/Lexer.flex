@@ -28,6 +28,8 @@ EndOfLineComment = "--" {InputCharacter}* {LineTerminator}?
 /* identifiers */
 Identifier = [:jletter:](([:jletter:]|[:jletterdigit:]|"_")*)
 
+ErrorIdentifier = ([:jletterdigit:]|"_")(([:jletter:]|[:jletterdigit:]|"_")*)
+
 Boolean = (1)|(0)| NULL
 
 DecIntegerLiteral = [0-9][0-9]*
@@ -296,6 +298,7 @@ String = "'" [^\r\n\u0027]* "'"
     "VARBINARY" { lin=yyline; col=yycolumn; lexeme=yytext(); return VARBINARY; }
     "FILENAME" { lin=yyline; col=yycolumn; lexeme=yytext(); return FILENAME; }
     "NAME" { lin=yyline; col=yycolumn; lexeme=yytext(); return NAME; }
+    "NAMES" { lin=yyline; col=yycolumn; lexeme=yytext(); return NAMES; }
     "SIZE" { lin=yyline; col=yycolumn; lexeme=yytext(); return SIZE; }
     "MAXSIZE" { lin=yyline; col=yycolumn; lexeme=yytext(); return MAXSIZE; }
     "FILEGROWTH" { lin=yyline; col=yycolumn; lexeme=yytext(); return FILEGROWTH; }
@@ -354,6 +357,8 @@ String = "'" [^\r\n\u0027]* "'"
     {WhiteSpace}+ { /* skip */ }
 
     {Identifier} { lin=yyline; col=yycolumn; lexeme=yytext(); return Identificador; }
+
+    {ErrorIdentifier} { lin=yyline; col=yycolumn; lexeme=yytext(); return IdentificadorError; }
 
 /* error */
     . {lin=yyline; col=yycolumn; lexeme=yytext(); return ERROR;}

@@ -30,6 +30,8 @@ EndOfLineComment = "--" {InputCharacter}* {LineTerminator}?
 /* identifiers */
 Identifier = [:jletter:](([:jletter:]|[:jletterdigit:]|"_")*)
 
+ErrorIdentifier = ([:jletterdigit:]|"_")(([:jletter:]|[:jletterdigit:]|"_")*)
+
 Boolean = (1)|(0)| NULL
 
 DecIntegerLiteral = [0-9][0-9]*
@@ -301,6 +303,7 @@ String = "'" [^\r\n\u0027]* "'"
     "VARBINARY" { return new Symbol(sym.VARBINARY, yychar, yyline, yytext() );}
     "FILENAME" { return new Symbol(sym.FILENAME, yychar, yyline, yytext() ); }
     "NAME" { return new Symbol(sym.NAME, yychar, yyline, yytext() ); }
+    "NAMES" { return new Symbol(sym.NAMES, yychar, yyline, yytext() ); }
     "SIZE" { return new Symbol(sym.SIZE, yychar, yyline, yytext() ); }
     "MAXSIZE" { return new Symbol(sym.MAXSIZE, yychar, yyline, yytext() ); }
     "FILEGROWTH" { return new Symbol(sym.FILEGROWTH, yychar, yyline, yytext() ); }
@@ -359,6 +362,8 @@ String = "'" [^\r\n\u0027]* "'"
     {WhiteSpace}+ { /* skip */ }
 
     {Identifier} { return new Symbol(sym.Identificador, yychar, yyline, yytext() );}
+
+    {ErrorIdentifier} { return new Symbol(sym.IdentificadorError, yychar, yyline, yytext() ); }
 
 /* error */
     . {return new Symbol(sym.ERROR, yychar, yyline, yytext() );}

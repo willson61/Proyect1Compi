@@ -12,6 +12,10 @@ parser code
     public String Er = "";
     private Symbol s;
 
+    public Symbol getS(){
+    	return this.s;
+    }
+
     public final Class getSymbolContainer() {
         return sym.class;
     }
@@ -24,7 +28,7 @@ parser code
             idsNames.add(symbl_name_from_id(esperado));
             idsNames.add(", ");
 	}
-       	Er = Er + ("Error de sintaxis en Token " + s.value + ", en columna " + (s.left+1) + ", en linea " + (s.right+1) + ", esperando tokens " + idsNames + "\n\n");
+       	Er = Er + ("Error de sintaxis en Token " + s.value + ", en columna " + (s.left+1) + ", en linea " + (s.right+1) + ", esperando tokens " + idsNames.toString() + "\n\n");
     }
 
     public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{ 
@@ -34,7 +38,7 @@ parser code
             idsNames.add(symbl_name_from_id(esperado));
             idsNames.add(", ");
 	}
-       	Er = Er + ("Error de sintaxis en Token " + s.value + ", en columna " + (s.left+1) + ", en linea " + (s.right+1) + ", esperando tokens " + idsNames + "\n\n");   
+       	Er = Er + ("Error de sintaxis en Token " + s.value + ", en columna " + (s.left+1) + ", en linea " + (s.right+1) + ", esperando tokens " + idsNames.toString() + "\n\n");   
     }
     
     public String symbl_name_from_id(int id){
@@ -136,11 +140,11 @@ PLAN, WHILE, EXEC, PRECISION, WITH, EXECUTE, PRIMARY, WITHINGROUP, EXISTS, PRINT
 EXIT, PROC, INCLUDE, IMMEDIATE, GO, SUM, AVG, COUNT, MAX, MIN, KB, GB, TB, MB, BIGINT, INT,
 SMALLINT, TINYINT, BIT, DECIMAL, MONEY, NUMERIC, SMALLMONEY, FLOAT, REAL, DATE, DATETIME,
 DATETIME2, DATETIMEOFFSET, SMALLDATETIME, TIME, CHAR, TEXT, VARCHAR, NCHAR, NTEXT, NVARCHAR,
-BINARY, IMAGE, VARBINARY, FILENAME, NAME, SIZE, MAXSIZE, FILEGROWTH, UNLIMITED, OUTPUT, INPUT, 
+BINARY, IMAGE, VARBINARY, FILENAME, NAME, NAMES, SIZE, MAXSIZE, FILEGROWTH, UNLIMITED, OUTPUT, INPUT, 
 LOCAL, GLOBAL, SCROLL, SCROLLLOCKS, Suma, Resta, Mul, Div, Porce, PuntoYComa, Coma, Punto, Acorchete,
 Ccorchete, Aparentesis, Cparentesis, Allave, Cllave, Dcorchete, Dparentesis, Dllaves, Arroba,
 Hashtag, Dhashtag, Menor, MenorIgual, Mayor, MayorIgual, Digual, Diferente, Dampersand, Dbarra,
-Exclamacion, Igual, Varchar, VarcharError, ERROR, Float, Integer, Identificador, Bit;
+Exclamacion, Igual, Varchar, VarcharError, ERROR, Float, Integer, Identificador, IdentificadorError, Bit;
 
 non terminal Inicio1, Inicio2, SentenciasDML, SentenciasDDL, SentenciasTCL, SentenciasTSQL, 
 Fin, ID, IDL1, IDL2, IDL3, IDL4, IDL5, IDL6, IFExists, Var, TipoDeDato, TipoDeDato1, TipoDeDato3, 
@@ -153,11 +157,11 @@ JoinType, JoinOuter, SelectColumnas, SelectColumnas1, ListaColumnas, ListaColumn
 InsertInto, InsertListaColumna, InsertTipo, InsertTipo1, InsertTipo2, InsertValores, InsertValores1, 
 Delete, DeleteFrom, Delete1, Delete2, Delete3, DeleteServer, Update, Update1, Update2, Update3, UpdateFrom, 
 Create, Create1, CreateUser, CreateDataBase, CreateDataBase1, CreateDataBase2, CollateDataBase, Primary, 
-Definitions, Definition, FileName, DefinitionOptions, DefinitionOptions1, DefinitionOption, Size, Size1, 
-MaxSize, MaxSize1, FileGrowth, FileGrowth1, CreateView, CreateIndex, CreateIndex1, IndexColumna, 
+Definitions, Definition, DefinitionName, FileName, DefinitionOptions, DefinitionOptions1, DefinitionOption, Size, Size1, Size2, 
+MaxSize, MaxSize1, MaxSize2, FileGrowth, FileGrowth1, CreateView, CreateIndex, CreateIndex1, IndexColumna, 
 IndexColumna1, IndexColumna2, IndexInclude, OnOption, CreateTable, TableOption, TableElement1, TableElement2, 
 TableElement3, TableElement4, TableElement5, TableElement6, DefinicionColumna, DefinicionColumna1, DefinicionColumna2, DefinicionColumna3, DefinicionColumna4, 
-DefinicionColumna5, DefinicionColumna6, DefinicionColumna7, DefinicionColumna8, DefinicionColumna9, DefinicionColumna10, DefinicionColumna11, ConstraintColumna, ConstraintColumna1, ConstraintColumna2, ConstraintColumna3, 
+DefinicionColumna5, DefinicionColumna6, DefinicionColumna7, DefinicionColumna8, DefinicionColumna9, DefinicionColumna10, DefinicionColumna11, DefinicionColumna12, ConstraintColumna, ConstraintColumna1, ConstraintColumna2, ConstraintColumna3, 
 ConstraintColumna4, ConstraintColumna5, ConstraintColumna6, ConstraintColumna7, ConstraintColumna8, 
 ConstraintColumna9, ConstraintColumna10, ConstraintTabla, ConstraintTabla1, ConstraintTabla2, ConstraintTabla3, ConstraintTabla4, 
 ConstraintTabla5, IndexTabla, Alter, Alter1, AlterDataBase, AlterDataBase1, AlterDataBase2, AlterUser, 
@@ -170,6 +174,8 @@ ProcedureOption3, Execute, ExecuteType, ProcedureReplication, BeginProcedure, Pr
 ProcedureStatement1, ProcedureStatement2, Function, FunctionParam, FunctionParam1, FunctionParam2, 
 FunctionParam3, AsWord, ReadOnlyWord, ReturnType, ReturnTable, ReturnTable1, ReturnTable2, FunctionOption, 
 SelectOption, ReturnData, ReturnData1, Cursor, Cursor1, Cursor2, Cursor3, Cursor4, Cursor5, Cursor6, Cursor7;
+
+precedence left AND, OR, Aparentesis;
 
 start with Inicio1;
 
@@ -277,15 +283,17 @@ Operacion5 ::= IDL5 |
                COUNT Aparentesis Operacion6 ;
 Operacion6 ::= IDL5 Cparentesis |
                Integer Cparentesis |
+               Bit Cparentesis |
                Mul Cparentesis ;
 Operaciones ::= Coma Operacion Operaciones | ;
 Not ::= NOT | ;
-Top ::= TOP Aparentesis Integer Cparentesis Top1 ;
+Top ::= TOP Aparentesis Integer Cparentesis Top1 | ;
 Top1 ::= PERCENT | ;
-Condicion ::= Not Condicion2 Condicion1 | ;
-              //Aparentesis Condicion Cparentesis Condicion1 ;
-//Condicion5 ::= Condicion1 | ;
-Condicion1 ::= AND Condicion | OR Condicion ;
+//Condicion5 ::= Not Condicion2 Condicion1 ;
+Condicion ::= Not Condicion2 Condicion1 |
+              Aparentesis Condicion Cparentesis Condicion1 ;
+//Condicion5 ::= Condicion1 ;
+Condicion1 ::= Condicion5 Condicion | ;
 Condicion2 ::= Operacion Condicion3 ;
 Condicion3 ::= Menor Operacion |
                MenorIgual Operacion |
@@ -302,7 +310,7 @@ Condicion3 ::= Menor Operacion |
 Condicion4 ::= IN Aparentesis Operacion Operaciones Cparentesis |
                BETWEEN Condicion AND Condicion |
                LIKE Condicion ;
-//Condicion5 ::= AND | OR ;
+Condicion5 ::= AND | OR ;
 Where ::= WHERE Condicion | ;
 Select ::= SELECT Select1 Top SelectColumnas SelectFrom Where GroupBy Having OrderBy ;
 Select1 ::= ALL |
@@ -371,7 +379,8 @@ CollateDataBase ::= COLLATE ID | ;
 Primary ::= PRIMARY | ;
 Definitions ::= Definition Coma Definitions |
                 Definition ;
-Definition ::= Aparentesis NAME Igual Varchar Coma FileName Igual Varchar DefinitionOptions Cparentesis ;
+Definition ::= Aparentesis DefinitionName Igual Varchar Coma FileName Igual Varchar DefinitionOptions Cparentesis ;
+DefinitionName ::= NAME | NAMES ;
 FileName ::= FILENAME |
              FILE ;
 DefinitionOptions ::= Coma DefinitionOption DefinitionOptions | ;
@@ -380,15 +389,17 @@ DefinitionOption ::= Size |
                      MaxSize |
                      FileGrowth ;
 Size ::= SIZE Igual Integer Size1 ;
-Size1 ::= KB |
+Size1 ::= Size2 | ;
+Size2 ::= KB |
           MB |
           GB |
           TB ;
 MaxSize ::= MAXSIZE Igual MaxSize1 ;
-MaxSize1 ::= Integer Size1 |
-             UNLIMITED ;
+MaxSize1 ::= Integer MaxSize2 ;
+MaxSize2 ::= Size2 |
+             UNLIMITED | ;
 FileGrowth ::= FILEGROWTH Igual Integer FileGrowth1 ;
-FileGrowth1 ::= Size1 |
+FileGrowth1 ::= Size2 |
                 Porce | ;
 CreateView ::= VIEW IDL1 AS Select ;
 CreateIndex ::= CreateIndex1 ConstraintColumna3 INDEX ID ON IDL3 IndexColumna IndexInclude Where OnOption ;
@@ -400,10 +411,10 @@ IndexInclude ::= INCLUDE ListaColumnas | ;
 OnOption ::= ON ID Aparentesis ID Cparentesis | ;
 CreateTable ::= TABLE IDL3 Aparentesis TableElement2 TableElement3 Cparentesis TableOption ;
 TableOption ::= ON PRIMARY | ;
-TableElement1 ::= NOT TableElement4 | ;
+TableElement1 ::= NOT TableElement4 | NULL ;
 TableElement4 ::= FOR REPLICATION TableElement5 | NULL ;
-TableElement5 ::= NOT TableElement6 | ;
-TableElement6 ::= NULL | ;
+TableElement5 ::= NOT TableElement6 | NULL ;
+TableElement6 ::= NULL ;
 TableElement2 ::= DefinicionColumna |
                   ConstraintTabla |
                   IndexTabla ;
@@ -415,23 +426,23 @@ DefinicionColumna2 ::= IDENTITY DefinicionColumna5 | ;
 DefinicionColumna3 ::= NULL |
                        NOT NULL | ;
 DefinicionColumna4 ::= ROWGUIDCOL | ;
-DefinicionColumna5 ::= Aparentesis Integer Coma Integer Cparentesis | ;
-DefinicionColumna6 ::= CONSTRAINT ID DefinicionColumna7 | DefinicionColumna7 | ;
-DefinicionColumna7 ::= DEFAULT DefinicionColumna8 DefinicionColumna2 TableElement1 DefinicionColumna4 ConstraintColumna |
-                       IDENTITY DefinicionColumna5 TableElement1 DefinicionColumna4 ConstraintColumna |
+DefinicionColumna5 ::= Aparentesis Bit Coma Bit Cparentesis | ;
+DefinicionColumna6 ::= CONSTRAINT ID DefinicionColumna12 | DefinicionColumna7 | ;
+DefinicionColumna7 ::= IDENTITY DefinicionColumna5 TableElement1 DefinicionColumna4 ConstraintColumna |
                        DefinicionColumna9 DefinicionColumna10 DefinicionColumna4 ConstraintColumna |
                        ROWGUIDCOL ConstraintColumna |
-                       ConstraintColumna2 ConstraintColumna ;
+                       ConstraintColumna1 ConstraintColumna2 ConstraintColumna ;
 DefinicionColumna8 ::= Integer |
                        Float |
                        Varchar |
                        Bit |
                        NULL ;
-DefinicionColumna9 ::= NOT ;
+DefinicionColumna9 ::= NOT | ;
 DefinicionColumna10 ::= NULL | 
                         FOR REPLICATION DefinicionColumna11 ;
 DefinicionColumna11 ::= NOT NULL | 
                         NULL | ;
+DefinicionColumna12 ::= DEFAULT DefinicionColumna8 DefinicionColumna2 TableElement1 DefinicionColumna4 ConstraintColumna ;
 ConstraintColumna ::= ConstraintColumna1 ConstraintColumna2 ConstraintColumna | ;
 ConstraintColumna1 ::= CONSTRAINT ID | ;
 ConstraintColumna2 ::= ConstraintColumna10 ConstraintColumna3 |

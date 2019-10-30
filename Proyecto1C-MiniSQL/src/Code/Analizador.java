@@ -17,6 +17,7 @@ import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java_cup.runtime.Symbol;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -154,7 +155,7 @@ public class Analizador extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEntradaActionPerformed
 
     private void btnAnalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnalizarActionPerformed
-        String resultado = "";
+        String resultado = "";/*
         boolean estado = true;
         File lex = new File("C:/Users/Sthephan/Documents/GitHub/Proyect1Compi/Proyecto1C-MiniSQL/src/Code/Lexer.java");
         File entrada = new File(lblRutaEntrada.getText());
@@ -234,7 +235,7 @@ public class Analizador extends javax.swing.JFrame {
                                 resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
                                 break;
                             case ComentarioError:
-                                resultado += "ERROR: El comentario : " + lexer.lexeme + " no esta finalizado con */. Posicion de Error: " + "Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
+                                resultado += "ERROR: El comentario : " + lexer.lexeme + " no esta finalizado con *Slash. Posicion de Error: " + "Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
                                 break;
                         }
                         posInicial = posFinal + 1;
@@ -287,7 +288,7 @@ public class Analizador extends javax.swing.JFrame {
         /*salida.append(Error.getMensaje()); 
         salida.append("\n");
         Puntero = Puntero + BuscarFin(Puntero);
-        TokenActual = ListaTokens.get(Puntero);*/
+        TokenActual = ListaTokens.get(Puntero);*//*
         Puntero = Puntero + 1;
         TokenActual = ListaTokens.get(Puntero);
         while(Puntero < ListaTokens.size()){
@@ -298,6 +299,26 @@ public class Analizador extends javax.swing.JFrame {
         TextArea1.setText(salida.toString());
         if(TextArea1.getText().equals("")){
             TextArea1.setText("No hay errores sintacticos");
+        }*/
+        Reader lector;
+        String errors = "";
+        try {
+            lector = new BufferedReader(new FileReader(lblRutaEntrada.getText()));
+            Sintax s = new Sintax(new Code.LexerCup(lector));
+            try {
+                s.parse();
+                errors = s.obtenerErrores();
+                if(errors.length() > 0){
+                    TextArea1.setText(s.obtenerErrores());
+                }
+                else{
+                    TextArea1.setText("Analisis Exitoso :)");
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(Analizador.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Analizador.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnAnalizarActionPerformed
 
