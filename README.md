@@ -37,7 +37,7 @@ El programa se basa en un Jframe con 4 botones y 1 label para la seleccion del a
 # Proyecto #1 - Fase 2B - Compiladores
 
 ## Funcionamiento
-  El programa para la fase 2b del proyecto de compiladores contiene todos los elementos de la fase 1 y de la fase 2B pero con la      modificacion de que ahora el analisis sintactico no se realiza con un conjunto de metodos que simulan la gramatica sino que con la libreria CUP capaz de generar parsers LALR. Tambien esta fase se diferencia de la anterior por la agregacion de las sentencias SQL de Procedure, Function, Cursor, Begin Transaction, Rollback Transactioin, Save Transaction y Commit Transaction a las sentencias ya existences de la fase anterior.
+  El programa para la fase 2b del proyecto de compiladores contiene todos los elementos de la fase 1 y de la fase 2A pero con la      modificacion de que ahora el analisis sintactico no se realiza con un conjunto de metodos que simulan la gramatica sino que con la libreria CUP capaz de generar parsers LALR. Tambien esta fase se diferencia de la anterior por la agregacion de las sentencias SQL de Procedure, Function, Cursor, Begin Transaction, Rollback Transactioin, Save Transaction y Commit Transaction a las sentencias ya existences de la fase anterior.
   
 ## Caracteristicas y Comentarios
  - Cabe mencionar que para esta fase del proyecto se realiza unn analisis lexico y un analisis sintactico sobre el docuemnto de entrada. Si llega a haber un error lexico en el archivo de entrada el programa no realizara el analisis sintactico.
