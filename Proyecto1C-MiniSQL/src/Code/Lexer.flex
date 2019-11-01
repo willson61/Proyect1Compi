@@ -15,12 +15,10 @@ InputCharacter = [^\r\n]
 
 WhiteSpace = {LineTerminator} | [ \t\f]+
 
-ErrorComment = "/*" {InputCharacter}* {LineTerminator}?
-
 /* comments */
-Comment = {TraditionalComment} | {EndOfLineComment} | {DocumentationComment}
+Comment = {TraditionalComment} | {EndOfLineComment}
 
-TraditionalComment = "/*" [^*] ~"*/" | "/*" "*"+ "/"
+TraditionalComment = "/*" ~"*/" 
 DocumentationComment = "/**" {CommentContent} "*"+ "/"
 CommentContent       = ( [^*] | \*+ [^/*] )*
 EndOfLineComment = "--" {InputCharacter}* {LineTerminator}?
@@ -350,9 +348,7 @@ String = "'" [^\r\n\u0027]* "'"
 
     {String} { lin=yyline; col=yycolumn; lexeme=yytext(); return Varchar; }
 
-    {ErrorComment} {/*Ignore*/}
-
-    {Comment} {/*Ignore*/}
+    {Comment} { lin=yyline; col=yycolumn; lexeme=yytext(); return Comentario; }
 
     {WhiteSpace}+ { /* skip */ }
 

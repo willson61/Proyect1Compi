@@ -17,12 +17,10 @@ InputCharacter = [^\r\n]
 
 WhiteSpace = {LineTerminator} | [ \t\f]+
 
-ErrorComment = "/*" {InputCharacter}* {LineTerminator}?
-
 /* comments */
-Comment = {TraditionalComment} | {EndOfLineComment} | {DocumentationComment}
+Comment = {TraditionalComment} | {EndOfLineComment}
 
-TraditionalComment = "/*" [^*] ~"*/" | "/*" "*"+ "/"
+TraditionalComment = "/*" ~"*/" 
 DocumentationComment = "/**" {CommentContent} "*"+ "/"
 CommentContent       = ( [^*] | \*+ [^/*] )*
 EndOfLineComment = "--" {InputCharacter}* {LineTerminator}?
@@ -354,8 +352,6 @@ String = "'" [^\r\n\u0027]* "'"
     {ErrorString} { return new Symbol(sym.VarcharError, yychar, yyline, yytext() );}
 
     {String} { return new Symbol(sym.Varchar, yychar, yyline, yytext() );}
-
-    {ErrorComment} {/*Ignore*/}
 
     {Comment} {/*Ignore*/}
 

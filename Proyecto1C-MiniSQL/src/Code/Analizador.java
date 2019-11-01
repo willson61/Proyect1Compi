@@ -14,6 +14,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.RandomAccessFile;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,6 +35,7 @@ public class Analizador extends javax.swing.JFrame {
      * Creates new form Analizador
      */
     public List<TokenElement> ListaTokens;
+    public List<Integer> ColumnasErrores;
     public TokenElement TokenActual;
     public int Puntero = -1;
     public SintaxisError Error;
@@ -159,13 +163,16 @@ public class Analizador extends javax.swing.JFrame {
         boolean estado = true;
         File lex = new File("C:/Users/Sthephan/Documents/GitHub/Proyect1Compi/Proyecto1C-MiniSQL/src/Code/Lexer.java");
         File entrada = new File(lblRutaEntrada.getText());
+        int numErrors = 0;
+        ColumnasErrores = new ArrayList();
+        File archivo = null;
         if(lex.exists()){
             try {
                 int lenghtToken = 0;
                 int posInicial = 0;
                 int posFinal = 0;
                 int numLinea = 0;
-                int numErrors = 0;
+                 numErrors = 0;
                 Reader lector = new BufferedReader(new FileReader(lblRutaEntrada.getText()));
                 Lexer lexer = new Lexer(lector);
                 while (estado) {
@@ -182,10 +189,16 @@ public class Analizador extends javax.swing.JFrame {
                             case ERROR:
                                     resultado += "Simbolo no definido\n";
                                     numErrors = numErrors + 1;
+                                    //ColumnasErrores.add(lexer.col * (lexer.lin - 1));
+                                    ColumnasErrores.add(lexer.lin - 1);                                   
+                                    ColumnasErrores.add(1);
                                     break;
                             case Identificador:
                                 if(lenghtToken > 31){
                                     resultado += "ERROR: El Identificador: " + lexer.lexeme.substring(0, 32) + " excedio el limite de caracteres en, Linea: " + numLinea + " , Posicion Inicial: " + posInicial + " , Posicion Final: " + posFinal + "\n";
+                                    //ColumnasErrores.add(lexer.col * (lexer.lin - 1));
+                                    ColumnasErrores.add(lexer.lin - 1);                                    
+                                    ColumnasErrores.add(2);
                                     numErrors = numErrors + 1;
                                 }
                                 else{
@@ -1061,6 +1074,10 @@ public class Analizador extends javax.swing.JFrame {
                                     break;
                             case VarcharError:
                                     resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    //ColumnasErrores.add(lexer.col * (lexer.lin - 1));
+                                    ColumnasErrores.add(lexer.lin - 1);                                    
+                                    ColumnasErrores.add(3);
+                                    numErrors = numErrors + 1;
                                     break;
                             case Float:
                                     resultado += lexer.lexeme + ": Es un " + tokens + ", Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
@@ -1070,6 +1087,9 @@ public class Analizador extends javax.swing.JFrame {
                                     break;
                             case IdentificadorError:
                                     resultado += "ERROR: El identificador : " + lexer.lexeme + " no puede comenzar con numero o guion bajo. Posicion de Error: " + "Linea: " + numLinea +  ", Posicion Inicial: " + posInicial + ", Posicion Final: " + posFinal + "\n";
+                                    //ColumnasErrores.add(lexer.col * (lexer.lin - 1));                                    ColumnasErrores.add(lexer.lin - 1));                                    
+                                    ColumnasErrores.add(lexer.lin - 1);    
+                                    ColumnasErrores.add(4);
                                     numErrors = numErrors + 1;
                                     break;
                             case Bit:
@@ -1092,7 +1112,7 @@ public class Analizador extends javax.swing.JFrame {
                 Logger.getLogger(Analizador.class.getName()).log(Level.SEVERE, null, ex);
             }
             String arch = entrada.getName().replace(".sql", ".out");
-            File archivo = new File("C:/Users/Sthephan/Documents/GitHub/Proyect1Compi/" + arch);
+            archivo = new File("C:/Users/Sthephan/Documents/GitHub/Proyect1Compi/" + arch);
             PrintWriter writer;
             try {
                 if(archivo.exists() == false){
@@ -1145,31 +1165,57 @@ public class Analizador extends javax.swing.JFrame {
         if(TextArea1.getText().equals("")){
             TextArea1.setText("No hay errores sintacticos");
         }*/
-        Reader lector;
-        String errors = "";
-        try {
-            lector = new BufferedReader(new FileReader(lblRutaEntrada.getText()));
-            Sintax s = new Sintax(new Code.LexerCup(lector));
-            try {
-                s.parse();
-                errors = s.obtenerErrores();
-                if(errors.length() > 0){
-                    TextArea1.setText(s.obtenerErrores());
+        
+        if(numErrors > 0){
+            try { 
+                String line = null;
+                String Text = "Se han encontrado errores lexicos\n";
+                BufferedReader lector1 = new BufferedReader(new FileReader(archivo.getPath()));
+                while ((line = lector1.readLine()) != null){
+                    if(line.contains("Error")){
+                        Text = Text + line + "\n";
+                    }
                 }
-                else{
-                    TextArea1.setText("Analisis Exitoso :)");
-                }
-            } catch (Exception ex) {
+                TextArea1.setText(Text);
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(Analizador.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
                 Logger.getLogger(Analizador.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Analizador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        else{
+            Reader lector;
+            String errors = "";
+            try {
+                lector = new BufferedReader(new FileReader(lblRutaEntrada.getText()));
+                Sintax s = new Sintax(new Code.LexerCup(lector));
+                try {
+                    s.parse();
+                    errors = s.obtenerErrores();
+                    if(errors.length() > 0){
+                        TextArea1.setText(s.obtenerErrores());
+                    }
+                    else{
+                        TextArea1.setText("Analisis Exitoso :)");
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(Analizador.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(Analizador.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_btnAnalizarActionPerformed
 
     private void btnGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarActionPerformed
         String ruta = "C:/Users/Sthephan/Documents/GitHub/Proyect1Compi/Proyecto1C-MiniSQL/src/Code/Lexer.flex";
-        generarLexer(ruta);
+        String ruta2 = "C:/Users/Sthephan/Documents/GitHub/Proyect1Compi/Proyecto1C-MiniSQL/src/Code/LexerCup.flex";
+        String[] rutaS = {"-parser", "Sintax", "C:/Users/Sthephan/Documents/GitHub/Proyect1Compi/Proyecto1C-MiniSQL/src/Code/Sintax.cup"};
+        try {
+            generar(ruta, ruta2, rutaS);
+        } catch (Exception ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.dispose();
         JOptionPane.showMessageDialog(null, "InfoBox: " + "Lexer generado exitosamente, por favor vuelva a correr la aplicacion", "Estado", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnGenerarActionPerformed
@@ -1178,11 +1224,33 @@ public class Analizador extends javax.swing.JFrame {
         lblRutaEntrada.setText("");
         btnEntrada.setEnabled(true);
         btnAnalizar.setEnabled(false);
+        TextArea1.setText("");
     }//GEN-LAST:event_btnBorrarActionPerformed
 
-    public static void generarLexer(String ruta){
-        File archivo = new File(ruta);
+    public static void generar(String ruta, String ruta2, String[] rutaS) throws IOException, Exception{
+        File archivo;
+        archivo = new File(ruta);
         jflex.Main.generate(archivo);
+        archivo = new File(ruta2);
+        jflex.Main.generate(archivo);
+        java_cup.Main.main(rutaS);
+        
+        Path rutaSym = Paths.get("C:/Users/Sthephan/Documents/GitHub/Proyect1Compi/Proyecto1C-MiniSQL/src/Code/sym.java");
+        if(Files.exists(rutaSym)){
+            Files.delete(rutaSym);
+        }
+        Files.move(
+                Paths.get("C:/Users/Sthephan/Documents/GitHub/Proyect1Compi/Proyecto1C-MiniSQL/sym.java"), 
+                Paths.get("C:/Users/Sthephan/Documents/GitHub/Proyect1Compi/Proyecto1C-MiniSQL/src/Code/sym.java")
+        );
+        Path rutaSintax = Paths.get("C:/Users/Sthephan/Documents/GitHub/Proyect1Compi/Proyecto1C-MiniSQL/src/Code/Sintax.java");
+        if(Files.exists(rutaSintax)){
+            Files.delete(rutaSintax);
+        }
+        Files.move(
+                Paths.get("C:/Users/Sthephan/Documents/GitHub/Proyect1Compi/Proyecto1C-MiniSQL/Sintax.java"), 
+                Paths.get("C:/Users/Sthephan/Documents/GitHub/Proyect1Compi/Proyecto1C-MiniSQL/src/Code/Sintax.java")
+        );
     }
     
     public void ReadNextTokenElement(Tokens siguiente, String valor){

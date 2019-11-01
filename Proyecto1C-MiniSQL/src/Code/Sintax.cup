@@ -28,7 +28,7 @@ parser code
             idsNames.add(symbl_name_from_id(esperado));
             idsNames.add(", ");
 	}
-       	Er = Er + ("Error de sintaxis en Token " + s.value + ", en columna " + (s.left+1) + ", en linea " + (s.right+1) + ", esperando tokens " + idsNames.toString() + "\n\n");
+       	Er = Er + ("Error de sintaxis en Token " + s.value + ", en columna " + (s.left+1) + ", en linea " + (s.right+1) + ", esperando tokens (" + idsNames.toString() + ")\n\n");
     }
 
     public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{ 
@@ -38,7 +38,7 @@ parser code
             idsNames.add(symbl_name_from_id(esperado));
             idsNames.add(", ");
 	}
-       	Er = Er + ("Error de sintaxis en Token " + s.value + ", en columna " + (s.left+1) + ", en linea " + (s.right+1) + ", esperando tokens " + idsNames.toString() + "\n\n");   
+       	Er = Er + ("Error de sintaxis en Token " + s.value + ", en columna " + (s.left+1) + ", en linea " + (s.right+1) + ", esperando tokens (" + idsNames.toString() + ")\n\n");   
     }
     
     public String symbl_name_from_id(int id){
@@ -151,7 +151,7 @@ Fin, ID, IDL1, IDL2, IDL3, IDL4, IDL5, IDL6, IFExists, Var, TipoDeDato, TipoDeDa
 TipoDeDato2, TipoDeDato4, Drop, DropOptions, DropTable, DropTable1, DropView, DropView1, DropUser, 
 DropDataBase, DropDataBase1, DropIndex, DropIndex1, DropIndex2, Truncate, AsElement, AsElement1, 
 Operacion, Operacion2, Operacion1, Operacion4, Operacion3, Operacion5, Operacion6, Operaciones, 
-Not, Top, Top1, Condicion, Condicion1, Condicion2, Condicion3, Condicion4, Condicion5, Where, Select, Select1, 
+Not, Top, Top1, Condicion, Condicion1, Condicion2, Condicion3, Condicion4, Condicion5, LikeOption, Where, Select, Select1, 
 Having, OrderBy, OrderBy1, OrderBy2, OrderBy3, GroupBy, GroupBy1, SelectFrom, SelectFrom1, SelectFromJoin, 
 JoinType, JoinOuter, SelectColumnas, SelectColumnas1, ListaColumnas, ListaColumnas1, ListaColumnas2, Insert, 
 InsertInto, InsertListaColumna, InsertTipo, InsertTipo1, InsertTipo2, InsertValores, InsertValores1, 
@@ -166,18 +166,18 @@ ConstraintColumna4, ConstraintColumna5, ConstraintColumna6, ConstraintColumna7, 
 ConstraintColumna9, ConstraintColumna10, ConstraintTabla, ConstraintTabla1, ConstraintTabla2, ConstraintTabla3, ConstraintTabla4, 
 ConstraintTabla5, IndexTabla, Alter, Alter1, AlterDataBase, AlterDataBase1, AlterDataBase2, AlterUser, 
 AlterView, AlterView1, AlterTable, AlterTable1, AlterColumna, AlterColumna1, AlterColumna2, AlterColumna3, 
-AlterColumna4, AlterTableDrop, AlterTableDrop1, AlterTableDrop2, AlterTableDrop3, AlterTableDrop4, Transact, 
+AlterColumna4, AlterTableDrop, AlterTableDrop1, AlterTableDrop2, AlterTableDrop3, AlterTableDrop4, AlterTableDrop5, AlterTableDrop6, Transact, 
 Transact1, Transact2, Transact3, TransactName, Name, Name1, Rollback, Rollback1, Commit, Commit1, Save, OrAlter,
 Number, ExecuteProcedure, ExecuteProcedure1, ExecuteProcedure2, ExecuteProcedure3, ExecuteProcedure4, ExecuteProcedure5, ExecuteProcedureParam, 
 ExecuteProcedureParam1, ExecuteProcedureParam2, ExecuteProcedureParam3, ExecuteProcedureParam4, 
 Procedure, ProcedureName, ProcedureNum, ProcedureParam, ProcedureParam1, ProcedureParam2, ProcedureDataType, 
 ProcedureDataType1, ProcedureDataType2, ProcedureDataType3, ProcedureOption, ProcedureOption1, ProcedureOption2, 
-ProcedureOption3, Execute, ExecuteType, ProcedureReplication, BeginProcedure, ProcedureStatement, 
+ProcedureOption3, Execute, ExecuteType, ProcedureReplication, BeginProcedure, EndProcedure, ProcedureStatement, 
 ProcedureStatement1, ProcedureStatement2, Function, FunctionParam, FunctionParam1, FunctionParam2, 
 FunctionParam3, AsWord, ReadOnlyWord, ReturnType, ReturnTable, ReturnTable1, ReturnTable2, FunctionOption, 
 SelectOption, ReturnData, ReturnData1, Cursor, Cursor1, Cursor2, Cursor3, Cursor4, Cursor5, Cursor6, Cursor7;
 
-precedence left AND, OR, Aparentesis, PuntoYComa, Arroba;
+precedence left AND, OR, Aparentesis, PuntoYComa, Arroba, Identificador, Acorchete ;
 
 start with Inicio1;
 
@@ -205,8 +205,8 @@ SentenciasTSQL ::= Cursor |
                    Function ; 
 Fin ::= PuntoYComa|
         GO ;
-ID ::= Identificador|
-       Acorchete Identificador Ccorchete ;
+ID ::= Acorchete Identificador Ccorchete |
+       Identificador ;
 IDL1 ::= ID IDL2 ;
 IDL2 ::= Punto ID| ;
 IDL3 ::= ID IDL4 ;
@@ -223,11 +223,12 @@ TipoDeDato3 ::= BIGINT|
                 SMALLINT|
                 TINYINT|
                 BIT|
-                DECIMAL|
+                DECIMAL Aparentesis Number Coma Number Cparentesis |
                 MONEY|
-                NUMERIC|
+                NUMERIC Aparentesis Number Coma Number Cparentesis |
                 SMALLMONEY|
                 FLOAT|
+                FLOAT Aparentesis Number Cparentesis |
                 REAL|
                 DATE|
                 DATETIME|
@@ -235,12 +236,14 @@ TipoDeDato3 ::= BIGINT|
                 DATETIMEOFFSET|
                 SMALLDATETIME|
                 TIME|
-                CHAR|
+                CHAR Aparentesis Number Cparentesis |
                 TEXT|
-                VARCHAR|
-                NCHAR|
+                VARCHAR Aparentesis Number Cparentesis |
+                VARCHAR Aparentesis MAX Cparentesis |
+                NCHAR Aparentesis Number Cparentesis |
                 NTEXT|
-                NVARCHAR|
+                NVARCHAR Aparentesis Number Cparentesis |
+                NVARCHAR Aparentesis MAX Cparentesis |
                 BINARY|
                 IMAGE|
                 VARBINARY ;
@@ -252,14 +255,14 @@ DropOptions ::= DropTable|
                 DropView|
                 DropDataBase|
                 DropIndex ;
-DropTable ::= TABLE IFExists IDL3 DropTable1 ;
+DropTable ::= TABLE AlterTableDrop5 IDL3 DropTable1 ;
 DropTable1 ::= Coma IDL3 DropTable1 | ;
-DropView ::= VIEW IFExists IDL1 DropView1 ;
+DropView ::= VIEW AlterTableDrop5 IDL1 DropView1 ;
 DropView1 ::= Coma IDL1 DropView1 | ;
-DropUser ::= USER IFExists ID ;
-DropDataBase ::= DATABASE IFExists ID DropDataBase1 ;
+DropUser ::= USER AlterTableDrop5 ID ;
+DropDataBase ::= DATABASE AlterTableDrop5 ID DropDataBase1 ;
 DropDataBase1 ::= Coma ID DropDataBase1 | ;
-DropIndex ::= INDEX IFExists DropIndex1 DropIndex2 ;
+DropIndex ::= INDEX AlterTableDrop5 DropIndex1 DropIndex2 ;
 DropIndex1 ::= ID ON IDL3 ;
 DropIndex2 ::= Coma DropIndex1 DropIndex2 | ;
 Truncate ::= TRUNCATE TABLE IDL3 ;
@@ -280,6 +283,7 @@ Operacion5 ::= IDL5 |
                Float |
                Varchar |
                Bit |
+               Var |
                NULL |
                SUM Aparentesis Operacion6 |
                AVG Aparentesis Operacion6 |
@@ -287,16 +291,15 @@ Operacion5 ::= IDL5 |
                MAX Aparentesis Operacion6 |
                COUNT Aparentesis Operacion6 ;
 Operacion6 ::= IDL5 Cparentesis |
-               Integer Cparentesis |
-               Bit Cparentesis |
+               Number Cparentesis |
                Mul Cparentesis ;
 Operaciones ::= Coma Operacion Operaciones | ;
 Not ::= NOT | ;
-Top ::= TOP Aparentesis Integer Cparentesis Top1 | ;
+Top ::= TOP Aparentesis Number Cparentesis Top1 | ;
 Top1 ::= PERCENT | ;
 //Condicion5 ::= Not Condicion2 Condicion1 ;
-Condicion ::= Not Condicion2 Condicion1 |
-              Aparentesis Condicion Cparentesis Condicion1 ;
+Condicion ::= Aparentesis Condicion Cparentesis Condicion1 |
+              Not Condicion2 Condicion1 ;
 //Condicion5 ::= Condicion1 ;
 Condicion1 ::= Condicion5 Condicion | ;
 Condicion2 ::= Operacion Condicion3 ;
@@ -311,10 +314,11 @@ Condicion3 ::= Menor Operacion |
                Exclamacion Operacion |
                Igual Operacion |
                IS Not NULL |
-               Not Condicion4 ;
-Condicion4 ::= IN Aparentesis Operacion Operaciones Cparentesis |
-               BETWEEN Condicion AND Condicion |
-               LIKE Condicion ;
+               Condicion4 ;
+Condicion4 ::= Not IN Aparentesis Operacion Operaciones Cparentesis |
+               Not BETWEEN Operacion AND Operacion |
+               Not LIKE LikeOption Varchar LikeOption ;
+LikeOption ::= Porce | ;
 Condicion5 ::= AND | OR ;
 Where ::= WHERE Condicion | ;
 Select ::= SELECT Select1 Top SelectColumnas SelectFrom Where GroupBy Having OrderBy ;
@@ -350,7 +354,8 @@ InsertTipo1 ::= DEFAULT |
                 Integer |
                 Float |
                 Varchar |
-                Bit ;
+                Bit |
+                Var ;
 InsertTipo2 ::= Coma InsertTipo1 InsertTipo2 | ;
 InsertValores ::= VALUES Aparentesis InsertTipo Cparentesis InsertValores1 |
                   DEFAULT VALUES ;
@@ -359,7 +364,7 @@ Delete ::= DELETE Top DeleteFrom Delete1 ;
 DeleteFrom ::= FROM | ;
 Delete1 ::= OPENQUERY DeleteServer |
             IDL3 Delete2 Where ;
-Delete2 ::= FROM IDL3 Delete3 ;
+Delete2 ::= FROM IDL3 Delete3 | ;
 Delete3 ::= Coma IDL3 Delete3 | ;
 DeleteServer ::= Aparentesis ID Coma Varchar Cparentesis ;
 Update ::= UPDATE Top IDL3 SET Update1 UpdateFrom Where ;
@@ -416,9 +421,9 @@ IndexInclude ::= INCLUDE ListaColumnas | ;
 OnOption ::= ON ID Aparentesis ID Cparentesis | ;
 CreateTable ::= TABLE IDL3 Aparentesis TableElement2 TableElement3 Cparentesis TableOption ;
 TableOption ::= ON PRIMARY | ;
-TableElement1 ::= NOT TableElement4 | NULL ;
+TableElement1 ::= NOT TableElement4 | NULL | ;
 TableElement4 ::= FOR REPLICATION TableElement5 | NULL ;
-TableElement5 ::= NOT TableElement6 | NULL ;
+TableElement5 ::= NOT TableElement6 | NULL | ;
 TableElement6 ::= NULL ;
 TableElement2 ::= DefinicionColumna |
                   ConstraintTabla |
@@ -467,7 +472,7 @@ ConstraintColumna10 ::= PRIMARY KEY | UNIQUE ;
 ConstraintTabla ::= ConstraintColumna1 ConstraintTabla1 ;
 ConstraintTabla1 ::= PRIMARY KEY ConstraintColumna3 ConstraintTabla2 |
                      UNIQUE ConstraintColumna3 ConstraintTabla2 |
-                     FOREIGN KEY ConstraintTabla3 REFERENCES IDL1 ConstraintColumna5 ConstraintColumna6 ConstraintColumna7 TableElement1 |
+                     FOREIGN KEY ConstraintTabla3 REFERENCES IDL1 ConstraintColumna5 ConstraintColumna6 TableElement1 |
                      CHECK TableElement1 Aparentesis Condicion Cparentesis ;
 ConstraintTabla2 ::= Aparentesis ID OrderBy2 ConstraintTabla5 Cparentesis ;
 ConstraintTabla3 ::= Aparentesis ID ConstraintTabla4 Cparentesis ;
@@ -502,14 +507,16 @@ AlterColumna3 ::= ADD |
 AlterColumna4 ::= ROWGUIDCOL |
                   NOT FOR REPLICATION ;
 AlterTableDrop ::= DROP AlterTableDrop1 AlterTableDrop2 ;
-AlterTableDrop1 ::= AlterTableDrop3 IFExists ID |
-                    COLUMN IFExists ID ;
+AlterTableDrop1 ::= AlterTableDrop6 ID ;
 AlterTableDrop2 ::= Coma AlterTableDrop4 AlterTableDrop2 | ; 
 AlterTableDrop3 ::= CONSTRAINT | ;
 AlterTableDrop4 ::= ID |
                     AlterTableDrop1 ;
+AlterTableDrop5 ::= IFExists | ;
+AlterTableDrop6 ::= AlterTableDrop3 AlterTableDrop5 | 
+                    COLUMN AlterTableDrop5;
 Transact ::= BEGIN TransactName Transact1 ;
-Transact1 ::= NAME Transact2 | ;
+Transact1 ::= Name Transact2 | ;
 Transact2 ::= WITH MARK Transact3 | ;
 Transact3 ::= Varchar | ;
 TransactName ::= TRAN | 
@@ -518,8 +525,8 @@ Name ::= ID |
          Var ;
 Name1 ::= ID | 
           Var | ;
-Rollback ::= ROLLBACK Rollback1 ;
-Rollback1 ::= TransactName Name1 | ;
+Rollback ::= ROLLBACK TransactName Rollback1 ;
+Rollback1 ::= Name | ;
 Commit ::= COMMIT Commit1 ;
 Commit1 ::= TransactName Name1 | ;
 Save ::= SAVE TransactName Name ;
@@ -535,6 +542,8 @@ ExecuteProcedure5 ::= Execute | ;
 ExecuteProcedureParam ::= ExecuteProcedureParam1 ExecuteProcedureParam2 ;
 ExecuteProcedureParam1 ::= Var Igual | ;
 ExecuteProcedureParam2 ::= Number |
+                           Float |
+                           Varchar |
                            Var ExecuteProcedureParam3 |
                            ExecuteProcedureParam4 ;
 ExecuteProcedureParam3 ::= OUTPUT | ;
@@ -565,8 +574,9 @@ ExecuteType ::= CALLER |
                 OWNER |
                 ID ;
 ProcedureReplication ::= FOR REPLICATION | ;
-BeginProcedure ::= BEGIN ProcedureStatement END |
+BeginProcedure ::= BEGIN ProcedureStatement EndProcedure |
                    ProcedureStatement ;
+EndProcedure ::= END ;
 ProcedureStatement ::= SentenciasDML Fin ProcedureStatement1 ;
 ProcedureStatement1 ::= SentenciasDML Fin ProcedureStatement2 | ;
 ProcedureStatement2 ::= SentenciasDML Fin | ;
@@ -591,7 +601,9 @@ SelectOption ::= Aparentesis Select Cparentesis |
                  Select ;
 ReturnData ::= TipoDeDato3 ReturnTable1 AsWord BEGIN SentenciasDML Fin RETURN ReturnData1 END ;
 ReturnData1 ::= Var | 
-                Integer ;
+                Number |
+                Float |
+                Varchar ;
 Cursor ::= DECLARE ID CURSOR Cursor1 Cursor2 Cursor3 Cursor4 Cursor5 FOR Select Cursor6 ;
 Cursor1 ::= LOCAL |
             GLOBAL | ;
