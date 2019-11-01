@@ -19,17 +19,27 @@ El programa se basa en un Jframe con 4 botones y 1 label para la seleccion del a
   programa es ejecutando la clase Principal.java que se encuentra dentro del proyecto antes de correr el programa. Esta clase cumple la
   misma funcion del boton Generar Lexer.
   
-  # Proyecto #1 - Fase 2 - Compiladores
+# Proyecto #1 - Fase 2 - Compiladores
   
-  ## Funcionamiento
+## Funcionamiento
   El programa para la fase 2 del proyecto de compiladores contiene todos los elementos de la fase 1 con la agregacion de un JPanel donde
   se pueden ver los resultados del analisis sintactico implementado en esta fase del proyecto. Este analisis consiste en un conjunto
   extenso de metodos basados en un analisis descendente recursivo de una gramatica basada en SQL.
   El funcionamiento de la aplicacion de esta fase no cambia en absoluto visualmente a la fase anterior, a excepcion del Jpanel. Solo es   nesesario iniciar el analisis lexico de la fase anterior para que el analisis sintactico inicie al finalizar el lexico.
   
-  ## Caracteristicas y Comentarios
+## Caracteristicas y Comentarios
   - Cabe recalcar que para el mejor funcionamiento de esta aplicacion se debe se utilizar unicamente ; o GO para el fin de las
   sentencias de SQL. En otras palabras solo usar ; o GO para terminar la sentencia, no ambas.
   - En algunas producciones existe una ambiguedadd en los first, ya que 2 producciones de un no terminal pueden ser accesadas por el
   mismo simbolo terminal. Haciendo que la primera produccion del no terminal tome prioridad siempre sobre la segunda. Este problema se 
-  solucionaria con la implementacion de un lookahead como hemos visto en la LR(1)  
+  solucionaria con la implementacion de un lookahead como hemos visto en la LR(1)
+  
+# Proyecto #1 - Fase 2B - Compiladores
+
+## Funcionamiento
+  El programa para la fase 2b del proyecto de compiladores contiene todos los elementos de la fase 1 y de la fase 2B pero con la      modificacion de que ahora el analisis sintactico no se realiza con un conjunto de metodos que simulan la gramatica sino que con la libreria CUP capaz de generar parsers LALR. Tambien esta fase se diferencia de la anterior por la agregacion de las sentencias SQL de Procedure, Function, Cursor, Begin Transaction, Rollback Transactioin, Save Transaction y Commit Transaction a las sentencias ya existences de la fase anterior.
+  
+## Caracteristicas y Comentarios
+ - Cabe mencionar que para esta fase del proyecto se realiza unn analisis lexico y un analisis sintactico sobre el docuemnto de entrada. Si llega a haber un error lexico en el archivo de entrada el programa no realizara el analisis sintactico.
+ - El programa maneja los errores sintacticos utilizando metodos propios de la libreria de cup modificados mostrando el siguiente mensaje cuando se encuentra un error dentro del archivo de entrada:
+    - "Error de sintaxis en Token " + Valor del Token donde Identifico el Error + ", en columna " + (Columna del Error) + ", en linea " + (Linea del Error) + ", esperando tokens (" + Conjunto de Tokens que se esperaban encontrar + "
