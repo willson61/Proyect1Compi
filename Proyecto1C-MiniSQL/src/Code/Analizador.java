@@ -1172,7 +1172,7 @@ public class Analizador extends javax.swing.JFrame {
                 String Text = "Se han encontrado errores lexicos\n";
                 BufferedReader lector1 = new BufferedReader(new FileReader(archivo.getPath()));
                 while ((line = lector1.readLine()) != null){
-                    if(line.contains("Error")){
+                    if(line.contains("Error") || line.contains("ERROR")){
                         Text = Text + line + "\n";
                     }
                 }
